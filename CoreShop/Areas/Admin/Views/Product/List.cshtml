@@ -1,0 +1,322 @@
+﻿@model List<CoreShop.MODEL.Entites.Product>
+
+@{
+    ViewData["Title"] = "Ürün Listesi";
+    Layout = "~/Areas/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded-4 p-4" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white;">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div>
+                        <h2 class="fw-bold mb-2">
+                            <i class="fa-solid fa-box-open me-2"></i> Ürün Yönetimi
+                        </h2>
+                        <p class="mb-0 fs-6 text-light">
+                            Sistemde kayıtlı ürünleri bu ekrandan görüntüleyebilir ve yönetebilirsin.
+                        </p>
+                    </div>
+
+                    <div class="mt-3 mt-md-0">
+                        <a href="/Admin/Product/Create" class="btn btn-light rounded-3 px-4 fw-semibold">
+                            <i class="fa-solid fa-plus me-2"></i> Yeni Ürün Ekle
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+
+        <div class="col-12">
+
+            <div class="d-flex gap-3 align-items-start flex-wrap">
+
+                <form method="get"
+                      class="d-flex gap-2 align-items-center">
+
+                    <input type="text"
+                           name="search"
+                           value="@ViewBag.Search"
+                           class="form-control rounded-3 shadow-sm"
+                           placeholder="Ürün ara..."
+                           style="width:320px;" />
+
+                    <button type="submit"
+                            class="btn btn-dark rounded-3 px-4">
+                        Ara
+                    </button>
+
+                    <a href="/Admin/Product/List"
+                       class="btn btn-outline-secondary rounded-3 px-4">
+                        Temizle
+                    </a>
+
+                </form>
+
+                <form method="get">
+                    <input type="hidden" name="search" value="@ViewBag.Search" />
+                    <select name="sort"
+                            class="form-select rounded-3 shadow-sm"
+                            style="width:220px;"
+                            onchange="this.form.submit()">
+
+                        <option value=""
+                                selected="@(ViewBag.Sort == null || ViewBag.Sort == "")">
+                            Varsayılan
+                        </option>
+
+                        <option value="new"
+                                selected="@(ViewBag.Sort == "new")">
+                            En Yeni
+                        </option>
+
+                        <option value="price_asc"
+                                selected="@(ViewBag.Sort == "price_asc")">
+                            Fiyat Artan
+                        </option>
+
+                        <option value="price_desc"
+                                selected="@(ViewBag.Sort == "price_desc")">
+                            Fiyat Azalan
+                        </option>
+
+                        <option value="stock_desc"
+                                selected="@(ViewBag.Sort == "stock_desc")">
+                            Stok Fazla
+                        </option>
+
+                        <option value="stock_asc"
+                                selected="@(ViewBag.Sort == "stock_asc")">
+                            Stok Az
+                        </option>
+
+                        <option value="low_stock"
+                                selected="@(ViewBag.Sort == "low_stock")">
+                            Kritik Stok
+                        </option>
+
+                        <option value="out_stock"
+                                selected="@(ViewBag.Sort == "out_stock")">
+                            Tükenenler
+                        </option>
+
+                    </select>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-white border-0 px-4 pt-4 pb-2">
+                    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-table text-primary"></i>
+                        Ürün Listesi
+                    </h5>
+                </div>
+
+                <div class="card-body px-4 pb-4">
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table align-middle table-hover custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Ürün Görseli</th>
+                                        <th>Ürün Adı</th>
+                                        <th>Marka</th>
+                                        <th>Fiyat</th>
+                                        <th>Stok</th>
+                                        <th>Kategori</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="badge bg-dark-subtle text-dark px-3 py-2 rounded-pill">
+                                                    @item.ID
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.ProductImage))
+                                                {
+                                                    <img src="~/images/@item.ProductImage"
+                                                         alt="Ürün Görseli"
+                                                         class="product-image" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="no-image">
+                                                        <i class="fa-solid fa-image"></i>
+                                                    </div>
+                                                }
+                                            </td>
+
+                                            <td class="fw-semibold">@item.ProductName</td>
+
+                                            <td>
+                                                <span class="badge bg-info-subtle text-info-emphasis px-3 py-2 rounded-pill">
+                                                    @item.ProductBrand
+                                                </span>
+                                            </td>
+
+                                            <td class="fw-semibold text-success">
+                                                @item.ProductPrice ₺
+                                            </td>
+
+                                            <td>
+                                                @if (item.ProductStock > 0)
+                                                {
+                                                    <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
+                                                        @item.ProductStock
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill">
+                                                        Stok Yok
+                                                    </span>
+                                                }
+                                            </td>
+
+                                            <td>
+                                                @{
+                                                    var categories = ViewBag.Categories as List<CoreShop.MODEL.Entites.Category>;
+
+                                                    var categoryName = categories?
+                                                    .FirstOrDefault(x => x.ID == item.CategoryId)?
+                                                    .CategoryName;
+                                                }
+
+                                                <span class="badge bg-secondary-subtle text-dark px-3 py-2 rounded-pill">
+                                                    @(categoryName ?? "Kategori Yok")
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex gap-2 flex-wrap">
+                                                    <a href="/Admin/Product/Update/@item.ID" class="btn btn-sm btn-outline-primary rounded-3 px-3">
+                                                        <i class="fa-solid fa-pen-to-square me-1"></i> Düzenle
+                                                    </a>
+
+                                                    <a href="javascript:void(0);"
+                                                       onclick="confirmProductDelete(@item.ID)"
+                                                       class="btn btn-sm btn-outline-danger rounded-3 px-3">
+                                                        <i class="fa-solid fa-trash me-1"></i> Sil
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state text-center py-5">
+                            <div class="empty-icon mb-3">
+                                <i class="fa-solid fa-box-open"></i>
+                            </div>
+                            <h4 class="fw-bold mb-2">Henüz ürün eklenmemiş</h4>
+                            <p class="text-muted mb-4">
+                                Sistemde görüntülenecek ürün bulunamadı.
+                            </p>
+                            <a href="/Admin/Product/Create" class="btn btn-primary rounded-3 px-4">
+                                <i class="fa-solid fa-plus me-2"></i> İlk Ürünü Ekle
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+    .custom-table thead th {
+        background-color: #f8fafc;
+        color: #334155;
+        font-weight: 700;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 16px;
+        white-space: nowrap;
+    }
+
+    .custom-table tbody td {
+        padding: 16px;
+        vertical-align: middle;
+        border-color: #eef2f7;
+    }
+
+    .product-image {
+        width: 65px;
+        height: 65px;
+        object-fit: cover;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        background-color: white;
+    }
+
+    .no-image {
+        width: 65px;
+        height: 65px;
+        border-radius: 14px;
+        background-color: #f1f5f9;
+        color: #94a3b8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        border: 1px dashed #cbd5e1;
+    }
+
+    .empty-state {
+        background-color: #f8fafc;
+        border-radius: 20px;
+    }
+
+    .empty-icon {
+        width: 90px;
+        height: 90px;
+        margin: 0 auto;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 34px;
+        color: #2563eb;
+    }
+</style>
+
+<script>
+    function confirmProductDelete(id) {
+        Swal.fire({
+            title: 'Emin misin?',
+            text: "Bu ürünü silmek istediğine emin misin?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Evet, sil',
+            cancelButtonText: 'Vazgeç',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/Admin/Product/Delete/' + id;
+            }
+        });
+    }
+</script>
+</div>

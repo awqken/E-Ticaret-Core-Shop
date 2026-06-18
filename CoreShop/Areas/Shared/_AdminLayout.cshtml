@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - CoreShop Admin</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        body {
+            background-color: #f5f7fb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .admin-sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0f172a, #1e293b);
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 24px 18px;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+        }
+
+        .admin-brand {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .admin-brand i {
+                color: #38bdf8;
+            }
+
+        .sidebar-title {
+            font-size: 13px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+            .sidebar-link:hover {
+                background-color: rgba(255,255,255,0.08);
+                color: white;
+                transform: translateX(3px);
+            }
+
+            .sidebar-link i {
+                width: 18px;
+                text-align: center;
+            }
+
+        .admin-main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        .admin-topbar {
+            background-color: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+
+        .admin-content {
+            padding: 30px;
+        }
+
+        .topbar-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .topbar-sub {
+            color: #64748b;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .user-badge {
+            background-color: #eff6ff;
+            color: #2563eb;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        @@media (max-width: 991px) {
+            .admin-sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+                border-radius: 0 0 20px 20px;
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-sidebar">
+        <div class="admin-brand">
+            <i class="fa-solid fa-microchip"></i>
+            <span>CoreShop Admin</span>
+        </div>
+
+        <div class="sidebar-title">Menü</div>
+
+        <a href="/" class="sidebar-link">
+            <i class="fa-solid fa-house"></i>
+            <span>Kullanıcı Ana Sayfa</span>
+        </a>
+        <a href="/Admin/" class="sidebar-link">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/Admin/Product/Create" class="sidebar-link">
+            <i class="fa-solid fa-plus"></i>
+            <span>Ürün Ekle</span>
+        </a>
+
+        <a href="/Admin/Product/List" class="sidebar-link">
+            <i class="fa-solid fa-box-open"></i>
+            <span>Ürünleri Listele</span>
+        </a>
+
+        <a href="/Admin/Category/Create" class="sidebar-link">
+            <i class="fa-solid fa-folder-plus"></i>
+            <span>Kategori Ekle</span>
+        </a>
+
+        <a href="/Admin/Category/List" class="sidebar-link">
+            <i class="fa-solid fa-list"></i>
+            <span>Kategorileri Listele</span>
+        </a>
+        <a href="/Admin/Order/List" class="sidebar-link">
+            <i class="fa-solid fa-box me-2"></i>
+            Siparişler
+        </a>
+    </div>
+
+    <div class="admin-main">
+        <div class="admin-topbar">
+            <div>
+                <p class="topbar-title">Yönetim Paneli</p>
+                <p class="topbar-sub">CoreShop yönetim ekranı</p>
+            </div>
+
+            <div class="user-badge">
+                <i class="fa-solid fa-user-shield me-2"></i> Admin Panel
+            </div>
+        </div>
+
+        <div class="admin-content">
+            @RenderBody()
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

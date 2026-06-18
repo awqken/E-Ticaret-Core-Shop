@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- heatsink fins -->
+  <rect x="95" y="55" width="14" height="130" rx="3" fill="#0284c7"/>
+  <rect x="115" y="55" width="14" height="130" rx="3" fill="#0369a1"/>
+  <rect x="135" y="55" width="14" height="130" rx="3" fill="#0284c7"/>
+  <rect x="155" y="55" width="14" height="130" rx="3" fill="#0369a1"/>
+  <rect x="175" y="55" width="14" height="130" rx="3" fill="#0284c7"/>
+  <rect x="195" y="55" width="14" height="130" rx="3" fill="#0369a1"/>
+  <rect x="215" y="55" width="14" height="130" rx="3" fill="#0284c7"/>
+  <rect x="235" y="55" width="14" height="130" rx="3" fill="#0369a1"/>
+  <rect x="255" y="55" width="14" height="130" rx="3" fill="#0284c7"/>
+  <rect x="275" y="55" width="14" height="130" rx="3" fill="#0369a1"/>
+  <!-- heat pipes -->
+  <ellipse cx="155" cy="185" rx="8" ry="58" fill="none" stroke="#7dd3fc" stroke-width="5"/>
+  <ellipse cx="200" cy="185" rx="8" ry="58" fill="none" stroke="#7dd3fc" stroke-width="5"/>
+  <ellipse cx="245" cy="185" rx="8" ry="58" fill="none" stroke="#7dd3fc" stroke-width="5"/>
+  <!-- base plate -->
+  <rect x="90" y="183" width="220" height="22" rx="4" fill="#0369a1"/>
+  <!-- fan frame (front) -->
+  <rect x="90" y="205" width="220" height="60" rx="6" fill="#075985" opacity="0.85"/>
+  <!-- fan blades -->
+  <circle cx="200" cy="235" r="25" fill="#0284c7" opacity="0.4"/>
+  <circle cx="200" cy="235" r="18" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.5"/>
+  <ellipse cx="200" cy="215" rx="7" ry="16" fill="#38bdf8" opacity="0.8" transform="rotate(0 200 235)"/>
+  <ellipse cx="200" cy="215" rx="7" ry="16" fill="#38bdf8" opacity="0.8" transform="rotate(60 200 235)"/>
+  <ellipse cx="200" cy="215" rx="7" ry="16" fill="#38bdf8" opacity="0.8" transform="rotate(120 200 235)"/>
+  <ellipse cx="200" cy="215" rx="7" ry="16" fill="#38bdf8" opacity="0.8" transform="rotate(180 200 235)"/>
+  <ellipse cx="200" cy="215" rx="7" ry="16" fill="#38bdf8" opacity="0.8" transform="rotate(240 200 235)"/>
+  <ellipse cx="200" cy="215" rx="7" ry="16" fill="#38bdf8" opacity="0.8" transform="rotate(300 200 235)"/>
+  <circle cx="200" cy="235" r="5" fill="#0369a1"/>
+  <!-- label -->
+  <text x="200" y="285" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#0369a1">Soğutma</text>
+</svg>

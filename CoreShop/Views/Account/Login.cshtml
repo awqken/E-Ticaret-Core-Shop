@@ -1,0 +1,171 @@
+﻿@{
+    ViewData["Title"] = "Giriş Yap";
+}
+
+<style>
+    .auth-wrapper {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .auth-card {
+        border: none;
+        border-radius: 28px;
+        box-shadow: 0 14px 40px rgba(0,0,0,0.08);
+        overflow: hidden;
+    }
+
+    .auth-left {
+        background: linear-gradient(135deg, #111827, #1f2937);
+        color: white;
+        padding: 50px 40px;
+        height: 100%;
+    }
+
+        .auth-left h2 {
+            font-weight: 800;
+            margin-bottom: 18px;
+        }
+
+        .auth-left p {
+            color: #d1d5db;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+    .auth-right {
+        background: white;
+        padding: 50px 40px;
+    }
+
+    .auth-title {
+        font-size: 30px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+
+    .auth-subtitle {
+        color: #6b7280;
+        margin-bottom: 30px;
+    }
+
+    .form-control-custom {
+        height: 52px;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        padding-left: 16px;
+        font-size: 15px;
+    }
+
+        .form-control-custom:focus {
+            border-color: #ff6000;
+            box-shadow: none;
+        }
+
+    .auth-btn {
+        height: 52px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    .auth-link {
+        color: #ff6000;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .auth-link:hover {
+            color: #e65300;
+        }
+
+    .auth-icon-box {
+        width: 60px;
+        height: 60px;
+        border-radius: 18px;
+        background: rgba(255,255,255,0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        font-size: 24px;
+    }
+
+    @@media (max-width: 991px) {
+        .auth-left {
+            padding: 35px 28px;
+        }
+
+        .auth-right {
+            padding: 35px 28px;
+        }
+    }
+</style>
+
+<div class="container auth-wrapper">
+    <div class="row justify-content-center w-100">
+        <div class="col-lg-10 col-xl-9">
+            <div class="card auth-card">
+                <div class="row g-0">
+
+                    <div class="col-lg-5 d-none d-lg-block">
+                        <div class="auth-left">
+                            <div class="auth-icon-box">
+                                <i class="fa-solid fa-user-lock"></i>
+                            </div>
+
+                            <h2>CoreShop’a Hoş Geldin</h2>
+                            <p>
+                                Bilgisayar parçaları ve teknoloji ürünlerini daha hızlı incelemek,
+                                sepetini yönetmek ve alışverişine devam etmek için hesabına giriş yap.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="auth-right">
+                            <h1 class="auth-title">Giriş Yap</h1>
+                            <p class="auth-subtitle">Hesabına giriş yaparak devam et.</p>
+
+                            @if (ViewBag.Error != null)
+                            {
+                                <div class="alert alert-danger rounded-4">
+                                    @ViewBag.Error
+                                </div>
+                            }
+
+                            <form asp-controller="Account" asp-action="Login" method="post">
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">E-Posta</label>
+                                    <input type="email" name="email" class="form-control form-control-custom" placeholder="ornek@mail.com" />
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Şifre</label>
+                                    <input type="password" name="password" class="form-control form-control-custom" placeholder="••••••••" />
+                                </div>
+
+                                <div class="d-grid mb-3">
+                                    <button type="submit" class="btn btn-dark auth-btn">
+                                        <i class="fa-solid fa-right-to-bracket me-2"></i> Giriş Yap
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div class="text-center">
+                                <span class="text-muted">Hesabın yok mu?</span>
+                                <a asp-controller="Account" asp-action="Register" class="auth-link ms-1">
+                                    Kayıt Ol
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

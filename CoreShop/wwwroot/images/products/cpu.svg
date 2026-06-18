@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="100%" stop-color="#bfdbfe"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- chip body -->
+  <rect x="145" y="80" width="110" height="110" rx="10" fill="#2563eb"/>
+  <!-- inner die -->
+  <rect x="162" y="97" width="76" height="76" rx="5" fill="#1d4ed8"/>
+  <rect x="172" y="107" width="56" height="56" rx="3" fill="#1e3a8a"/>
+  <!-- grid lines -->
+  <line x1="172" y1="126" x2="228" y2="126" stroke="#3b82f6" stroke-width="1" opacity="0.6"/>
+  <line x1="172" y1="145" x2="228" y2="145" stroke="#3b82f6" stroke-width="1" opacity="0.6"/>
+  <line x1="191" y1="107" x2="191" y2="163" stroke="#3b82f6" stroke-width="1" opacity="0.6"/>
+  <line x1="210" y1="107" x2="210" y2="163" stroke="#3b82f6" stroke-width="1" opacity="0.6"/>
+  <!-- pins left -->
+  <rect x="118" y="98" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <rect x="118" y="115" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <rect x="118" y="132" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <rect x="118" y="149" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <rect x="118" y="166" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <!-- pins right -->
+  <rect x="255" y="98" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <rect x="255" y="115" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <rect x="255" y="132" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <rect x="255" y="149" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <rect x="255" y="166" width="27" height="7" rx="2" fill="#60a5fa"/>
+  <!-- pins top -->
+  <rect x="163" y="53" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <rect x="180" y="53" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <rect x="197" y="53" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <rect x="214" y="53" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <rect x="231" y="53" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <!-- pins bottom -->
+  <rect x="163" y="190" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <rect x="180" y="190" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <rect x="197" y="190" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <rect x="214" y="190" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <rect x="231" y="190" width="7" height="27" rx="2" fill="#60a5fa"/>
+  <!-- label -->
+  <text x="200" y="264" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#1e40af">İşlemci</text>
+</svg>

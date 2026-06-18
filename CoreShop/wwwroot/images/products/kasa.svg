@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#e2e8f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- case body -->
+  <rect x="120" y="40" width="170" height="220" rx="8" fill="#1e293b"/>
+  <!-- tempered glass side panel -->
+  <rect x="128" y="48" width="110" height="200" rx="5" fill="#334155" opacity="0.6"/>
+  <!-- RGB strip top -->
+  <rect x="128" y="48" width="110" height="5" rx="2" fill="#818cf8"/>
+  <!-- front panel mesh area -->
+  <rect x="248" y="48" width="34" height="200" rx="4" fill="#0f172a"/>
+  <!-- front mesh lines -->
+  <line x1="254" y1="60" x2="276" y2="60" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="72" x2="276" y2="72" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="84" x2="276" y2="84" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="96" x2="276" y2="96" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="108" x2="276" y2="108" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="120" x2="276" y2="120" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="132" x2="276" y2="132" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="144" x2="276" y2="144" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="156" x2="276" y2="156" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="168" x2="276" y2="168" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="180" x2="276" y2="180" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="192" x2="276" y2="192" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="204" x2="276" y2="204" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="216" x2="276" y2="216" stroke="#334155" stroke-width="1.5"/>
+  <line x1="254" y1="228" x2="276" y2="228" stroke="#334155" stroke-width="1.5"/>
+  <!-- power button -->
+  <circle cx="262" cy="246" r="7" fill="#475569" stroke="#64748b" stroke-width="1.5"/>
+  <circle cx="262" cy="246" r="3" fill="#818cf8"/>
+  <!-- USB ports -->
+  <rect x="253" y="58" width="25" height="8" rx="1" fill="#475569"/>
+  <rect x="253" y="70" width="25" height="5" rx="1" fill="#64748b"/>
+  <!-- inside components visible through glass -->
+  <rect x="135" y="60" width="35" height="25" rx="3" fill="#1d4ed8" opacity="0.7"/>
+  <rect x="135" y="92" width="90" height="8" rx="2" fill="#059669" opacity="0.7"/>
+  <rect x="135" y="106" width="90" height="8" rx="2" fill="#059669" opacity="0.7"/>
+  <!-- AIO radiator suggestion -->
+  <rect x="135" y="125" width="90" height="50" rx="4" fill="#374151" opacity="0.8"/>
+  <line x1="145" y1="125" x2="145" y2="175" stroke="#6b7280" stroke-width="1.5" opacity="0.6"/>
+  <line x1="157" y1="125" x2="157" y2="175" stroke="#6b7280" stroke-width="1.5" opacity="0.6"/>
+  <line x1="169" y1="125" x2="169" y2="175" stroke="#6b7280" stroke-width="1.5" opacity="0.6"/>
+  <line x1="181" y1="125" x2="181" y2="175" stroke="#6b7280" stroke-width="1.5" opacity="0.6"/>
+  <line x1="193" y1="125" x2="193" y2="175" stroke="#6b7280" stroke-width="1.5" opacity="0.6"/>
+  <line x1="205" y1="125" x2="205" y2="175" stroke="#6b7280" stroke-width="1.5" opacity="0.6"/>
+  <line x1="217" y1="125" x2="217" y2="175" stroke="#6b7280" stroke-width="1.5" opacity="0.6"/>
+  <!-- label -->
+  <text x="200" y="282" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#1e293b">Kasa</text>
+</svg>

@@ -1,0 +1,137 @@
+﻿@model CoreShop.Models.CheckoutVM
+
+@{
+    ViewData["Title"] = "Ödeme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row g-4">
+
+        <div class="col-lg-7">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+
+                <h4 class="mb-4">Teslimat Bilgileri</h4>
+
+                <form asp-action="Checkout" method="post">
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="FullName"
+                               class="form-control"
+                               placeholder="Ad Soyad"
+                               oninput="this.value = this.value.replace(/[^a-zA-ZğüşöçıİĞÜŞÖÇ\s]/g,'')" />
+                        <label>Ad Soyad</label>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Telefon Numarası" />
+                        <label>Telefon Numarası</label>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="City" class="form-control" placeholder="Şehir" />
+                                <label>Şehir</label>
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="District" class="form-control" placeholder="İlçe" />
+                                <label>İlçe</label>
+                                <span asp-validation-for="District" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <textarea asp-for="FullAddress" class="form-control" style="height:120px;" placeholder="Açık Adres"></textarea>
+                        <label>Açık Adres</label>
+                        <span asp-validation-for="FullAddress" class="text-danger"></span>
+                    </div>
+
+                    <h4 class="mb-3 mt-4">Kart Bilgileri</h4>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="CardName"
+                               class="form-control"
+                               placeholder="Kart Üzerindeki İsim"
+                               oninput="this.value = this.value.replace(/[^a-zA-ZğüşöçıİĞÜŞÖÇ\s]/g,'')" />
+                        <label>Kart Üzerindeki İsim</label>
+                        <span asp-validation-for="CardName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="CardNumber" class="form-control" maxlength="16" placeholder="Kart Numarası" />
+                        <label>Kart Numarası</label>
+                        <span asp-validation-for="CardNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="ExpireDate" class="form-control" maxlength="5" placeholder="AA/YY" />
+                                <label>Son Kullanma Tarihi</label>
+                                <span asp-validation-for="ExpireDate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="CVV" class="form-control" maxlength="3" placeholder="CVV" />
+                                <label>CVV</label>
+                                <span asp-validation-for="CVV" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark w-100 py-3 rounded-3 mt-3">
+                        Siparişi Tamamla
+                    </button>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+
+                <h4 class="mb-3">Sipariş Özeti</h4>
+                <hr />
+
+                <h5 class="fw-bold">
+                    Toplam: ₺@Model.TotalPrice.ToString("N2")
+                </h5>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+    
+    document.querySelector('[name="CardNumber"]').addEventListener("input", function () {
+        this.value = this.value.replace(/\D/g, '').slice(0,16);
+    });
+
+    document.querySelector('[name="CVV"]').addEventListener("input", function () {
+        this.value = this.value.replace(/\D/g, '').slice(0,3);
+    });
+
+    document.querySelector('[name="ExpireDate"]').addEventListener("input", function () {
+        let val = this.value.replace(/\D/g, '').slice(0,4);
+
+        if (val.length >= 3) {
+            this.value = val.slice(0,2) + '/' + val.slice(2);
+        } else {
+            this.value = val;
+        }
+    });
+</script>

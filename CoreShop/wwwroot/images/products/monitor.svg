@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ede9fe"/>
+      <stop offset="100%" stop-color="#ddd6fe"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- monitor bezel -->
+  <rect x="55" y="45" width="290" height="185" rx="10" fill="#1e1b4b"/>
+  <!-- screen -->
+  <rect x="65" y="55" width="270" height="162" rx="5" fill="url(#screen)"/>
+  <!-- screen content - game-like visuals -->
+  <rect x="65" y="55" width="270" height="162" rx="5" fill="#1e1b4b"/>
+  <!-- fake game scene -->
+  <rect x="65" y="170" width="270" height="47" rx="0" fill="#111827" opacity="0.7"/>
+  <!-- mountains -->
+  <polygon points="65,170 120,100 175,170" fill="#4338ca" opacity="0.7"/>
+  <polygon points="130,170 185,90 240,170" fill="#4f46e5" opacity="0.8"/>
+  <polygon points="195,170 250,110 305,170" fill="#4338ca" opacity="0.7"/>
+  <polygon points="260,170 315,95 335,170" fill="#3730a3" opacity="0.6"/>
+  <!-- sky gradient stars -->
+  <circle cx="90" cy="70" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="150" cy="65" r="1" fill="white" opacity="0.6"/>
+  <circle cx="210" cy="72" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="270" cy="63" r="1" fill="white" opacity="0.6"/>
+  <circle cx="320" cy="75" r="1.5" fill="white" opacity="0.7"/>
+  <!-- refresh rate badge -->
+  <rect x="280" y="60" width="47" height="18" rx="3" fill="#6d28d9" opacity="0.9"/>
+  <text x="303" y="73" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="bold" fill="white">165Hz</text>
+  <!-- RGB strip bottom of bezel -->
+  <rect x="65" y="210" width="270" height="5" rx="2" fill="#818cf8" opacity="0.8"/>
+  <!-- stand neck -->
+  <rect x="188" y="230" width="24" height="30" rx="3" fill="#2e1065"/>
+  <!-- stand base -->
+  <rect x="148" y="258" width="104" height="12" rx="6" fill="#1e1b4b"/>
+  <!-- label -->
+  <text x="200" y="290" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#4338ca">Monitör</text>
+</svg>

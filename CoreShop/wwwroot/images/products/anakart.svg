@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ede9fe"/>
+      <stop offset="100%" stop-color="#ddd6fe"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- PCB -->
+  <rect x="50" y="45" width="300" height="210" rx="6" fill="#7c3aed"/>
+  <!-- CPU socket -->
+  <rect x="200" y="60" width="80" height="80" rx="4" fill="#5b21b6"/>
+  <rect x="208" y="68" width="64" height="64" rx="2" fill="#4c1d95"/>
+  <!-- socket pins grid -->
+  <line x1="220" y1="68" x2="220" y2="132" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+  <line x1="232" y1="68" x2="232" y2="132" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+  <line x1="244" y1="68" x2="244" y2="132" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+  <line x1="256" y1="68" x2="256" y2="132" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+  <line x1="208" y1="80" x2="272" y2="80" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+  <line x1="208" y1="94" x2="272" y2="94" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+  <line x1="208" y1="108" x2="272" y2="108" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+  <line x1="208" y1="122" x2="272" y2="122" stroke="#8b5cf6" stroke-width="1" opacity="0.5"/>
+  <!-- RAM slots -->
+  <rect x="65" y="60" width="14" height="100" rx="2" fill="#6d28d9"/>
+  <rect x="85" y="60" width="14" height="100" rx="2" fill="#6d28d9"/>
+  <rect x="105" y="60" width="14" height="100" rx="2" fill="#6d28d9"/>
+  <rect x="125" y="60" width="14" height="100" rx="2" fill="#6d28d9"/>
+  <!-- PCIe slots -->
+  <rect x="65" y="175" width="200" height="12" rx="2" fill="#5b21b6"/>
+  <rect x="65" y="193" width="200" height="8" rx="2" fill="#6d28d9"/>
+  <rect x="65" y="207" width="120" height="8" rx="2" fill="#6d28d9"/>
+  <!-- IO shield area -->
+  <rect x="280" y="60" width="60" height="90" rx="3" fill="#5b21b6"/>
+  <rect x="286" y="67" width="20" height="8" rx="2" fill="#a78bfa"/>
+  <rect x="286" y="81" width="20" height="8" rx="2" fill="#a78bfa"/>
+  <rect x="286" y="95" width="20" height="8" rx="2" fill="#a78bfa"/>
+  <rect x="286" y="109" width="20" height="8" rx="2" fill="#a78bfa"/>
+  <rect x="312" y="67" width="20" height="8" rx="2" fill="#a78bfa"/>
+  <rect x="312" y="81" width="20" height="8" rx="2" fill="#a78bfa"/>
+  <!-- trace lines -->
+  <line x1="145" y1="100" x2="200" y2="100" stroke="#a78bfa" stroke-width="1.5" opacity="0.6"/>
+  <line x1="145" y1="110" x2="200" y2="110" stroke="#a78bfa" stroke-width="1.5" opacity="0.6"/>
+  <!-- label -->
+  <text x="200" y="275" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#5b21b6">Anakart</text>
+</svg>

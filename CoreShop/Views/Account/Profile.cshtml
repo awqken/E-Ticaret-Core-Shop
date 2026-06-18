@@ -1,0 +1,511 @@
+﻿@model CoreShop.Models.ProfileVM
+
+<style>
+    body {
+        background: #f8fafc;
+    }
+
+    .wrapper {
+        max-width: 1200px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 30px;
+    }
+
+    .sidebar {
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid #e5e7eb;
+    }
+
+    .avatar {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        background: #111827;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .user {
+        margin-bottom: 20px;
+    }
+
+        .user strong {
+            display: block;
+        }
+
+        .user small {
+            color: #6b7280;
+        }
+
+    .menu a {
+        display: block;
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        text-decoration: none;
+        color: #374151;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+        .menu a:hover {
+            background: #f1f5f9;
+        }
+
+        .menu a.active {
+            background: #111827;
+            color: white;
+        }
+
+    .content {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid #e5e7eb;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .section {
+        display: none;
+    }
+
+        .section.active {
+            display: block;
+        }
+
+    .box {
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 15px;
+        transition: 0.2s;
+    }
+
+        .box:hover {
+            border-color: #d1d5db;
+        }
+
+    .label {
+        font-size: 12px;
+        color: #6b7280;
+    }
+
+    .value {
+        font-weight: 600;
+    }
+
+    .form-control {
+        border-radius: 10px;
+    }
+
+    .btn-save {
+        width: 100%;
+        height: 42px;
+        border: none;
+        border-radius: 10px;
+        background: #111827;
+        color: white;
+        margin-top: 10px;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 40px;
+        color: #6b7280;
+    }
+
+    .order-card {
+        background: #fff;
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0,0,0,.06);
+        transition: .25s;
+    }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+        }
+
+    .order-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .order-date {
+        color: #777;
+        font-size: 14px;
+    }
+
+    .order-price {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .status-paid {
+        background: #e8fff0;
+        color: #1d9c57;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .detail-btn {
+        background: #111;
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+        .detail-btn:hover {
+            background: #333;
+        }
+
+    .detail-box {
+        display: none;
+        margin-top: 20px;
+    }
+
+    .section-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .product-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .product-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 1px solid #eee;
+    }
+
+    .info-card {
+        background: #f8f9fa;
+        border-radius: 14px;
+        padding: 18px;
+        height: 100%;
+    }
+</style>
+
+<div class="container-fluid py-5">
+
+    <div class="wrapper">
+
+        <div class="sidebar">
+
+            <div class="user">
+                <div class="avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <strong>@Model.User.FullName</strong>
+                <small>@Model.User.Email</small>
+            </div>
+
+            <div class="menu">
+                <a href="#" onclick="showSection(event,'profile')" class="active">Profil</a>
+                <a href="#" onclick="showSection(event,'address')">Adres</a>
+                <a href="#" onclick="showSection(event,'orders')">Siparişler</a>
+                <a asp-action="Logout" class="text-danger">Çıkış</a>
+            </div>
+
+        </div>
+
+        <div class="content">
+
+            <div class="title">Hesabım</div>
+
+            <div id="profileSection" class="section active">
+
+                <div class="box">
+                    <div class="label">Ad Soyad</div>
+                    <div class="value">@Model.User.FullName</div>
+                </div>
+
+                <div class="box">
+                    <div class="label">Email</div>
+                    <div class="value">@Model.User.Email</div>
+                </div>
+
+                <div class="box">
+                    <div class="label">Rol</div>
+                    <div class="value">@Model.User.Role</div>
+                </div>
+
+            </div>
+
+            <div id="addressSection" class="section">
+
+                <div class="box mb-3">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong>Adres Bilgim</strong>
+
+                        <button onclick="toggleEdit()" class="btn btn-sm btn-dark">
+                            Düzenle
+                        </button>
+                    </div>
+
+                    @if (string.IsNullOrEmpty(Model.User.City))
+                    {
+                        <div class="text-muted">
+                            Henüz adres eklenmemiş
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-1"><b>Şehir:</b> @Model.User.City</div>
+                        <div class="mb-1"><b>İlçe:</b> @Model.User.District</div>
+                        <div class="mb-1"><b>Adres:</b> @Model.User.FullAddress</div>
+                        <div><b>Telefon:</b> @Model.User.PhoneNumber</div>
+                    }
+
+                </div>
+
+                <div id="editForm" class="box" style="display:none;">
+
+                    <form asp-action="UpdateProfile" method="post">
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input asp-for="User.City" class="form-control" placeholder="Şehir" />
+                                    <label>Şehir</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input asp-for="User.District" class="form-control" placeholder="İlçe" />
+                                    <label>İlçe</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea asp-for="User.FullAddress" class="form-control" placeholder="Adres" style="height:100px;"></textarea>
+                            <label>Açık Adres</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="User.PhoneNumber" class="form-control" placeholder="Telefon" />
+                            <label>Telefon</label>
+                        </div>
+
+                        <button class="btn-save">
+                            <i class="fa-solid fa-floppy-disk me-2"></i>
+                            Kaydet
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div id="ordersSection" class="section">
+                @if (Model.Orders != null && Model.Orders.Any())
+                {
+                    foreach (var order in Model.Orders.OrderByDescending(x => x.ID))
+                    {
+                        <div class="order-card mb-4">
+
+                            <div class="order-top">
+
+                                <div>
+                                    <h4>Sipariş #@order.ID</h4>
+                                    <span class="order-date">
+                                        @order.OrderDate.ToString("dd.MM.yyyy HH:mm")
+                                    </span>
+                                </div>
+
+                                <div class="text-end">
+                                    <div class="order-price">
+                                        ₺@order.TotalPrice.ToString("N2")
+                                    </div>
+
+                                    <div class="mt-2">
+
+                                        @if (order.Status == "Pending")
+                                        {
+                                            <span class="badge rounded-pill bg-secondary px-3 py-2">
+                                                ⏳ Beklemede
+                                            </span>
+                                        }
+                                        else if (order.Status == "Hazırlanıyor")
+                                        {
+                                            <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
+                                                📦 Hazırlanıyor
+                                            </span>
+                                        }
+                                        else if (order.Status == "Kargoda")
+                                        {
+                                            <span class="badge rounded-pill bg-primary px-3 py-2">
+                                                🚚 Kargoda
+                                            </span>
+                                        }
+                                        else if (order.Status == "Teslim Edildi")
+                                        {
+                                            <span class="badge rounded-pill bg-success px-3 py-2">
+                                                ✅ Teslim Edildi
+                                            </span>
+                                        }
+                                        else if (order.Status == "Cancelled")
+                                        {
+                                            <span class="badge rounded-pill bg-danger px-3 py-2">
+                                                ❌ İptal Edildi
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge rounded-pill bg-dark px-3 py-2">
+                                                @order.Status
+                                            </span>
+                                        }
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="mt-3">
+                                <button class="detail-btn"
+                                        onclick="toggleOrderDetail(@order.ID)">
+                                    Detayları Göster
+                                </button>
+                            </div>
+
+                            <div id="detail_@order.ID" class="detail-box">
+
+                                <hr />
+
+                                <h5 class="section-title">Sipariş Ürünleri</h5>
+
+                                @foreach (var item in Model.OrderDetails.Where(x => x.OrderId == order.ID))
+                                {
+                                    <div class="product-row">
+
+                                        <div class="d-flex align-items-center gap-3">
+
+                                            <img src="/images/@item.ProductImage"
+                                                 class="product-img" />
+
+                                            <div>
+                                                <div class="fw-bold">@item.ProductName</div>
+                                                <small class="text-muted">
+                                                    Adet: @item.Quantity
+                                                </small>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="fw-bold">
+                                            ₺@item.UnitPrice.ToString("N2")
+                                        </div>
+
+                                    </div>
+                                }
+
+                                <hr />
+
+                                <div class="row g-3">
+
+                                    <div class="col-md-6">
+                                        <div class="info-card">
+                                            <h6>📍 Teslimat Bilgisi</h6>
+
+                                            <small>@order.FullName</small><br />
+                                            <small>@order.PhoneNumber</small><br />
+                                            <small>@order.City / @order.District</small><br />
+                                            <small>@order.FullAddress</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="info-card">
+                                            <h6>💳 Ödeme Bilgisi</h6>
+
+                                            <small>@order.CardName</small><br />
+                                            <small>**** **** **** @order.CardLast4</small>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function showSection(e, section){
+
+        document.querySelectorAll(".section").forEach(x=>{
+            x.classList.remove("active");
+        });
+
+        document.getElementById(section+"Section").classList.add("active");
+
+        document.querySelectorAll(".menu a").forEach(x=>{
+            x.classList.remove("active");
+        });
+
+        e.currentTarget.classList.add("active");
+    }
+
+    function toggleEdit() {
+        let form = document.getElementById("editForm");
+
+        if (form.style.display === "none") {
+            form.style.display = "block";
+        } else {
+            form.style.display = "none";
+        }
+    }
+        function toggleOrderDetail(id)
+    {
+        let box = document.getElementById("detail_" + id);
+
+        if(box.style.display === "none" || box.style.display === "")
+            box.style.display = "block";
+        else
+            box.style.display = "none";
+    }
+
+</script>

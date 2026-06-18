@@ -1,0 +1,131 @@
+﻿@model List<CoreShop.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Sepetim";
+}
+
+<style>
+    .cart-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    }
+
+    .cart-img {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .qty-btn {
+        width: 35px;
+        height: 35px;
+        border-radius: 10px;
+        border: none;
+        font-weight: bold;
+    }
+
+    .qty-box {
+        min-width: 40px;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .remove-btn {
+        min-width: 80px;
+    }
+</style>
+
+<div class="mb-4">
+    <h1 class="fw-bold">Sepetim</h1>
+    <p class="text-muted">Sepetindeki ürünleri buradan yönetebilirsin.</p>
+</div>
+@if (TempData["CartWarning"] != null)
+{
+    <div class="alert alert-danger rounded-4 shadow-sm">
+        @TempData["CartWarning"]
+    </div>
+}
+@if (Model != null && Model.Count > 0)
+{
+    <div class="card cart-card p-4">
+        <div class="table-responsive">
+            <table class="table align-middle text-center">
+                <thead>
+                    <tr>
+                        <th>Ürün</th>
+                        <th>Ad</th>
+                        <th>Fiyat</th>
+                        <th>Adet</th>
+                        <th>Toplam</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/images/@item.ProductImage" class="cart-img" />
+                            </td>
+
+                            <td class="fw-semibold">@item.ProductName</td>
+
+                            <td>@item.ProductPrice ₺</td>
+
+                            <td>
+                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                    <a asp-controller="Cart" asp-action="Decrease" asp-route-id="@item.ProductId"
+                                       class="btn btn-outline-dark qty-btn">-</a>
+
+                                    <span class="qty-box">@item.Quantity</span>
+
+                                    <a asp-controller="Cart" asp-action="Increase" asp-route-id="@item.ProductId"
+                                       class="btn btn-dark qty-btn">+</a>
+                                </div>
+                            </td>
+
+                            <td class="fw-bold">
+                                @(item.ProductPrice* item.Quantity) ₺
+                            </td>
+
+                            <td>
+                                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.ProductId"
+                                   class="btn btn-danger rounded-3 remove-btn">
+                                    Sil
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.Count() > 0)
+        {
+            <div class="d-flex justify-content-end mt-4">
+                <a asp-controller="Cart" asp-action="Checkout" class="btn btn-dark">
+                    Ödemeye Geç
+                </a>
+            </div>
+        }
+
+        <div class="text-end mt-4">
+            <h6 class="text-muted mb-2">
+                Toplam Ürün Adedi: @Model.Sum(x => x.Quantity)
+            </h6>
+
+            <h4 class="fw-bold">
+                Toplam Tutar:
+                @Model.Sum(x => x.ProductPrice * x.Quantity) ₺
+            </h4>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning rounded-4 shadow-sm">
+        Sepetiniz şu an boş.
+    </div>
+}

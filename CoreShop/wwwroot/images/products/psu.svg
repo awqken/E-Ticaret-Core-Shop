@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fefce8"/>
+      <stop offset="100%" stop-color="#fef9c3"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <!-- PSU box -->
+  <rect x="65" y="80" width="200" height="140" rx="8" fill="#854d0e"/>
+  <!-- fan grill -->
+  <circle cx="165" cy="150" r="50" fill="#713f12" stroke="#92400e" stroke-width="2"/>
+  <circle cx="165" cy="150" r="38" fill="none" stroke="#92400e" stroke-width="2"/>
+  <circle cx="165" cy="150" r="25" fill="none" stroke="#92400e" stroke-width="2"/>
+  <circle cx="165" cy="150" r="12" fill="#854d0e"/>
+  <!-- fan blades -->
+  <ellipse cx="165" cy="122" rx="6" ry="18" fill="#92400e" transform="rotate(0 165 150)"/>
+  <ellipse cx="165" cy="122" rx="6" ry="18" fill="#92400e" transform="rotate(45 165 150)"/>
+  <ellipse cx="165" cy="122" rx="6" ry="18" fill="#92400e" transform="rotate(90 165 150)"/>
+  <ellipse cx="165" cy="122" rx="6" ry="18" fill="#92400e" transform="rotate(135 165 150)"/>
+  <!-- grill lines (decorative) -->
+  <line x1="115" y1="150" x2="215" y2="150" stroke="#713f12" stroke-width="1.5" opacity="0.5"/>
+  <line x1="165" y1="100" x2="165" y2="200" stroke="#713f12" stroke-width="1.5" opacity="0.5"/>
+  <!-- modular connectors panel -->
+  <rect x="275" y="85" width="55" height="130" rx="4" fill="#78350f"/>
+  <!-- connector ports -->
+  <rect x="280" y="96" width="40" height="10" rx="2" fill="#451a03"/>
+  <rect x="280" y="113" width="40" height="10" rx="2" fill="#451a03"/>
+  <rect x="280" y="130" width="40" height="10" rx="2" fill="#451a03"/>
+  <rect x="280" y="147" width="40" height="10" rx="2" fill="#451a03"/>
+  <rect x="280" y="164" width="40" height="10" rx="2" fill="#451a03"/>
+  <rect x="280" y="181" width="40" height="10" rx="2" fill="#451a03"/>
+  <!-- power switch -->
+  <rect x="75" y="88" width="16" height="10" rx="3" fill="#ca8a04"/>
+  <!-- 80 plus badge -->
+  <rect x="75" y="195" width="42" height="18" rx="3" fill="#ca8a04"/>
+  <text x="96" y="208" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="bold" fill="#713f12">80+GOLD</text>
+  <!-- label -->
+  <text x="200" y="265" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#854d0e">Güç Kaynağı</text>
+</svg>
