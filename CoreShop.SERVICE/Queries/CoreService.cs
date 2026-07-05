@@ -15,9 +15,9 @@ namespace CoreShop.SERVICE.Queries
             lock (_lock) return Store.ToList();
         }
 
-        public T GetById(int id)
+        public T? GetById(int id)
         {
-            lock (_lock) return Store.FirstOrDefault(x => x.ID == id)!;
+            lock (_lock) return Store.FirstOrDefault(x => x.ID == id);
         }
 
         public bool Create(T entity)

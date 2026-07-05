@@ -1,0 +1,13 @@
+using CoreShop.CORE.Entity;
+using System.ComponentModel.DataAnnotations;
+
+namespace CoreShop.MODEL.Entities
+{
+    public class Category : CoreEntity
+    {
+        [Required]
+        public string CategoryName { get; set; } = string.Empty;
+
+        public ICollection<Product>? Products { get; set; }
+    }
+}

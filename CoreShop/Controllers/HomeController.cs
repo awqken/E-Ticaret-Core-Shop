@@ -1,5 +1,5 @@
 ﻿using CoreShop.CORE.Service;
-using CoreShop.MODEL.Entites;
+using CoreShop.MODEL.Entities;
 using CoreShop.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +34,7 @@ namespace CoreShop.Controllers
             if (!string.IsNullOrEmpty(cartJson))
             {
                 var cart = System.Text.Json.JsonSerializer.Deserialize<List<CoreShop.Models.CartItem>>(cartJson);
-                ViewBag.CartCount = cart.Sum(x => x.Quantity);
+                ViewBag.CartCount = cart?.Sum(x => x.Quantity) ?? 0;
             }
             else
             {

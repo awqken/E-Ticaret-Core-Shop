@@ -1,6 +1,6 @@
 ﻿using CoreShop.Areas.Models;
 using CoreShop.CORE.Service;
-using CoreShop.MODEL.Entites;
+using CoreShop.MODEL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

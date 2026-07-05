@@ -1,5 +1,5 @@
 using CoreShop.CORE.Entity;
-using CoreShop.MODEL.Entites;
+using CoreShop.MODEL.Entities;
 using System.Security.Cryptography;
 using System.Text;
 

@@ -1,10 +1,10 @@
-﻿using CoreShop.MODEL.Entites;
+using CoreShop.MODEL.Entities;
 
 namespace CoreShop.Models
 {
     public class ProductDetailVM
     {
-        public Product Product { get; set; }
-        public List<Product> RelatedProducts { get; set; }
+        public required Product Product { get; set; }
+        public List<Product> RelatedProducts { get; set; } = new List<Product>();
     }
 }

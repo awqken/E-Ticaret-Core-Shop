@@ -1,4 +1,4 @@
-﻿@model List<CoreShop.MODEL.Entites.Product>
+﻿@model List<CoreShop.MODEL.Entities.Product>
 
 @{
     ViewData["Title"] = "Ürün Listesi";
@@ -194,7 +194,7 @@
 
                                             <td>
                                                 @{
-                                                    var categories = ViewBag.Categories as List<CoreShop.MODEL.Entites.Category>;
+                                                    var categories = ViewBag.Categories as List<CoreShop.MODEL.Entities.Category>;
 
                                                     var categoryName = categories?
                                                     .FirstOrDefault(x => x.ID == item.CategoryId)?

@@ -1,6 +1,6 @@
 ﻿using CoreShop.CORE.Service;
 using CoreShop.Helpers;
-using CoreShop.MODEL.Entites;
+using CoreShop.MODEL.Entities;
 using CoreShop.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -8,20 +8,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace CoreShop.UI.Controllers
+namespace CoreShop.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ICoreService<User> _udb;
+        private readonly ICoreService<User> _userService;
         private readonly ICoreService<Order> _orderService;
         private readonly ICoreService<OrderDetail> _orderDetailService;
 
         public AccountController(
-        ICoreService<User> udb,
+        ICoreService<User> userService,
         ICoreService<Order> orderService,
         ICoreService<OrderDetail> orderDetailService)
         {
-            _udb = udb;
+            _userService = userService;
             _orderService = orderService;
             _orderDetailService = orderDetailService;
         }
@@ -36,7 +36,7 @@ namespace CoreShop.UI.Controllers
         {
             password = PasswordHelper.Sha256Hash(password);
 
-            var result = _udb.GetAll()
+            var result = _userService.GetAll()
                 .FirstOrDefault(x => x.Email == email && x.Password == password);
 
             if (result != null)
@@ -75,7 +75,7 @@ namespace CoreShop.UI.Controllers
         [HttpPost]
         public IActionResult Register(User user)
         {
-            bool emailExists = _udb.GetAll().Any(x => x.Email == user.Email);
+            bool emailExists = _userService.GetAll().Any(x => x.Email == user.Email);
 
             if (emailExists)
             {
@@ -86,7 +86,7 @@ namespace CoreShop.UI.Controllers
             user.Password = PasswordHelper.Sha256Hash(user.Password);
             user.Role = "User";
 
-            _udb.Create(user);
+            _userService.Create(user);
 
             return RedirectToAction("Login");
         }
@@ -95,7 +95,7 @@ namespace CoreShop.UI.Controllers
         public IActionResult Profile()
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
-            var user = _udb.GetAll().FirstOrDefault(x => x.Email == email);
+            var user = _userService.GetAll().FirstOrDefault(x => x.Email == email);
 
             if (user == null)
                 return RedirectToAction("Login", "Account");
@@ -122,7 +122,7 @@ namespace CoreShop.UI.Controllers
         {
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var user = _udb.GetAll().FirstOrDefault(x => x.Email == email);
+            var user = _userService.GetAll().FirstOrDefault(x => x.Email == email);
 
             if (user == null)
                 return RedirectToAction("Login");
@@ -132,7 +132,7 @@ namespace CoreShop.UI.Controllers
             user.FullAddress = model.FullAddress;
             user.PhoneNumber = model.PhoneNumber;
 
-            _udb.Update(user);
+            _userService.Update(user);
 
             TempData["Success"] = "Adres bilgileri güncellendi.";
 

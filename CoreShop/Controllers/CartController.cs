@@ -1,5 +1,5 @@
 ﻿using CoreShop.CORE.Service;
-using CoreShop.MODEL.Entites;
+using CoreShop.MODEL.Entities;
 using CoreShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -102,7 +102,7 @@ namespace CoreShop.Controllers
             if (string.IsNullOrEmpty(cartJson))
                 return new List<CartItem>();
 
-            return JsonSerializer.Deserialize<List<CartItem>>(cartJson);
+            return JsonSerializer.Deserialize<List<CartItem>>(cartJson) ?? new List<CartItem>();
         }
 
         private void SaveCart(List<CartItem> cart)
@@ -175,10 +175,10 @@ namespace CoreShop.Controllers
             if (user != null)
             {
                 model.FullName = user.FullName;
-                model.PhoneNumber = user.PhoneNumber;
-                model.City = user.City;
-                model.District = user.District;
-                model.FullAddress = user.FullAddress;
+                model.PhoneNumber = user.PhoneNumber ?? string.Empty;
+                model.City = user.City ?? string.Empty;
+                model.District = user.District ?? string.Empty;
+                model.FullAddress = user.FullAddress ?? string.Empty;
             }
 
             model.TotalPrice = cart.Sum(x => x.ProductPrice * x.Quantity);
@@ -208,10 +208,13 @@ namespace CoreShop.Controllers
             var user = _userService.GetAll()
                 .FirstOrDefault(x => x.Email == email);
 
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
             decimal totalPrice = cart.Sum(x => x.ProductPrice * x.Quantity);
 
             // Simulate payment: card number must contain exactly 16 digits
-            var cleanCard = model.CardNumber?.Replace(" ", "").Replace("-", "") ?? "";
+            var cleanCard = model.CardNumber.Replace(" ", "").Replace("-", "");
             if (cleanCard.Length != 16 || !cleanCard.All(char.IsDigit))
             {
                 ViewBag.Error = "Ödeme başarısız. Geçerli bir 16 haneli kart numarası girin.";
@@ -226,10 +229,7 @@ namespace CoreShop.Controllers
                 Status = "Paid",
 
                 CardName = model.CardName,
-
-                CardLast4 = model.CardNumber.Length >= 4
-                    ? model.CardNumber.Substring(model.CardNumber.Length - 4)
-                    : "0000",
+                CardLast4 = cleanCard.Substring(cleanCard.Length - 4),
 
                 FullName = model.FullName,
                 PhoneNumber = model.PhoneNumber,

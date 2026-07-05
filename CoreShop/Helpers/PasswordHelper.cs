@@ -6,11 +6,11 @@ namespace CoreShop.Helpers
 {
     public static class PasswordHelper
     {
-        public static string Sha256Hash(string sifre)
+        public static string Sha256Hash(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
             {
-                byte[] bytes = Encoding.UTF8.GetBytes(sifre);
+                byte[] bytes = Encoding.UTF8.GetBytes(password);
                 byte[] hash = sha256.ComputeHash(bytes);
 
                 StringBuilder stringBuilder = new StringBuilder();

@@ -1,9 +1,4 @@
 ﻿using CoreShop.CORE.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoreShop.CORE.Service
 {
@@ -12,7 +7,7 @@ namespace CoreShop.CORE.Service
         bool Create(T entity);
         bool Update(T entity);
         bool Delete(T entity);
-        T GetById(int id);
+        T? GetById(int id);
         List<T> GetAll();
     }
 }

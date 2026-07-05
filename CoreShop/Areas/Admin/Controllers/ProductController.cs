@@ -1,5 +1,5 @@
 ﻿using CoreShop.CORE.Service;
-using CoreShop.MODEL.Entites;
+using CoreShop.MODEL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -81,7 +81,7 @@ namespace CoreShop.Areas.Admin.Controllers
                 products = products.Where(x =>
                     x.ProductName.ToLower().Contains(search) ||
                     x.ProductBrand.ToLower().Contains(search) ||
-                    x.Description.ToLower().Contains(search) ||
+                    (x.Description != null && x.Description.ToLower().Contains(search)) ||
                     matchedCategoryIds.Contains(x.CategoryId)
                 ).ToList();
             }

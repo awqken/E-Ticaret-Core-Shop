@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Ürünler";
+    var selectedCategoryIds = Model.SelectedCategoryIds;
+    var selectedBrands = Model.SelectedBrands;
 }
 
 <style>
@@ -301,7 +303,7 @@
                                    name="categoryId"
                                    value="@category.ID"
                                    id="cat_@category.ID"
-                                   @(Model.SelectedCategoryIds.Contains(category.ID) ? "checked" : "") />
+                                   checked="@(selectedCategoryIds.Contains(category.ID))" />
 
                             <label class="form-check-label" for="cat_@category.ID">
                                 @category.CategoryName
@@ -321,7 +323,7 @@
                                    name="brands"
                                    value="@brand"
                                    id="brand_@brand"
-                                   @(Model.SelectedBrands.Contains(brand) ? "checked" : "") />
+                                   checked="@(selectedBrands.Contains(brand))" />
 
                             <label class="form-check-label" for="brand_@brand">
                                 @brand
