@@ -1,4 +1,4 @@
-﻿# CoreShop AI Development Guide
+# CoreShop AI Development Guide
 
 ## Purpose
 
@@ -200,6 +200,25 @@ Before considering any task complete:
 ✔ Code follows architecture
 
 ---
+# Technology Stack
+
+CoreShop must continue using its existing technology stack.
+
+Do not replace, migrate, or rewrite the project using another language, framework, or frontend technology unless explicitly instructed.
+
+Maintain and improve the current stack:
+
+- C#
+- ASP.NET Core MVC
+- .NET
+- Razor Views
+- Bootstrap
+
+The current project intentionally uses an In-Memory data store during this stage of the roadmap.
+
+Do not introduce Entity Framework Core, SQL Server, PostgreSQL, or any other database until the roadmap explicitly reaches the database migration milestone.
+
+The goal is to improve the existing C# ASP.NET Core MVC application, not replace it with another technology.
 
 # AI Instructions
 
