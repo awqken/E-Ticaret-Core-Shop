@@ -41,6 +41,7 @@ namespace CoreShop.Areas.Admin.Controllers
             _categoryService.Create(category);
             return RedirectToAction("List");
         }
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var category = _categoryService.GetById(id);

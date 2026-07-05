@@ -1,7 +1,6 @@
 using CoreShop.CORE.Entity;
 using CoreShop.MODEL.Entities;
-using System.Security.Cryptography;
-using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace CoreShop.SERVICE.Data
 {
@@ -112,21 +111,24 @@ namespace CoreShop.SERVICE.Data
         }
 
         // ── Users ─────────────────────────────────────────────────────────────
-        private static List<User> CreateUsers() => new()
+        private static List<User> CreateUsers()
         {
-            new()
+            var admin = new User
             {
                 ID          = 1,
                 FullName    = "Admin",
                 Email       = "admin@coreshop.com",
-                Password    = HashPassword("Admin123"),
                 Role        = "Admin",
                 City        = "İstanbul",
                 District    = "Kadıköy",
                 FullAddress = "CoreShop Merkez Ofis",
                 PhoneNumber = "05001234567"
-            }
-        };
+            };
+
+            admin.Password = new PasswordHasher<User>().HashPassword(admin, "Admin123");
+
+            return new List<User> { admin };
+        }
 
         // ── Orders ────────────────────────────────────────────────────────────
         private static List<Order> CreateOrders() => new()
@@ -164,14 +166,5 @@ namespace CoreShop.SERVICE.Data
             // Sipariş 8: RTX 4070 Super (iptal)
             new() { ID=11, OrderId=8, ProductId=6,  ProductName="NVIDIA GeForce RTX 4070 Super", Quantity=1, UnitPrice=24999, ProductImage="products/rtx-4070-super.jpg" },
         };
-
-        private static string HashPassword(string password)
-        {
-            using var sha256 = SHA256.Create();
-            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            var sb = new StringBuilder();
-            foreach (var b in bytes) sb.Append(b.ToString("x2"));
-            return sb.ToString();
-        }
     }
 }

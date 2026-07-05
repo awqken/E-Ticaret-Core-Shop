@@ -247,10 +247,12 @@
 
                             @if (item.ProductStock > 0)
                             {
-                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ID"
-                                   class="btn btn-outline-warning rounded-3">
-                                    <i class="fa-solid fa-cart-shopping me-2"></i> Sepete Ekle
-                                </a>
+                                <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ID" method="post" class="d-grid">
+                                    <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
+                                    <button type="submit" class="btn btn-outline-warning rounded-3">
+                                        <i class="fa-solid fa-cart-shopping me-2"></i> Sepete Ekle
+                                    </button>
+                                </form>
                             }
                             else
                             {

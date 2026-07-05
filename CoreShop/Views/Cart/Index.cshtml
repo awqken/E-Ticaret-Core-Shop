@@ -76,13 +76,15 @@
 
                             <td>
                                 <div class="d-flex justify-content-center align-items-center gap-2">
-                                    <a asp-controller="Cart" asp-action="Decrease" asp-route-id="@item.ProductId"
-                                       class="btn btn-outline-dark qty-btn">-</a>
+                                    <form asp-controller="Cart" asp-action="Decrease" asp-route-id="@item.ProductId" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-outline-dark qty-btn">-</button>
+                                    </form>
 
                                     <span class="qty-box">@item.Quantity</span>
 
-                                    <a asp-controller="Cart" asp-action="Increase" asp-route-id="@item.ProductId"
-                                       class="btn btn-dark qty-btn">+</a>
+                                    <form asp-controller="Cart" asp-action="Increase" asp-route-id="@item.ProductId" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-dark qty-btn">+</button>
+                                    </form>
                                 </div>
                             </td>
 
@@ -91,10 +93,11 @@
                             </td>
 
                             <td>
-                                <a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.ProductId"
-                                   class="btn btn-danger rounded-3 remove-btn">
-                                    Sil
-                                </a>
+                                <form asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.ProductId" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-danger rounded-3 remove-btn">
+                                        Sil
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     }

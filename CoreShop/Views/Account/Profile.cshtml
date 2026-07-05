@@ -64,6 +64,26 @@
             color: white;
         }
 
+    .menu .logout-btn {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: none;
+        color: #dc2626;
+        font-weight: 600;
+        font-family: inherit;
+        font-size: inherit;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .menu .logout-btn:hover {
+            background: #fef2f2;
+        }
+
     .content {
         background: white;
         border-radius: 20px;
@@ -232,7 +252,9 @@
                 <a href="#" onclick="showSection(event,'profile')" class="active">Profil</a>
                 <a href="#" onclick="showSection(event,'address')">Adres</a>
                 <a href="#" onclick="showSection(event,'orders')">Siparişler</a>
-                <a asp-action="Logout" class="text-danger">Çıkış</a>
+                <form asp-action="Logout" method="post" class="m-0">
+                    <button type="submit" class="logout-btn">Çıkış</button>
+                </form>
             </div>
 
         </div>

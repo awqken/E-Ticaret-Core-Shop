@@ -1,10 +1,10 @@
-﻿using CoreShop.CORE.Service;
-using CoreShop.Helpers;
+using CoreShop.CORE.Service;
 using CoreShop.MODEL.Entities;
 using CoreShop.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -15,16 +15,20 @@ namespace CoreShop.Controllers
         private readonly ICoreService<User> _userService;
         private readonly ICoreService<Order> _orderService;
         private readonly ICoreService<OrderDetail> _orderDetailService;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
         public AccountController(
-        ICoreService<User> userService,
-        ICoreService<Order> orderService,
-        ICoreService<OrderDetail> orderDetailService)
+            ICoreService<User> userService,
+            ICoreService<Order> orderService,
+            ICoreService<OrderDetail> orderDetailService,
+            IPasswordHasher<User> passwordHasher)
         {
             _userService = userService;
             _orderService = orderService;
             _orderDetailService = orderDetailService;
+            _passwordHasher = passwordHasher;
         }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -34,38 +38,53 @@ namespace CoreShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
-            password = PasswordHelper.Sha256Hash(password);
-
-            var result = _userService.GetAll()
-                .FirstOrDefault(x => x.Email == email && x.Password == password);
-
-            if (result != null)
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
-                var claims = new List<Claim>()
+                ViewBag.Error = "E-posta ve şifre alanları zorunludur.";
+                return View();
+            }
+
+            var user = _userService.GetAll().FirstOrDefault(x => x.Email == email);
+
+            if (user != null)
+            {
+                var verification = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
+
+                if (verification != PasswordVerificationResult.Failed)
                 {
-                    new Claim(ClaimTypes.Name, result.FullName),
-                    new Claim(ClaimTypes.Email, result.Email),
-                    new Claim(ClaimTypes.Role, result.Role)
-                };
+                    if (verification == PasswordVerificationResult.SuccessRehashNeeded)
+                    {
+                        user.Password = _passwordHasher.HashPassword(user, password);
+                        _userService.Update(user);
+                    }
 
-                var identity = new ClaimsIdentity(
-                    claims,
-                    CookieAuthenticationDefaults.AuthenticationScheme
-                );
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.FullName),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Role, user.Role)
+                    };
 
-                var principal = new ClaimsPrincipal(identity);
+                    var identity = new ClaimsIdentity(
+                        claims,
+                        CookieAuthenticationDefaults.AuthenticationScheme
+                    );
 
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    principal
-                );
+                    var principal = new ClaimsPrincipal(identity);
 
-                return RedirectToAction("Index", "Home");
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        principal
+                    );
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             ViewBag.Error = "E-posta veya şifre hatalı.";
             return View();
         }
+
         [HttpGet]
         public IActionResult Register()
         {
@@ -75,6 +94,14 @@ namespace CoreShop.Controllers
         [HttpPost]
         public IActionResult Register(User user)
         {
+            if (string.IsNullOrWhiteSpace(user.FullName) ||
+                string.IsNullOrWhiteSpace(user.Email) ||
+                string.IsNullOrWhiteSpace(user.Password))
+            {
+                ViewBag.Error = "Ad Soyad, e-posta ve şifre alanları zorunludur.";
+                return View();
+            }
+
             bool emailExists = _userService.GetAll().Any(x => x.Email == user.Email);
 
             if (emailExists)
@@ -83,7 +110,7 @@ namespace CoreShop.Controllers
                 return View();
             }
 
-            user.Password = PasswordHelper.Sha256Hash(user.Password);
+            user.Password = _passwordHasher.HashPassword(user, user.Password);
             user.Role = "User";
 
             _userService.Create(user);
@@ -120,7 +147,7 @@ namespace CoreShop.Controllers
         [Authorize]
         public IActionResult UpdateProfile(User model)
         {
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var email = User.FindFirstValue(ClaimTypes.Email);
 
             var user = _userService.GetAll().FirstOrDefault(x => x.Email == email);
 
@@ -138,6 +165,9 @@ namespace CoreShop.Controllers
 
             return RedirectToAction("Profile");
         }
+
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

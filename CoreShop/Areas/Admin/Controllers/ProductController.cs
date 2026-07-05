@@ -1,5 +1,6 @@
-﻿using CoreShop.CORE.Service;
+using CoreShop.CORE.Service;
 using CoreShop.MODEL.Entities;
+using CoreShop.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,19 +13,19 @@ namespace CoreShop.Areas.Admin.Controllers
     {
         private readonly ICoreService<Product> _productService;
         private readonly ICoreService<Category> _categoryService;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IImageUploadService _imageUploadService;
 
         public ProductController(
             ICoreService<Product> productService,
             ICoreService<Category> categoryService,
-            IWebHostEnvironment webHostEnvironment)
+            IImageUploadService imageUploadService)
         {
             _productService = productService;
             _categoryService = categoryService;
-            _webHostEnvironment = webHostEnvironment;
+            _imageUploadService = imageUploadService;
         }
 
-        public IActionResult List(string sort,string search)
+        public IActionResult List(string sort, string search)
         {
             var products = _productService.GetAll();
 
@@ -67,13 +68,12 @@ namespace CoreShop.Areas.Admin.Controllers
                     products = products.OrderByDescending(x => x.ID).ToList();
                     break;
             }
+
             if (!string.IsNullOrEmpty(search))
             {
                 search = search.ToLower();
 
-                var categories = _categoryService.GetAll();
-
-                var matchedCategoryIds = categories
+                var matchedCategoryIds = _categoryService.GetAll()
                     .Where(x => x.CategoryName.ToLower().Contains(search))
                     .Select(x => x.ID)
                     .ToList();
@@ -85,49 +85,41 @@ namespace CoreShop.Areas.Admin.Controllers
                     matchedCategoryIds.Contains(x.CategoryId)
                 ).ToList();
             }
+
             ViewBag.Sort = sort;
             ViewBag.Categories = _categoryService.GetAll();
             return View(products);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Categories = _categoryService.GetAll()
-                .Select(x => new SelectListItem
-                {
-                    Text = x.CategoryName,
-                    Value = x.ID.ToString()
-                }).ToList();
-
+            ViewBag.Categories = GetCategoryOptions();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Product product, IFormFile ImageFile)
+        public IActionResult Create(Product product, IFormFile? ImageFile)
         {
             if (ImageFile != null && ImageFile.Length > 0)
             {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "products");
-
-                if (!Directory.Exists(uploadsFolder))
+                if (_imageUploadService.TrySaveProductImage(ImageFile, out var imagePath, out var uploadError))
                 {
-                    Directory.CreateDirectory(uploadsFolder);
+                    product.ProductImage = imagePath;
                 }
-
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
-                string filePath = Path.Combine(uploadsFolder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                else
                 {
-                    ImageFile.CopyTo(stream);
+                    ModelState.AddModelError("ImageFile", uploadError ?? "Görsel yüklenemedi.");
+                    ViewBag.Categories = GetCategoryOptions();
+                    return View(product);
                 }
-
-                product.ProductImage = "products/" + fileName;
             }
 
             _productService.Create(product);
             return RedirectToAction("List");
         }
+
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var product = _productService.GetById(id);
@@ -139,6 +131,7 @@ namespace CoreShop.Areas.Admin.Controllers
 
             return RedirectToAction("List");
         }
+
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -149,25 +142,14 @@ namespace CoreShop.Areas.Admin.Controllers
                 return RedirectToAction("List");
             }
 
-            ViewBag.Categories = _categoryService.GetAll()
-                .Select(x => new SelectListItem
-                {
-                    Text = x.CategoryName,
-                    Value = x.ID.ToString()
-                }).ToList();
-
+            ViewBag.Categories = GetCategoryOptions();
             return View(product);
         }
 
         [HttpPost]
-        public IActionResult Update(Product product, IFormFile ImageFile)
+        public IActionResult Update(Product product, IFormFile? ImageFile)
         {
-            ViewBag.Categories = _categoryService.GetAll()
-                .Select(x => new SelectListItem
-                {
-                    Text = x.CategoryName,
-                    Value = x.ID.ToString()
-                }).ToList();
+            ViewBag.Categories = GetCategoryOptions();
 
             ModelState.Remove("Category");
             ModelState.Remove("ImageFile");
@@ -184,6 +166,19 @@ namespace CoreShop.Areas.Admin.Controllers
                 return RedirectToAction("List");
             }
 
+            if (ImageFile != null && ImageFile.Length > 0)
+            {
+                if (_imageUploadService.TrySaveProductImage(ImageFile, out var imagePath, out var uploadError))
+                {
+                    existingProduct.ProductImage = imagePath;
+                }
+                else
+                {
+                    ModelState.AddModelError("ImageFile", uploadError ?? "Görsel yüklenemedi.");
+                    return View(product);
+                }
+            }
+
             existingProduct.ProductName = product.ProductName;
             existingProduct.ProductBrand = product.ProductBrand;
             existingProduct.ProductPrice = product.ProductPrice;
@@ -191,28 +186,18 @@ namespace CoreShop.Areas.Admin.Controllers
             existingProduct.Description = product.Description;
             existingProduct.CategoryId = product.CategoryId;
 
-            if (ImageFile != null && ImageFile.Length > 0)
-            {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "products");
-
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(ImageFile.FileName);
-                string filePath = Path.Combine(uploadsFolder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    ImageFile.CopyTo(stream);
-                }
-
-                existingProduct.ProductImage = "products/" + fileName;
-            }
-
             _productService.Update(existingProduct);
             return RedirectToAction("List");
+        }
+
+        private List<SelectListItem> GetCategoryOptions()
+        {
+            return _categoryService.GetAll()
+                .Select(x => new SelectListItem
+                {
+                    Text = x.CategoryName,
+                    Value = x.ID.ToString()
+                }).ToList();
         }
     }
 }

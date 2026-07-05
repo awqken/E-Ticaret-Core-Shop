@@ -34,7 +34,8 @@ namespace CoreShop.Controllers
             return View(cart);
         }
 
-        public IActionResult AddToCart(int id)
+        [HttpPost]
+        public IActionResult AddToCart(int id, string? returnUrl)
         {
             var product = _productService.GetById(id);
 
@@ -44,7 +45,7 @@ namespace CoreShop.Controllers
             if (product.ProductStock <= 0)
             {
                 TempData["CartWarning"] = "Bu ürün stokta yok.";
-                return Redirect(Request.Headers["Referer"].ToString());
+                return RedirectToLocal(returnUrl);
             }
 
             var cart = GetCart();
@@ -76,9 +77,10 @@ namespace CoreShop.Controllers
 
             SaveCart(cart);
 
-            return Redirect(Request.Headers["Referer"].ToString());
+            return RedirectToLocal(returnUrl);
         }
 
+        [HttpPost]
         public IActionResult RemoveFromCart(int id)
         {
             var cart = GetCart();
@@ -91,6 +93,18 @@ namespace CoreShop.Controllers
             }
 
             SaveCart(cart);
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Redirects only to application-local URLs; anything else falls back
+        /// to the cart page (open-redirect protection).
+        /// </summary>
+        private IActionResult RedirectToLocal(string? returnUrl)
+        {
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
 
             return RedirectToAction("Index");
         }
@@ -110,6 +124,7 @@ namespace CoreShop.Controllers
             var cartJson = JsonSerializer.Serialize(cart);
             HttpContext.Session.SetString("Cart", cartJson);
         }
+        [HttpPost]
         public IActionResult Increase(int id)
         {
             var cart = GetCart();
@@ -136,6 +151,7 @@ namespace CoreShop.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public IActionResult Decrease(int id)
         {
             var cart = GetCart();
