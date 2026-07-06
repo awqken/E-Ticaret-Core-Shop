@@ -1,0 +1,54 @@
+@using CoreShop.Helpers
+@model CoreShop.MODEL.Entities.Product
+
+<article class="product-card">
+    <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID"
+       class="product-media" aria-label="@Model.ProductName detayına git">
+        <img src="~/images/@Model.ProductImage"
+             alt="@Model.ProductName"
+             loading="lazy"
+             width="240" height="160"
+             onerror="this.src='/images/products/default.svg'" />
+
+        @if (Model.ProductStock == 0)
+        {
+            <span class="product-flag badge badge-soft-danger">Tükendi</span>
+        }
+        else if (Model.ProductStock <= 5)
+        {
+            <span class="product-flag badge badge-soft-warning">Son @Model.ProductStock adet</span>
+        }
+    </a>
+
+    <div class="product-brand">@Model.ProductBrand</div>
+
+    <h3 class="product-name">
+        <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID">
+            @Model.ProductName
+        </a>
+    </h3>
+
+    <div class="product-price">@Model.ProductPrice.ToTryPrice()</div>
+
+    <div class="product-actions">
+        @if (Model.ProductStock > 0)
+        {
+            <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ID" method="post" class="d-grid">
+                <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
+                <button type="submit" class="btn btn-brand">
+                    <i class="fa-solid fa-cart-plus me-2" aria-hidden="true"></i> Sepete Ekle
+                </button>
+            </form>
+        }
+        else
+        {
+            <button type="button" class="btn btn-soft" disabled>
+                <i class="fa-solid fa-ban me-2" aria-hidden="true"></i> Stokta Yok
+            </button>
+        }
+
+        <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID" class="btn btn-soft">
+            İncele
+        </a>
+    </div>
+</article>

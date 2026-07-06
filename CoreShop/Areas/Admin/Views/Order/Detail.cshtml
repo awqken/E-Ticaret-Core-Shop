@@ -1,4 +1,4 @@
-﻿@model CoreShop.Areas.Models.AdminOrderDetailVM
+@model CoreShop.Areas.Models.AdminOrderDetailVM
 
 @{
     ViewData["Title"] = "Sipariş Detayı";
@@ -6,91 +6,104 @@
 }
 
 <div class="container-fluid">
+    <div class="admin-page-head mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h2 class="h4 mb-1">
+                    <i class="fa-solid fa-receipt me-2" aria-hidden="true"></i> Sipariş #@Model.Order.ID
+                </h2>
+                <p>@Model.Order.OrderDate.ToString("dd.MM.yyyy HH:mm")</p>
+            </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold mb-1">Sipariş #@Model.Order.ID</h2>
-            <small class="text-muted">
-                @Model.Order.OrderDate.ToString("dd.MM.yyyy HH:mm")
-            </small>
+            <a asp-area="Admin" asp-controller="Order" asp-action="List" class="btn btn-light fw-semibold px-4">
+                <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i> Siparişlere Dön
+            </a>
         </div>
-
-        <a href="/Admin/Order/List" class="btn btn-outline-dark rounded-3">
-            Geri Dön
-        </a>
     </div>
 
     <div class="row g-4">
 
         <div class="col-lg-8">
-
-            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
-                <h4 class="fw-bold mb-4">Sipariş Ürünleri</h4>
+            <div class="surface p-4">
+                <h2 class="h5 fw-bold mb-3">Sipariş Ürünleri</h2>
 
                 @if (Model.OrderDetails != null && Model.OrderDetails.Any())
                 {
                     @foreach (var item in Model.OrderDetails)
                     {
-                        <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                        <div class="order-line">
                             <div class="d-flex align-items-center gap-3">
-                                <img src="/images/@item.ProductImage"
-                                     width="65"
-                                     height="65"
-                                     class="rounded-3 border"
-                                     style="object-fit:cover;" />
+                                @if (!string.IsNullOrEmpty(item.ProductImage))
+                                {
+                                    <img src="~/images/@item.ProductImage"
+                                         alt="@item.ProductName"
+                                         loading="lazy"
+                                         width="56" height="56"
+                                         class="order-line-thumb"
+                                         style="object-fit: cover;"
+                                         onerror="this.onerror=null;this.src='/images/products/default.svg';" />
+                                }
+                                else
+                                {
+                                    <div class="order-line-thumb" aria-label="Görsel yok">
+                                        <i class="fa-solid fa-image text-muted" aria-hidden="true"></i>
+                                    </div>
+                                }
 
                                 <div>
                                     <div class="fw-semibold">@item.ProductName</div>
-                                    <small class="text-muted">
-                                        Adet: @item.Quantity
-                                    </small>
+                                    <small class="text-muted">Adet: @item.Quantity</small>
                                 </div>
                             </div>
 
-                            <div class="fw-bold">
-                                ₺@item.UnitPrice.ToString("N2")
-                            </div>
+                            <div class="fw-bold">@item.UnitPrice.ToTryPrice()</div>
                         </div>
                     }
                 }
                 else
                 {
-                    <div class="text-muted">Sipariş ürünü bulunamadı.</div>
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+                        </div>
+                        <h4>Sipariş ürünü bulunamadı</h4>
+                        <p>Bu siparişe ait ürün kaydı yok.</p>
+                    </div>
                 }
             </div>
-
         </div>
 
         <div class="col-lg-4">
 
-            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
-                <h5 class="fw-bold mb-3">Sipariş Bilgisi</h5>
+            <div class="surface p-4 mb-4">
+                <h2 class="h5 fw-bold mb-3">Sipariş Bilgisi</h2>
 
                 <div class="mb-3">
-                    <small class="text-muted d-block">Durum</small>
-
+                    <small class="text-muted d-block mb-1">Durum</small>
                     <partial name="_OrderStatusBadge" model="Model.Order.Status" />
                 </div>
 
-                <div class="mb-3">
+                <div>
                     <small class="text-muted d-block">Toplam Tutar</small>
-                    <div class="fw-bold fs-5">
-                        ₺@Model.Order.TotalPrice.ToString("N2")
-                    </div>
+                    <div class="fw-bold fs-5">@Model.Order.TotalPrice.ToTryPrice()</div>
                 </div>
             </div>
 
-            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
-                <h5 class="fw-bold mb-3">Teslimat Bilgisi</h5>
+            <div class="surface p-4 mb-4">
+                <h2 class="h5 fw-bold mb-3">Teslimat Bilgisi</h2>
 
-                <div class="mb-2"><strong>@Model.Order.FullName</strong></div>
-                <div class="text-muted mb-1">@Model.Order.PhoneNumber</div>
-                <div class="text-muted mb-1">@Model.Order.City / @Model.Order.District</div>
+                <div class="mb-2 fw-semibold">@Model.Order.FullName</div>
+                <div class="text-muted mb-1">
+                    <i class="fa-solid fa-phone me-2" aria-hidden="true"></i>@Model.Order.PhoneNumber
+                </div>
+                <div class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i>@Model.Order.City / @Model.Order.District
+                </div>
                 <div class="text-muted">@Model.Order.FullAddress</div>
             </div>
 
-            <div class="card border-0 shadow-sm rounded-4 p-4">
-                <h5 class="fw-bold mb-3">Ödeme Bilgisi</h5>
+            <div class="surface p-4">
+                <h2 class="h5 fw-bold mb-3">Ödeme Bilgisi</h2>
 
                 <div class="mb-2">
                     <small class="text-muted d-block">Kart Üzerindeki İsim</small>

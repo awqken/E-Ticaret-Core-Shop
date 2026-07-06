@@ -1,151 +1,139 @@
-﻿@model List<CoreShop.MODEL.Entities.Order>
+@model List<CoreShop.MODEL.Entities.Order>
 
 @{
-    ViewData["Title"] = "Sipariş Yönetimi";
+    ViewData["Title"] = "Siparişler";
     Layout = "~/Areas/Shared/_AdminLayout.cshtml";
+    var currentSearchId = Context.Request.Query["searchId"].ToString();
 }
 
 <div class="container-fluid">
-    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
-
+    <div class="admin-page-head mb-4">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-
             <div>
-                <h2 class="fw-bold mb-1">Sipariş Yönetimi</h2>
-                <small class="text-muted">
-                    Toplam Sipariş: @Model.Count
-                </small>
+                <h2 class="h4 mb-1">
+                    <i class="fa-solid fa-receipt me-2" aria-hidden="true"></i> Sipariş Yönetimi
+                </h2>
+                <p>Toplam @Model.Count siparişi görüntüleyebilir ve durumlarını yönetebilirsin.</p>
             </div>
 
-            <form method="get" class="d-flex gap-2">
+            <form method="get" class="d-flex gap-2" role="search" aria-label="Sipariş ara">
                 <input type="number"
                        name="searchId"
+                       value="@currentSearchId"
                        class="form-control"
-                       placeholder="Sipariş No Ara" />
+                       placeholder="Sipariş No"
+                       aria-label="Sipariş numarası"
+                       style="width:160px;" />
 
-                <button class="btn btn-dark">
+                <button type="submit" class="btn btn-light fw-semibold px-4">
                     Ara
                 </button>
+
+                @if (!string.IsNullOrEmpty(currentSearchId))
+                {
+                    <a asp-area="Admin" asp-controller="Order" asp-action="List" class="btn btn-outline-light px-3">
+                        Temizle
+                    </a>
+                }
             </form>
-
         </div>
-
     </div>
 
-    <div class="row g-4">
+    @if (Model.Count > 0)
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-xl-4 col-lg-6">
+                    <div class="order-card h-100 d-flex flex-column">
 
-        @foreach (var item in Model)
-        {
-            <div class="col-lg-6">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h3 class="h6 fw-bold mb-1">Sipariş #@item.ID</h3>
+                                <small class="text-muted">@item.OrderDate.ToString("dd.MM.yyyy HH:mm")</small>
+                            </div>
 
-                <div class="card border-0 shadow-sm rounded-4 p-4 h-100 order-card">
-
-                    <div class="d-flex justify-content-between mb-3">
-
-                        <div>
-                            <h5 class="fw-bold mb-1">
-                                Sipariş #@item.ID
-                            </h5>
-
-                            <small class="text-muted">
-                                @item.OrderDate.ToString("dd.MM.yyyy")
-                            </small>
+                            <partial name="_OrderStatusBadge" model="item.Status" />
                         </div>
 
-                        <div class="fw-bold fs-5">
-                            ₺@item.TotalPrice.ToString("N2")
+                        <div class="mb-3">
+                            <div class="fw-semibold">@item.FullName</div>
+                            <small class="text-muted">@item.City / @item.District</small>
+                        </div>
+
+                        <div class="fw-bold fs-5 mb-3">@item.TotalPrice.ToTryPrice()</div>
+
+                        <div class="mt-auto">
+                            @if (item.Status.IsFinal())
+                            {
+                                <div class="d-flex gap-2">
+                                    <select class="form-select" disabled aria-label="Sipariş durumu (kilitli)">
+                                        <option>@item.Status.ToDisplayName()</option>
+                                    </select>
+
+                                    <button type="button" class="btn btn-soft" disabled>
+                                        <i class="fa-solid fa-lock me-1" aria-hidden="true"></i> Kilitli
+                                    </button>
+                                </div>
+                            }
+                            else
+                            {
+                                <form method="post" asp-area="Admin" asp-controller="Order" asp-action="UpdateStatus">
+                                    <input type="hidden" name="id" value="@item.ID" />
+
+                                    <div class="d-flex gap-2">
+                                        <select name="status" class="form-select" aria-label="Yeni sipariş durumu">
+                                            <option selected disabled>@item.Status.ToDisplayName()</option>
+
+                                            @foreach (var target in item.Status.GetAllowedTransitions())
+                                            {
+                                                <option value="@target">@target.ToDisplayName()</option>
+                                            }
+                                        </select>
+
+                                        <button type="submit" class="btn btn-brand px-3">
+                                            Kaydet
+                                        </button>
+                                    </div>
+                                </form>
+                            }
+
+                            <a asp-area="Admin" asp-controller="Order" asp-action="Detail" asp-route-id="@item.ID"
+                               class="btn btn-soft w-100 mt-2">
+                                <i class="fa-solid fa-eye me-1" aria-hidden="true"></i> Detay
+                            </a>
                         </div>
 
                     </div>
-
-                    <div class="mb-3">
-                        <strong>@item.FullName</strong><br />
-                        <small class="text-muted">
-                            @item.City / @item.District
-                        </small>
-                    </div>
-
-                    <div class="mb-3">
-                        <partial name="_OrderStatusBadge" model="item.Status" />
-                    </div>
-
-                    @if (item.Status.IsFinal())
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="surface p-4">
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+                </div>
+                <h4>Sipariş bulunamadı</h4>
+                <p>
+                    @if (!string.IsNullOrEmpty(currentSearchId))
                     {
-                        <div class="d-flex gap-2">
-
-                            <select class="form-select" disabled>
-                                <option>@item.Status.ToDisplayName()</option>
-                            </select>
-
-                            <button class="btn btn-secondary" disabled>
-                                Kilitli
-                            </button>
-
-                        </div>
+                        <text>#@currentSearchId numaralı sipariş bulunamadı.</text>
                     }
                     else
                     {
-                        <form method="post"
-                              asp-area="Admin"
-                              asp-controller="Order"
-                              asp-action="UpdateStatus">
-
-                            <input type="hidden"
-                                   name="id"
-                                   value="@item.ID" />
-
-                            <div class="d-flex gap-2">
-
-                                <select name="status" class="form-select">
-
-                                    <option selected disabled>
-                                        @item.Status.ToDisplayName()
-                                    </option>
-
-                                    @foreach (var target in item.Status.GetAllowedTransitions())
-                                    {
-                                        <option value="@target">
-                                            @target.ToDisplayName()
-                                        </option>
-                                    }
-
-                                </select>
-
-                                <button class="btn btn-dark">
-                                    Kaydet
-                                </button>
-
-                            </div>
-
-                        </form>
+                        <text>Henüz sipariş oluşturulmamış.</text>
                     }
-
-                    <div class="mt-3 d-flex gap-2">
-                        <a asp-area="Admin"
-                           asp-controller="Order"
-                           asp-action="Detail"
-                           asp-route-id="@item.ID"
-                           class="btn btn-outline-dark">
-                            Detay
-                        </a>
-                    </div>
-
-                </div>
-
+                </p>
+                @if (!string.IsNullOrEmpty(currentSearchId))
+                {
+                    <a asp-area="Admin" asp-controller="Order" asp-action="List" class="btn btn-brand">
+                        Tüm Siparişleri Göster
+                    </a>
+                }
             </div>
-        }
-
-    </div>
-
-</div>
-
-<style>
-    .order-card {
-        transition: .2s;
+        </div>
     }
-
-        .order-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 35px rgba(0,0,0,.08) !important;
-        }
-</style>
+</div>

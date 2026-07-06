@@ -1,179 +1,118 @@
-﻿@model List<CoreShop.MODEL.Entities.Category>
+@model List<CoreShop.MODEL.Entities.Category>
 
 @{
-    ViewData["Title"] = "Kategori Listesi";
+    ViewData["Title"] = "Kategoriler";
     Layout = "~/Areas/Shared/_AdminLayout.cshtml";
 }
 
 <div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm rounded-4 p-4" style="background: linear-gradient(135deg, #92400e, #b45309); color: white;">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div>
-                        <h2 class="fw-bold mb-2">
-                            <i class="fa-solid fa-list me-2"></i> Kategori Yönetimi
-                        </h2>
-                        <p class="mb-0 fs-6 text-light">
-                            Sistemde kayıtlı kategorileri bu ekrandan görüntüleyebilirsin.
-                        </p>
-                    </div>
-
-                    <div class="mt-3 mt-md-0">
-                        <a href="/Admin/Category/Create" class="btn btn-light rounded-3 px-4 fw-semibold">
-                            <i class="fa-solid fa-plus me-2"></i> Yeni Kategori Ekle
-                        </a>
-                    </div>
-                </div>
+    <div class="admin-page-head mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h2 class="h4 mb-1">
+                    <i class="fa-solid fa-folder-open me-2" aria-hidden="true"></i> Kategori Yönetimi
+                </h2>
+                <p>Sistemde kayıtlı @Model.Count kategoriyi bu ekrandan yönetebilirsin.</p>
             </div>
+
+            <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn btn-light fw-semibold px-4">
+                <i class="fa-solid fa-plus me-2" aria-hidden="true"></i> Yeni Kategori Ekle
+            </a>
         </div>
     </div>
 
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success rounded-4 shadow-sm" role="alert">
-            <i class="fa-solid fa-circle-check me-2"></i> @TempData["Success"]
-        </div>
-    }
+    <div class="surface p-4">
+        @if (Model.Count > 0)
+        {
+            <div class="table-responsive">
+                <table class="table align-middle table-hover data-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Kategori Adı</th>
+                            <th scope="col">Açıklama</th>
+                            <th scope="col">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="badge badge-soft-neutral px-3 py-2 rounded-pill">
+                                        @item.ID
+                                    </span>
+                                </td>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-header bg-white border-0 px-4 pt-4 pb-2">
-                    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-table text-warning"></i>
-                        Kategori Listesi
-                    </h5>
-                </div>
+                                <td class="fw-semibold">@item.CategoryName</td>
 
-                <div class="card-body px-4 pb-4">
-                    @if (Model != null && Model.Count > 0)
-                    {
-                        <div class="table-responsive">
-                            <table class="table align-middle table-hover custom-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Kategori Adı</th>
-                                        <th>Açıklama</th>
-                                        <th>İşlemler</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
+                                <td class="text-muted">
+                                    @if (!string.IsNullOrEmpty(item.Description))
                                     {
-                                        <tr>
-                                            <td>
-                                                <span class="badge bg-dark-subtle text-dark px-3 py-2 rounded-pill">
-                                                    @item.ID
-                                                </span>
-                                            </td>
-
-                                            <td class="fw-semibold">@item.CategoryName</td>
-
-                                            <td class="text-muted">
-                                                @if (!string.IsNullOrEmpty(item.Description))
-                                                {
-                                                    @item.Description
-                                                }
-                                                else
-                                                {
-                                                    <span>Açıklama yok</span>
-                                                }
-                                            </td>
-
-                                            <td>
-                                                <div class="d-flex gap-2 flex-wrap">
-                                                    <a href="/Admin/Category/Update/@item.ID" class="btn btn-sm btn-outline-primary rounded-3 px-3">
-                                                        <i class="fa-solid fa-pen-to-square me-1"></i> Düzenle
-                                                    </a>
-
-                                                    <button type="button"
-                                                            onclick="confirmCategoryDelete(@item.ID)"
-                                                            class="btn btn-sm btn-outline-danger rounded-3 px-3">
-                                                        <i class="fa-solid fa-trash me-1"></i> Sil
-                                                    </button>
-
-                                                    <form asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@item.ID"
-                                                          method="post" id="deleteCategoryForm_@item.ID" class="d-none"></form>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        @item.Description
                                     }
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="empty-state text-center py-5">
-                            <div class="empty-icon mb-3">
-                                <i class="fa-solid fa-folder-open"></i>
-                            </div>
-                            <h4 class="fw-bold mb-2">Henüz kategori eklenmemiş</h4>
-                            <p class="text-muted mb-4">
-                                Sistemde görüntülenecek kategori bulunamadı.
-                            </p>
-                            <a href="/Admin/Category/Create" class="btn btn-warning text-white rounded-3 px-4">
-                                <i class="fa-solid fa-plus me-2"></i> İlk Kategoriyi Ekle
-                            </a>
-                        </div>
-                    }
-                </div>
+                                    else
+                                    {
+                                        <span>Açıklama yok</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <a asp-area="Admin" asp-controller="Category" asp-action="Update" asp-route-id="@item.ID"
+                                           class="btn btn-sm btn-outline-primary px-3">
+                                            <i class="fa-solid fa-pen-to-square me-1" aria-hidden="true"></i> Düzenle
+                                        </a>
+
+                                        <button type="button"
+                                                onclick="confirmCategoryDelete(@item.ID)"
+                                                class="btn btn-sm btn-outline-danger px-3">
+                                            <i class="fa-solid fa-trash me-1" aria-hidden="true"></i> Sil
+                                        </button>
+
+                                        <form asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@item.ID"
+                                              method="post" id="deleteCategoryForm_@item.ID" class="d-none"></form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+                </div>
+                <h4>Henüz kategori eklenmemiş</h4>
+                <p>Sistemde görüntülenecek kategori bulunamadı.</p>
+                <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn btn-brand">
+                    <i class="fa-solid fa-plus me-2" aria-hidden="true"></i> İlk Kategoriyi Ekle
+                </a>
+            </div>
+        }
     </div>
 </div>
 
-<style>
-    .custom-table thead th {
-        background-color: #f8fafc;
-        color: #334155;
-        font-weight: 700;
-        border-bottom: 1px solid #e2e8f0;
-        padding: 16px;
-        white-space: nowrap;
-    }
-
-    .custom-table tbody td {
-        padding: 16px;
-        vertical-align: middle;
-        border-color: #eef2f7;
-    }
-
-    .empty-state {
-        background-color: #f8fafc;
-        border-radius: 20px;
-    }
-
-    .empty-icon {
-        width: 90px;
-        height: 90px;
-        margin: 0 auto;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #fef3c7, #fde68a);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 34px;
-        color: #d97706;
-    }
-</style>
-
-<script>
-    function confirmCategoryDelete(id) {
-        Swal.fire({
-            title: 'Emin misin?',
-            text: "Bu kategoriyi silmek istediğine emin misin?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Evet, sil',
-            cancelButtonText: 'Vazgeç',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('deleteCategoryForm_' + id).submit();
-            }
-        });
-    }
-</script>
+@section Scripts {
+    <script>
+        function confirmCategoryDelete(id) {
+            Swal.fire({
+                title: 'Emin misin?',
+                text: "Bu kategoriyi silmek istediğine emin misin?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, sil',
+                cancelButtonText: 'Vazgeç',
+                confirmButtonColor: '#dc2626',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('deleteCategoryForm_' + id).submit();
+                }
+            });
+        }
+    </script>
+}

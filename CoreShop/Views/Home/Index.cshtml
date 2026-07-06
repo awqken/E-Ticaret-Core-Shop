@@ -1,115 +1,33 @@
-﻿@model CoreShop.Models.HomePageVM
+@model CoreShop.Models.HomePageVM
 
 @{
     ViewData["Title"] = "Ana Sayfa";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .product-card-custom {
-        border: none;
-        border-radius: 20px;
-        transition: all 0.25s ease;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-        height: 100%;
-    }
-
-        .product-card-custom:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 14px 30px rgba(0,0,0,0.08);
-        }
-
-    .product-img-custom {
-        height: 220px;
-        width: 100%;
-        object-fit: contain;
-        background-color: #f8f9fa;
-        border-radius: 16px;
-        padding: 12px;
-    }
-
-    .product-card-body {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-
-    .product-title-fixed {
-        min-height: 48px;
-        max-height: 48px;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        line-height: 1.4;
-    }
-
-    .product-brand-fixed {
-        min-height: 24px;
-    }
-
-    .product-price-fixed {
-        min-height: 38px;
-    }
-
-    .product-actions {
-        margin-top: auto;
-    }
-
-    .category-box {
-        transition: all 0.25s ease;
-        cursor: pointer;
-    }
-
-        .category-box:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
-        }
-
-    .product-card-custom {
-        transition: all 0.25s ease;
-    }
-
-        .product-card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.08) !important;
-        }
-
-    .product-img-custom {
-        height: 220px;
-        object-fit: cover;
-        border-radius: 16px;
-    }
-
-    .section-title {
-        font-weight: 700;
-        color: #111827;
-    }
-</style>
-
-
-<div class="p-4 p-md-5 rounded-4 shadow-sm mb-5 bg-white border">
+<section class="hero p-4 p-md-5 mb-4" aria-label="Tanıtım">
     <div class="row align-items-center">
-        <div class="col-lg-7">
-            <span class="badge bg-dark text-white px-3 py-2 rounded-pill mb-3">
-                CoreShop
+        <div class="col-lg-7 py-lg-4">
+            <span class="hero-eyebrow mb-3">
+                <i class="fa-solid fa-bolt" aria-hidden="true"></i> Yeni nesil donanım mağazası
             </span>
 
-            <h1 class="fw-bold display-6 mb-3 text-dark">
-                Yüksek Performanslı Bilgisayar Bileşenleri
+            <h1 class="display-5 mt-3 mb-3">
+                Hayalindeki sistemi<br />
+                <span class="hero-highlight">CoreShop</span> ile kur.
             </h1>
 
-            <p class="text-muted fs-5 mb-4" style="max-width: 600px;">
-                En güncel donanım ürünlerini uygun fiyatlarla keşfedin.
+            <p class="lead-text mb-4">
+                İşlemciden ekran kartına, RAM'den monitöre — en güncel bilgisayar
+                bileşenlerini uygun fiyatlarla keşfet.
             </p>
 
             <div class="d-flex flex-wrap gap-3">
-                <a asp-controller="Product" asp-action="Index" class="btn btn-dark btn-lg rounded-4 px-4">
-                    <i class="fa-solid fa-store me-2"></i> Alışverişe Başla
+                <a asp-controller="Product" asp-action="Index" class="btn btn-brand btn-lg">
+                    <i class="fa-solid fa-store me-2" aria-hidden="true"></i> Alışverişe Başla
                 </a>
 
-                <a asp-controller="Product" asp-action="Index" class="btn btn-outline-dark btn-lg rounded-4 px-4">
-                    <i class="fa-solid fa-list me-2"></i> Kategorileri İncele
+                <a href="#categories" class="btn btn-outline-light btn-lg">
+                    Kategorileri İncele
                 </a>
             </div>
         </div>
@@ -117,167 +35,159 @@
         <div class="col-lg-5 mt-4 mt-lg-0">
             <div class="row g-3">
                 <div class="col-6">
-                    <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100">
-                        <i class="fa-solid fa-microchip fa-2x text-warning mb-3"></i>
-                        <h6 class="fw-bold mb-1">İşlemci</h6>
-                        <small class="text-muted">Güçlü performans</small>
+                    <div class="hero-panel p-4 text-center h-100">
+                        <i class="fa-solid fa-microchip fa-2x mb-3" aria-hidden="true"></i>
+                        <h6 class="text-white fw-bold mb-1">İşlemci</h6>
+                        <small>Güçlü performans</small>
                     </div>
                 </div>
 
                 <div class="col-6">
-                    <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100">
-                        <i class="fa-solid fa-tv fa-2x text-primary mb-3"></i>
-                        <h6 class="fw-bold mb-1">Ekran Kartı</h6>
-                        <small class="text-muted">Yüksek grafik gücü</small>
+                    <div class="hero-panel p-4 text-center h-100">
+                        <i class="fa-solid fa-tv fa-2x mb-3" aria-hidden="true"></i>
+                        <h6 class="text-white fw-bold mb-1">Ekran Kartı</h6>
+                        <small>Yüksek grafik gücü</small>
                     </div>
                 </div>
 
                 <div class="col-6">
-                    <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100">
-                        <i class="fa-solid fa-memory fa-2x text-danger mb-3"></i>
-                        <h6 class="fw-bold mb-1">RAM</h6>
-                        <small class="text-muted">Hızlı kullanım</small>
+                    <div class="hero-panel p-4 text-center h-100">
+                        <i class="fa-solid fa-memory fa-2x mb-3" aria-hidden="true"></i>
+                        <h6 class="text-white fw-bold mb-1">RAM</h6>
+                        <small>Akıcı kullanım</small>
                     </div>
                 </div>
 
                 <div class="col-6">
-                    <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100">
-                        <i class="fa-solid fa-hard-drive fa-2x text-success mb-3"></i>
-                        <h6 class="fw-bold mb-1">SSD</h6>
-                        <small class="text-muted">Hızlı depolama</small>
+                    <div class="hero-panel p-4 text-center h-100">
+                        <i class="fa-solid fa-hard-drive fa-2x mb-3" aria-hidden="true"></i>
+                        <h6 class="text-white fw-bold mb-1">SSD</h6>
+                        <small>Hızlı depolama</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h3 class="section-title mb-1">Popüler Kategoriler</h3>
-            <p class="text-muted mb-0">İlgini çeken kategoriye hızlıca geç.</p>
+<section class="surface mb-5" aria-label="Neden CoreShop">
+    <div class="row g-0">
+        <div class="col-lg-3 col-md-6">
+            <div class="trust-item">
+                <div class="trust-icon"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i></div>
+                <div>
+                    <strong>Hızlı Teslimat</strong>
+                    <small>Siparişin hemen yola çıkar</small>
+                </div>
+            </div>
         </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="trust-item">
+                <div class="trust-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+                <div>
+                    <strong>Güvenli Ödeme</strong>
+                    <small>Bilgilerin koruma altında</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="trust-item">
+                <div class="trust-icon"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i></div>
+                <div>
+                    <strong>Kolay İade</strong>
+                    <small>14 gün içinde ücretsiz</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="trust-item">
+                <div class="trust-icon"><i class="fa-solid fa-headset" aria-hidden="true"></i></div>
+                <div>
+                    <strong>7/24 Destek</strong>
+                    <small>Her zaman yanındayız</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="categories" class="mb-5" aria-label="Kategoriler">
+    <div class="section-head">
+        <div class="section-eyebrow mb-1">Keşfet</div>
+        <h2 class="mb-1">Popüler Kategoriler</h2>
+        <p>İlgini çeken kategoriye hızlıca geç.</p>
     </div>
 
     <div class="row g-3">
-        @if (Model.Categories != null && Model.Categories.Count > 0)
+        @foreach (var category in Model.Categories.Take(6))
         {
-            @foreach (var category in Model.Categories.Take(6))
+            var categoryName = category.CategoryName.ToLower();
+            var icon = categoryName switch
             {
-                var categoryName = category.CategoryName.ToLower();
-                string icon = "fa-box";
-                string color = "text-dark";
+                var name when name.Contains("işlemci") => "fa-microchip",
+                var name when name.Contains("ekran") => "fa-tv",
+                var name when name.Contains("ram") => "fa-memory",
+                var name when name.Contains("ssd") || name.Contains("hdd") => "fa-hard-drive",
+                var name when name.Contains("anakart") => "fa-server",
+                var name when name.Contains("monitör") || name.Contains("monitor") => "fa-desktop",
+                var name when name.Contains("güç") => "fa-plug",
+                var name when name.Contains("kasa") => "fa-computer",
+                var name when name.Contains("soğutma") => "fa-fan",
+                _ => "fa-box"
+            };
 
-                if (categoryName.Contains("işlemci"))
-                {
-                    icon = "fa-microchip";
-                    color = "text-warning";
-                }
-                else if (categoryName.Contains("ram"))
-                {
-                    icon = "fa-memory";
-                    color = "text-danger";
-                }
-                else if (categoryName.Contains("ssd"))
-                {
-                    icon = "fa-hard-drive";
-                    color = "text-success";
-                }
-                else if (categoryName.Contains("anakart"))
-                {
-                    icon = "fa-server";
-                    color = "text-secondary";
-                }
-                else if (categoryName.Contains("monitör") || categoryName.Contains("monitor"))
-                {
-                    icon = "fa-desktop";
-                    color = "text-info";
-                }
-
-                <div class="col-md-2 col-6">
-                    <a asp-controller="Product"
-                       asp-action="Index"
-                       asp-route-categoryId="@category.ID"
-                       class="text-decoration-none">
-                        <div class="card border-0 shadow-sm rounded-4 text-center p-4 h-100 category-box">
-                            <i class="fa-solid @icon fa-2x @color mb-3"></i>
-                            <h6 class="fw-bold mb-0 text-dark">@category.CategoryName</h6>
+            <div class="col-md-2 col-4">
+                <a asp-controller="Product"
+                   asp-action="Index"
+                   asp-route-categoryIdSingle="@category.ID"
+                   class="text-decoration-none"
+                   aria-label="@category.CategoryName kategorisine git">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fa-solid @icon" aria-hidden="true"></i>
                         </div>
-                    </a>
+                        <h6>@category.CategoryName</h6>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</section>
+
+<section aria-label="Öne çıkan ürünler">
+    <div class="section-head">
+        <div class="section-eyebrow mb-1">Vitrin</div>
+        <h2 class="mb-1">Öne Çıkan Ürünler</h2>
+        <p>Son eklenen teknoloji ürünleri burada.</p>
+    </div>
+
+    <div class="row g-4 products-grid">
+        @if (Model.Products.Any())
+        {
+            @foreach (var item in Model.Products)
+            {
+                <div class="col-lg-3 col-md-6">
+                    <partial name="_ProductCard" model="item" />
                 </div>
             }
         }
-    </div>
-</div>
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h2 class="section-title mb-1">Öne Çıkan Ürünler</h2>
-        <p class="text-muted mb-0">Son eklenen teknoloji ürünleri burada.</p>
-    </div>
-</div>
-
-<div class="row g-4">
-    @if (Model.Products != null && Model.Products.Count > 0)
-    {
-        @foreach (var item in Model.Products)
+        else
         {
-            <div class="col-lg-3 col-md-6">
-                <div class="card product-card-custom h-100 p-3">
-
-                    <div class="product-image-wrapper">
-                        <img src="~/images/@item.ProductImage"
-                             class="card-img-top product-img-custom mb-3"
-                             alt="@item.ProductName"
-                             onerror="this.src='/images/products/default.svg'" />
+            <div class="col-12">
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fa-solid fa-box-open" aria-hidden="true"></i>
                     </div>
-
-                    <div class="card-body px-1 product-card-body">
-                        <h6 class="fw-bold product-title-fixed">@item.ProductName</h6>
-                        <p class="text-muted mb-2 small product-brand-fixed">@item.ProductBrand</p>
-
-                        <h5 class="fw-bold text-dark mb-3 product-price-fixed">@item.ProductPrice ₺</h5>
-
-                        <div class="d-grid gap-2 product-actions">
-                            <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.ID"
-                               class="btn btn-dark rounded-3">
-                                <i class="fa-solid fa-eye me-2"></i> İncele
-                            </a>
-
-                            @if (item.ProductStock > 0)
-                            {
-                                <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ID" method="post" class="d-grid">
-                                    <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
-                                    <button type="submit" class="btn btn-outline-warning rounded-3">
-                                        <i class="fa-solid fa-cart-shopping me-2"></i> Sepete Ekle
-                                    </button>
-                                </form>
-                            }
-                            else
-                            {
-                                <button class="btn btn-secondary rounded-3" disabled>
-                                    Stokta Yok
-                                </button>
-                            }
-                        </div>
-                    </div>
+                    <h4>Henüz ürün yok</h4>
+                    <p>Mağazaya ürün eklendiğinde burada görünecek.</p>
                 </div>
             </div>
         }
-    }
-    else
-    {
-        <div class="col-12">
-            <div class="alert alert-primary rounded-4 shadow-sm">
-                Henüz ürün eklenmemiş.
-            </div>
-        </div>
-    }
-</div>
+    </div>
 
-<div class="text-center mt-5">
-    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-dark btn-lg rounded-4 px-5 fw-semibold">
-        <i class="fa-solid fa-arrow-right me-2"></i> Daha Fazlasını Gör
-    </a>
-</div>
+    <div class="text-center mt-5">
+        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-brand btn-lg px-5">
+            Tüm Ürünleri Gör <i class="fa-solid fa-arrow-right ms-2" aria-hidden="true"></i>
+        </a>
+    </div>
+</section>

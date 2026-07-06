@@ -1,316 +1,83 @@
-﻿@model CoreShop.Models.ProfileVM
+@model CoreShop.Models.ProfileVM
 
 @{
     ViewData["Title"] = "Hesabım";
     // After a failed address submit (or a successful save) land the user on the address tab.
     var activeSection = Model.ShowAddressForm || TempData.Peek("Success") != null ? "address" : "profile";
+    var avatarInitial = string.IsNullOrEmpty(Model.User.FullName) ? "?" : Model.User.FullName[..1].ToUpper();
 }
 
-<style>
-    body {
-        background: #f8fafc;
-    }
+<div class="container-fluid py-4">
 
-    .wrapper {
-        max-width: 1200px;
-        margin: auto;
-        display: grid;
-        grid-template-columns: 260px 1fr;
-        gap: 30px;
-    }
+    <div class="profile-grid">
 
-    .sidebar {
-        background: white;
-        border-radius: 20px;
-        padding: 20px;
-        border: 1px solid #e5e7eb;
-    }
+        <aside class="profile-sidebar" aria-label="Hesap menüsü">
 
-    .avatar {
-        width: 55px;
-        height: 55px;
-        border-radius: 50%;
-        background: #111827;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 10px;
-    }
+            <div class="mb-4">
+                <div class="profile-avatar" aria-hidden="true">@avatarInitial</div>
 
-    .user {
-        margin-bottom: 20px;
-    }
-
-        .user strong {
-            display: block;
-        }
-
-        .user small {
-            color: #6b7280;
-        }
-
-    .menu a {
-        display: block;
-        padding: 12px;
-        border-radius: 10px;
-        margin-bottom: 8px;
-        text-decoration: none;
-        color: #374151;
-        font-weight: 600;
-        transition: 0.2s;
-    }
-
-        .menu a:hover {
-            background: #f1f5f9;
-        }
-
-        .menu a.active {
-            background: #111827;
-            color: white;
-        }
-
-    .menu .logout-btn {
-        display: block;
-        width: 100%;
-        text-align: left;
-        padding: 12px;
-        border: none;
-        border-radius: 10px;
-        background: none;
-        color: #dc2626;
-        font-weight: 600;
-        font-family: inherit;
-        font-size: inherit;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-        .menu .logout-btn:hover {
-            background: #fef2f2;
-        }
-
-    .content {
-        background: white;
-        border-radius: 20px;
-        padding: 30px;
-        border: 1px solid #e5e7eb;
-    }
-
-    .title {
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 20px;
-    }
-
-    .section {
-        display: none;
-    }
-
-        .section.active {
-            display: block;
-        }
-
-    .box {
-        border: 1px solid #e5e7eb;
-        border-radius: 16px;
-        padding: 18px;
-        margin-bottom: 15px;
-        transition: 0.2s;
-    }
-
-        .box:hover {
-            border-color: #d1d5db;
-        }
-
-    .label {
-        font-size: 12px;
-        color: #6b7280;
-    }
-
-    .value {
-        font-weight: 600;
-    }
-
-    .form-control {
-        border-radius: 10px;
-    }
-
-    .btn-save {
-        width: 100%;
-        height: 42px;
-        border: none;
-        border-radius: 10px;
-        background: #111827;
-        color: white;
-        margin-top: 10px;
-    }
-
-    .empty {
-        text-align: center;
-        padding: 40px;
-        color: #6b7280;
-    }
-
-    .order-card {
-        background: #fff;
-        border-radius: 18px;
-        padding: 25px;
-        box-shadow: 0 10px 25px rgba(0,0,0,.06);
-        transition: .25s;
-    }
-
-        .order-card:hover {
-            transform: translateY(-3px);
-        }
-
-    .order-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 15px;
-        flex-wrap: wrap;
-    }
-
-    .order-date {
-        color: #777;
-        font-size: 14px;
-    }
-
-    .order-price {
-        font-size: 24px;
-        font-weight: 700;
-    }
-
-    .status-paid {
-        background: #e8fff0;
-        color: #1d9c57;
-        padding: 6px 14px;
-        border-radius: 50px;
-        font-size: 13px;
-        font-weight: 600;
-    }
-
-    .detail-btn {
-        background: #111;
-        color: #fff;
-        border: none;
-        padding: 10px 18px;
-        border-radius: 12px;
-        font-weight: 600;
-        transition: .2s;
-    }
-
-        .detail-btn:hover {
-            background: #333;
-        }
-
-    .detail-box {
-        display: none;
-        margin-top: 20px;
-    }
-
-    .section-title {
-        font-size: 18px;
-        margin-bottom: 15px;
-    }
-
-    .product-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 0;
-        border-bottom: 1px solid #eee;
-    }
-
-    .product-img {
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: 12px;
-        border: 1px solid #eee;
-    }
-
-    .info-card {
-        background: #f8f9fa;
-        border-radius: 14px;
-        padding: 18px;
-        height: 100%;
-    }
-</style>
-
-<div class="container-fluid py-5">
-
-    <div class="wrapper">
-
-        <div class="sidebar">
-
-            <div class="user">
-                <div class="avatar">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-
-                <strong>@Model.User.FullName</strong>
-                <small>@Model.User.Email</small>
+                <strong class="d-block">@Model.User.FullName</strong>
+                <small class="text-muted">@Model.User.Email</small>
             </div>
 
-            <div class="menu">
-                <a href="#" onclick="showSection(event,'profile')" class="@(activeSection == "profile" ? "active" : null)">Profil</a>
-                <a href="#" onclick="showSection(event,'address')" class="@(activeSection == "address" ? "active" : null)">Adres</a>
-                <a href="#" onclick="showSection(event,'orders')">Siparişler</a>
+            <nav class="profile-menu">
+                <a href="#" onclick="showSection(event,'profile')" class="@(activeSection == "profile" ? "active" : null)">
+                    <i class="fa-solid fa-user me-2" aria-hidden="true"></i> Profil
+                </a>
+                <a href="#" onclick="showSection(event,'address')" class="@(activeSection == "address" ? "active" : null)">
+                    <i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i> Adres
+                </a>
+                <a href="#" onclick="showSection(event,'orders')">
+                    <i class="fa-solid fa-box me-2" aria-hidden="true"></i> Siparişler
+                </a>
                 <form asp-action="Logout" method="post" class="m-0">
-                    <button type="submit" class="logout-btn">Çıkış</button>
+                    <button type="submit" class="logout-btn">
+                        <i class="fa-solid fa-right-from-bracket me-2" aria-hidden="true"></i> Çıkış
+                    </button>
                 </form>
-            </div>
+            </nav>
 
-        </div>
+        </aside>
 
-        <div class="content">
+        <div class="profile-content">
 
-            <div class="title">Hesabım</div>
+            <h1 class="h4 fw-bold mb-4">Hesabım</h1>
 
-            @if (TempData["Success"] != null)
-            {
-                <div class="alert alert-success rounded-4" role="alert">
-                    <i class="fa-solid fa-circle-check me-2"></i> @TempData["Success"]
-                </div>
-            }
+            <div id="profileSection" class="profile-section @(activeSection == "profile" ? "active" : null)">
 
-            <div id="profileSection" class="section @(activeSection == "profile" ? "active" : null)">
-
-                <div class="box">
+                <div class="info-tile">
                     <div class="label">Ad Soyad</div>
                     <div class="value">@Model.User.FullName</div>
                 </div>
 
-                <div class="box">
-                    <div class="label">Email</div>
+                <div class="info-tile">
+                    <div class="label">E-posta</div>
                     <div class="value">@Model.User.Email</div>
                 </div>
 
-                <div class="box">
-                    <div class="label">Rol</div>
-                    <div class="value">@Model.User.Role</div>
+                <div class="info-tile">
+                    <div class="label">Üyelik Tipi</div>
+                    <div class="value">@(Model.User.Role == "Admin" ? "Yönetici" : "Müşteri")</div>
                 </div>
 
             </div>
 
-            <div id="addressSection" class="section @(activeSection == "address" ? "active" : null)">
+            <div id="addressSection" class="profile-section @(activeSection == "address" ? "active" : null)">
 
-                <div class="box mb-3">
+                <div class="info-tile mb-3">
 
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <strong>Adres Bilgim</strong>
 
                         <button onclick="toggleEdit()" class="btn btn-sm btn-dark">
-                            Düzenle
+                            <i class="fa-solid fa-pen me-1" aria-hidden="true"></i> Düzenle
                         </button>
                     </div>
 
                     @if (string.IsNullOrEmpty(Model.User.City))
                     {
                         <div class="text-muted">
-                            Henüz adres eklenmemiş
+                            Henüz adres eklenmemiş.
                         </div>
                     }
                     else
@@ -323,7 +90,7 @@
 
                 </div>
 
-                <div id="editForm" class="box" style="display:@(Model.ShowAddressForm ? "block" : "none");">
+                <div id="editForm" class="info-tile" style="display:@(Model.ShowAddressForm ? "block" : "none");">
 
                     <form asp-action="UpdateProfile" method="post" novalidate>
 
@@ -361,9 +128,8 @@
                         </div>
                         <span asp-validation-for="AddressForm.PhoneNumber" class="text-danger small d-block mb-3"></span>
 
-                        <button class="btn-save">
-                            <i class="fa-solid fa-floppy-disk me-2"></i>
-                            Kaydet
+                        <button class="btn btn-brand w-100">
+                            <i class="fa-solid fa-floppy-disk me-2" aria-hidden="true"></i> Kaydet
                         </button>
 
                     </form>
@@ -372,7 +138,7 @@
 
             </div>
 
-            <div id="ordersSection" class="section">
+            <div id="ordersSection" class="profile-section">
                 @if (Model.Orders.Any())
                 {
                     foreach (var entry in Model.Orders)
@@ -383,7 +149,7 @@
                             <div class="order-top">
 
                                 <div>
-                                    <h4>Sipariş #@order.ID</h4>
+                                    <h2 class="h5 fw-bold mb-1">Sipariş #@order.ID</h2>
                                     <span class="order-date">
                                         @order.OrderDate.ToString("dd.MM.yyyy HH:mm")
                                     </span>
@@ -391,7 +157,7 @@
 
                                 <div class="text-end">
                                     <div class="order-price">
-                                        ₺@order.TotalPrice.ToString("N2")
+                                        @order.TotalPrice.ToTryPrice()
                                     </div>
 
                                     <div class="mt-2">
@@ -402,26 +168,33 @@
                             </div>
 
                             <div class="mt-3">
-                                <button class="detail-btn"
-                                        onclick="toggleOrderDetail(@order.ID)">
+                                <button class="btn btn-soft btn-sm"
+                                        onclick="toggleOrderDetail(@order.ID)"
+                                        aria-expanded="false"
+                                        aria-controls="detail_@order.ID">
                                     Detayları Göster
                                 </button>
                             </div>
 
-                            <div id="detail_@order.ID" class="detail-box">
+                            <div id="detail_@order.ID" class="order-detail-box">
 
                                 <hr />
 
-                                <h5 class="section-title">Sipariş Ürünleri</h5>
+                                <h3 class="h6 fw-bold mb-3">Sipariş Ürünleri</h3>
 
                                 @foreach (var item in entry.Details)
                                 {
-                                    <div class="product-row">
+                                    <div class="order-line">
 
                                         <div class="d-flex align-items-center gap-3">
 
-                                            <img src="/images/@item.ProductImage"
-                                                 class="product-img" />
+                                            <div class="order-line-thumb">
+                                                <img src="~/images/@item.ProductImage"
+                                                     alt="@item.ProductName"
+                                                     loading="lazy"
+                                                     width="56" height="56"
+                                                     onerror="this.src='/images/products/default.svg'" />
+                                            </div>
 
                                             <div>
                                                 <div class="fw-bold">@item.ProductName</div>
@@ -433,7 +206,7 @@
                                         </div>
 
                                         <div class="fw-bold">
-                                            ₺@item.UnitPrice.ToString("N2")
+                                            @item.UnitPrice.ToTryPrice()
                                         </div>
 
                                     </div>
@@ -445,7 +218,7 @@
 
                                     <div class="col-md-6">
                                         <div class="info-card">
-                                            <h6>📍 Teslimat Bilgisi</h6>
+                                            <h6><i class="fa-solid fa-location-dot me-1" aria-hidden="true"></i> Teslimat Bilgisi</h6>
 
                                             <small>@order.FullName</small><br />
                                             <small>@order.PhoneNumber</small><br />
@@ -456,7 +229,7 @@
 
                                     <div class="col-md-6">
                                         <div class="info-card">
-                                            <h6>💳 Ödeme Bilgisi</h6>
+                                            <h6><i class="fa-solid fa-credit-card me-1" aria-hidden="true"></i> Ödeme Bilgisi</h6>
 
                                             <small>@order.CardName</small><br />
                                             <small>**** **** **** @order.CardLast4</small>
@@ -472,10 +245,15 @@
                 }
                 else
                 {
-                    <div class="empty">
-                        <i class="fa-solid fa-box-open fa-2x mb-3 d-block"></i>
-                        <div class="fw-bold mb-1">Henüz siparişin yok</div>
-                        <div>Alışverişe başladığında siparişlerin burada listelenir.</div>
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+                        </div>
+                        <h4>Henüz siparişin yok</h4>
+                        <p>Alışverişe başladığında siparişlerin burada listelenir.</p>
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-brand">
+                            Ürünlere Göz At
+                        </a>
                     </div>
                 }
             </div>
@@ -487,40 +265,32 @@
 </div>
 
 <script>
-    function showSection(e, section){
+    function showSection(e, section) {
+        e.preventDefault();
 
-        document.querySelectorAll(".section").forEach(x=>{
-            x.classList.remove("active");
-        });
+        document.querySelectorAll(".profile-section").forEach(x => x.classList.remove("active"));
+        document.getElementById(section + "Section").classList.add("active");
 
-        document.getElementById(section+"Section").classList.add("active");
-
-        document.querySelectorAll(".menu a").forEach(x=>{
-            x.classList.remove("active");
-        });
-
+        document.querySelectorAll(".profile-menu a").forEach(x => x.classList.remove("active"));
         e.currentTarget.classList.add("active");
     }
 
     function toggleEdit() {
-        let form = document.getElementById("editForm");
+        const form = document.getElementById("editForm");
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    }
 
-        if (form.style.display === "none") {
-            form.style.display = "block";
-        } else {
-            form.style.display = "none";
+    function toggleOrderDetail(id) {
+        const box = document.getElementById("detail_" + id);
+        const isOpen = box.style.display === "block";
+        box.style.display = isOpen ? "none" : "block";
+
+        const button = box.parentElement.querySelector('[aria-controls="detail_' + id + '"]');
+        if (button) {
+            button.setAttribute("aria-expanded", String(!isOpen));
+            button.textContent = isOpen ? "Detayları Göster" : "Detayları Gizle";
         }
     }
-        function toggleOrderDetail(id)
-    {
-        let box = document.getElementById("detail_" + id);
-
-        if(box.style.display === "none" || box.style.display === "")
-            box.style.display = "block";
-        else
-            box.style.display = "none";
-    }
-
 </script>
 
 @section Scripts {

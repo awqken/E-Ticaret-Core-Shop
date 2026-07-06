@@ -1,44 +1,60 @@
-﻿@model CoreShop.Areas.Models.AdminDashboardVM
+@model CoreShop.Areas.Models.AdminDashboardVM
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Areas/Shared/_AdminLayout.cshtml";
 }
 
 <div class="container-fluid">
-    <div class="row g-4 mb-4">
+
+    <div class="row g-3 mb-4">
 
         <div class="col-xl col-md-4 col-6">
             <div class="stat-card">
-                <span>Toplam Ürün</span>
+                <div class="stat-icon" style="background: var(--info-bg); color: var(--info);">
+                    <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+                </div>
+                <span class="stat-label">Toplam Ürün</span>
                 <h2>@Model.ProductCount</h2>
             </div>
         </div>
 
         <div class="col-xl col-md-4 col-6">
             <div class="stat-card">
-                <span>Toplam Kategori</span>
+                <div class="stat-icon" style="background: var(--warning-bg); color: var(--warning);">
+                    <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+                </div>
+                <span class="stat-label">Toplam Kategori</span>
                 <h2>@Model.CategoryCount</h2>
             </div>
         </div>
 
         <div class="col-xl col-md-4 col-6">
             <div class="stat-card">
-                <span>Toplam Sipariş</span>
+                <div class="stat-icon" style="background: var(--brand-50); color: var(--brand-600);">
+                    <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+                </div>
+                <span class="stat-label">Toplam Sipariş</span>
                 <h2>@Model.OrderCount</h2>
             </div>
         </div>
 
         <div class="col-xl col-md-4 col-6">
             <div class="stat-card">
-                <span>Toplam Kullanıcı</span>
+                <div class="stat-icon" style="background: var(--info-bg); color: var(--info);">
+                    <i class="fa-solid fa-users" aria-hidden="true"></i>
+                </div>
+                <span class="stat-label">Toplam Kullanıcı</span>
                 <h2>@Model.UserCount</h2>
             </div>
         </div>
 
         <div class="col-xl col-md-4 col-6">
             <div class="stat-card">
-                <span>Toplam Gelir</span>
-                <h2>₺@Model.TotalRevenue.ToString("N0")</h2>
+                <div class="stat-icon" style="background: var(--success-bg); color: var(--success);">
+                    <i class="fa-solid fa-turkish-lira-sign" aria-hidden="true"></i>
+                </div>
+                <span class="stat-label">Toplam Gelir</span>
+                <h2>@Model.TotalRevenue.ToTryPrice()</h2>
             </div>
         </div>
 
@@ -48,19 +64,18 @@
 
         <div class="col-lg-8">
 
-            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <div class="surface p-4 mb-4">
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold mb-0">Hızlı İşlemler</h4>
+                    <h2 class="h5 fw-bold mb-0">Hızlı İşlemler</h2>
                     <small class="text-muted">Kısayollar</small>
                 </div>
-
 
                 <div class="row g-3">
 
                     <div class="col-md-6">
-                        <a href="/Admin/Product/Create" class="action-card blue">
-                            <i class="fa-solid fa-plus"></i>
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Create" class="action-card tint-info">
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
                             <div>
                                 <strong>Ürün Ekle</strong>
                                 <small>Yeni ürün oluştur</small>
@@ -69,18 +84,18 @@
                     </div>
 
                     <div class="col-md-6">
-                        <a href="/Admin/Product/List" class="action-card green">
-                            <i class="fa-solid fa-box-open"></i>
+                        <a asp-area="Admin" asp-controller="Product" asp-action="List" class="action-card tint-success">
+                            <i class="fa-solid fa-box-open" aria-hidden="true"></i>
                             <div>
-                                <strong>Ürün Listele</strong>
-                                <small>Ürünleri yönet</small>
+                                <strong>Ürünleri Yönet</strong>
+                                <small>Listele, güncelle, sil</small>
                             </div>
                         </a>
                     </div>
 
                     <div class="col-md-6">
-                        <a href="/Admin/Category/Create" class="action-card orange">
-                            <i class="fa-solid fa-folder-plus"></i>
+                        <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="action-card tint-brand">
+                            <i class="fa-solid fa-folder-plus" aria-hidden="true"></i>
                             <div>
                                 <strong>Kategori Ekle</strong>
                                 <small>Yeni kategori oluştur</small>
@@ -89,11 +104,11 @@
                     </div>
 
                     <div class="col-md-6">
-                        <a href="/Admin/Category/List" class="action-card red">
-                            <i class="fa-solid fa-list"></i>
+                        <a asp-area="Admin" asp-controller="Order" asp-action="List" class="action-card tint-danger">
+                            <i class="fa-solid fa-receipt" aria-hidden="true"></i>
                             <div>
-                                <strong>Kategori Listele</strong>
-                                <small>Kategorileri yönet</small>
+                                <strong>Siparişler</strong>
+                                <small>Durumları yönet</small>
                             </div>
                         </a>
                     </div>
@@ -102,54 +117,62 @@
 
             </div>
 
-            <div class="card border-0 shadow-sm rounded-4 p-4">
+            <div class="surface p-4">
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold mb-0">⚠ Kritik Stok Durumu</h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 fw-bold mb-0">
+                        <i class="fa-solid fa-triangle-exclamation text-warning me-2" aria-hidden="true"></i>
+                        Kritik Stok Durumu
+                    </h2>
                     <small class="text-muted">5 ve altı stoklar</small>
                 </div>
 
-                @foreach (var item in Model.LowStockProducts)
+                @if (Model.LowStockProducts.Any())
                 {
-                    <div class="product-row">
+                    @foreach (var item in Model.LowStockProducts)
+                    {
+                        <div class="product-row">
 
-                        <div>
-                            <div class="fw-semibold">@item.ProductName</div>
+                            <div>
+                                <div class="fw-semibold">@item.ProductName</div>
+                                <small class="text-muted">@item.ProductPrice.ToTryPrice()</small>
+                            </div>
 
-                            <small class="text-muted">
-                                ₺@item.ProductPrice.ToString("N0")
-                            </small>
+                            @if (item.ProductStock == 0)
+                            {
+                                <span class="badge badge-soft-danger rounded-pill px-3 py-2">
+                                    Tükendi
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-soft-warning rounded-pill px-3 py-2">
+                                    @item.ProductStock adet
+                                </span>
+                            }
+
                         </div>
+                    }
 
-                        @if (item.ProductStock == 0)
-                        {
-                            <span class="badge bg-danger px-3 py-2">
-                                Tükendi
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-warning text-dark px-3 py-2">
-                                @item.ProductStock Adet
-                            </span>
-                        }
+                    @if (Model.LowStockCount > 6)
+                    {
+                        <div class="text-center mt-3">
 
-                    </div>
+                            <small class="text-muted d-block mb-2">
+                                +@(Model.LowStockCount - 6) ürün daha kritik stokta
+                            </small>
+
+                            <a asp-area="Admin" asp-controller="Product" asp-action="List" asp-route-sort="low_stock"
+                               class="btn btn-sm btn-soft rounded-pill px-4">
+                                Tümünü Gör
+                            </a>
+
+                        </div>
+                    }
                 }
-                @if (Model.LowStockCount > 6)
+                else
                 {
-                    <div class="text-center mt-3">
-
-                        <small class="text-muted d-block mb-2">
-                            +@(Model.LowStockCount - 6) ürün daha kritik stokta
-                        </small>
-
-                        <a href="/Admin/Product/List"
-                           class="btn btn-sm btn-outline-dark rounded-pill px-4">
-                            Tümünü Gör
-                        </a>
-
-                    </div>
+                    <p class="text-muted mb-0">Kritik stokta ürün yok. 👌</p>
                 }
 
             </div>
@@ -158,11 +181,9 @@
 
         <div class="col-lg-4">
 
-            <div class="card border-0 shadow-sm rounded-4 p-4">
+            <div class="surface p-4">
 
-                <h5 class="fw-bold mb-4">
-                    Son Eklenen Ürünler
-                </h5>
+                <h2 class="h5 fw-bold mb-3">Son Eklenen Ürünler</h2>
 
                 @foreach (var item in Model.LastProducts)
                 {
@@ -170,13 +191,11 @@
 
                         <div>
                             <div class="fw-semibold">@item.ProductName</div>
-                            <small class="text-muted">
-                                ₺@item.ProductPrice.ToString("N0")
-                            </small>
+                            <small class="text-muted">@item.ProductPrice.ToTryPrice()</small>
                         </div>
 
-                        <span class="stock-badge">
-                            @item.ProductStock
+                        <span class="badge badge-soft-info rounded-pill px-3 py-2">
+                            @item.ProductStock adet
                         </span>
 
                     </div>
@@ -186,104 +205,5 @@
 
         </div>
 
-        
-
     </div>
 </div>
-
-<style>
-    .stat-card {
-        background: #fff;
-        padding: 25px;
-        border-radius: 18px;
-        box-shadow: 0 10px 25px rgba(0,0,0,.05);
-    }
-
-        .stat-card span {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .stat-card h2 {
-            margin-top: 10px;
-            font-weight: 700;
-        }
-
-    .action-card{
-    display:flex;
-    align-items:center;
-    gap:15px;
-    text-decoration:none;
-    padding:18px;
-    border-radius:18px;
-    color:#111;
-    transition:.2s;
-    border:1px solid #eee;
-    background:#fff;
-}
-
-.action-card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 14px 30px rgba(0,0,0,.08);
-}
-
-.action-card i{
-    width:48px;
-    height:48px;
-    border-radius:14px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:18px;
-}
-
-.action-card strong{
-    display:block;
-    font-size:15px;
-}
-
-.action-card small{
-    color:#666;
-}
-
-.blue i{
-    background:#e0f2fe;
-    color:#0284c7;
-}
-
-.green i{
-    background:#dcfce7;
-    color:#16a34a;
-}
-
-.orange i{
-    background:#ffedd5;
-    color:#ea580c;
-}
-
-.red i{
-    background:#fee2e2;
-    color:#dc2626;
-}
-
-    .product-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 0;
-        border-bottom: 1px solid #eee;
-    }
-
-        .product-row:last-child {
-            border: none;
-        }
-
-    .stock-badge {
-        background: #eef2ff;
-        color: #4338ca;
-        padding: 6px 12px;
-        border-radius: 50px;
-        font-size: 13px;
-        font-weight: 600;
-    }
-</style>

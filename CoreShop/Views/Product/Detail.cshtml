@@ -1,166 +1,101 @@
-﻿@model CoreShop.Models.ProductDetailVM
+@model CoreShop.Models.ProductDetailVM
 
 @{
-    ViewData["Title"] = "Ürün Detay";
+    ViewData["Title"] = Model.Product.ProductName;
 }
 
-<style>
-    .detail-page-wrapper {
-        min-height: 80vh;
-    }
-    .detail-card {
-        border: none;
-        border-radius: 24px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-        overflow: hidden;
-    }
+<nav aria-label="Sayfa yolu">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Index">Ürünler</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Product.ProductName</li>
+    </ol>
+</nav>
 
-    .product-img-big {
-        width: 100%;
-        height: 400px;
-        object-fit: cover;
-    }
+<div class="surface p-4 p-lg-5">
+    <div class="row g-4 g-lg-5">
 
-    .price-box {
-        font-size: 28px;
-        font-weight: 700;
-        color: #111827;
-    }
-
-    .stock-badge {
-        padding: 6px 12px;
-        border-radius: 12px;
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    .in-stock {
-        background-color: #dcfce7;
-        color: #15803d;
-    }
-
-    .out-stock {
-        background-color: #fee2e2;
-        color: #b91c1c;
-    }
-</style>
-
-<div class="container py-4 detail-page-wrapper">
-
-    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-dark mb-4 rounded-3">
-        <i class="fa-solid fa-arrow-left me-2"></i> Geri
-    </a>
-
-    <div class="card detail-card p-4">
-        <div class="row g-4">
-
-            <div class="col-lg-6">
+        <div class="col-lg-6">
+            <div class="detail-media">
                 <img src="~/images/@Model.Product.ProductImage"
-                     class="product-img-big rounded-4"
                      alt="@Model.Product.ProductName"
+                     width="520" height="380"
                      onerror="this.src='/images/products/default.svg'" />
             </div>
+        </div>
 
-            <div class="col-lg-6 d-flex flex-column justify-content-between">
+        <div class="col-lg-6 d-flex flex-column">
 
-                <div>
-                    <h2 class="fw-bold mb-2">@Model.Product.ProductName</h2>
+            <div class="product-brand mb-1">@Model.Product.ProductBrand</div>
 
-                    <p class="text-muted mb-3">
-                        <i class="fa-solid fa-tag me-2"></i> @Model.Product.ProductBrand
-                    </p>
+            <h1 class="h2 mb-3">@Model.Product.ProductName</h1>
 
-                    <div class="price-box mb-3">
-                        @Model.Product.ProductPrice ₺
-                    </div>
+            <div class="d-flex align-items-center gap-3 flex-wrap mb-3">
+                <div class="detail-price">@Model.Product.ProductPrice.ToTryPrice()</div>
 
-                    @if (Model.Product.ProductStock > 0)
-                    {
-                        <span class="stock-badge in-stock">
-                            Stokta var (@Model.Product.ProductStock adet)
-                        </span>
-                    }
-                    else
-                    {
-                        <span class="stock-badge out-stock">
-                            Stokta yok
-                        </span>
-                    }
+                @if (Model.Product.ProductStock > 5)
+                {
+                    <span class="stock-pill badge-soft-success">
+                        <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Stokta var
+                    </span>
+                }
+                else if (Model.Product.ProductStock > 0)
+                {
+                    <span class="stock-pill badge-soft-warning">
+                        <i class="fa-solid fa-hourglass-half" aria-hidden="true"></i> Son @Model.Product.ProductStock adet
+                    </span>
+                }
+                else
+                {
+                    <span class="stock-pill badge-soft-danger">
+                        <i class="fa-solid fa-circle-xmark" aria-hidden="true"></i> Stokta yok
+                    </span>
+                }
+            </div>
 
-                    <hr class="my-4" />
+            @if (!string.IsNullOrEmpty(Model.Product.Description))
+            {
+                <h2 class="h6 fw-bold mt-2 mb-2">Ürün Açıklaması</h2>
+                <p class="text-muted mb-4">@Model.Product.Description</p>
+            }
 
-                    <h5 class="fw-bold mb-2">Ürün Açıklaması</h5>
-                    <p class="text-muted">
-                        @Model.Product.Description
-                    </p>
-                </div>
-
+            <div class="mt-auto">
                 @if (Model.Product.ProductStock > 0)
                 {
                     <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Product.ID" method="post" class="d-grid">
                         <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
-                        <button type="submit" class="btn btn-warning btn-lg w-100 rounded-4 fw-semibold">
-                            <i class="fa-solid fa-cart-shopping me-2"></i> Sepete Ekle
+                        <button type="submit" class="btn btn-brand btn-lg">
+                            <i class="fa-solid fa-cart-plus me-2" aria-hidden="true"></i> Sepete Ekle
                         </button>
                     </form>
                 }
                 else
                 {
-                    <button class="btn btn-secondary btn-lg w-100 rounded-4 fw-semibold" disabled>
-                        <i class="fa-solid fa-ban me-2"></i> Stokta Yok
+                    <button type="button" class="btn btn-soft btn-lg w-100" disabled>
+                        <i class="fa-solid fa-ban me-2" aria-hidden="true"></i> Stokta Yok
                     </button>
                 }
-                
-
             </div>
+
         </div>
     </div>
-
-    @if (Model.RelatedProducts != null && Model.RelatedProducts.Count > 0)
-    {
-        <div class="mt-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h3 class="fw-bold mb-1">Önerilen Ürünler</h3>
-                    <p class="text-muted mb-0">İlginizi çekebilecek diğer ürünlere de göz atabilirsiniz.</p>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                @foreach (var item in Model.RelatedProducts)
-                {
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
-                            <img src="~/images/@item.ProductImage"
-                                 class="card-img-top rounded-4 mb-3"
-                                 style="height:220px; object-fit:cover;"
-                                 alt="@item.ProductName"
-                                 onerror="this.src='/images/products/default.svg'" />
-
-                            <div class="card-body px-1">
-                                <h5 class="fw-bold">@item.ProductName</h5>
-                                <p class="text-muted mb-2">@item.ProductBrand</p>
-
-                                <h4 class="fw-bold text-dark mb-3">@item.ProductPrice ₺</h4>
-
-                                <div class="d-grid gap-2">
-                                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.ID"
-                                       class="btn btn-dark rounded-3">
-                                        <i class="fa-solid fa-eye me-2"></i> İncele
-                                    </a>
-
-                                    <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.ID" method="post" class="d-grid">
-                                        <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
-                                        <button type="submit" class="btn btn-outline-warning rounded-3">
-                                            <i class="fa-solid fa-cart-shopping me-2"></i> Sepete Ekle
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    }
 </div>
+
+@if (Model.RelatedProducts.Any())
+{
+    <section class="mt-5" aria-label="Önerilen ürünler">
+        <div class="section-head">
+            <div class="section-eyebrow mb-1">Benzer Ürünler</div>
+            <h2 class="h3 mb-1">Bunlar da ilgini çekebilir</h2>
+        </div>
+
+        <div class="row g-4 products-grid">
+            @foreach (var item in Model.RelatedProducts)
+            {
+                <div class="col-lg-3 col-md-6">
+                    <partial name="_ProductCard" model="item" />
+                </div>
+            }
+        </div>
+    </section>
+}

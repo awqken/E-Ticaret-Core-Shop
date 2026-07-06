@@ -1,45 +1,39 @@
-﻿<style>
-    .card {
-        animation: fadeInUp 0.6s ease;
-    }
+@{
+    ViewData["Title"] = "Sipariş Alındı";
+    var orderId = ViewBag.OrderId as int?;
+}
 
-    @@keyframes fadeInUp {
-        from
-
-    {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    }
-</style>
 <div class="container py-5 text-center">
 
-    <div class="card border-0 shadow-sm rounded-4 p-5 mx-auto" style="max-width:500px;">
+    <div class="surface p-5 mx-auto" style="max-width: 520px;">
 
-        <div class="mb-4">
-            <i class="fa fa-check-circle text-success" style="font-size:70px;"></i>
+        <div class="error-icon mx-auto mb-4" style="background: var(--success-bg); color: var(--success);">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
         </div>
 
-        <h2 class="mb-3">Siparişiniz Alındı 🎉</h2>
+        <h1 class="h3 fw-bold mb-2">Siparişin Alındı 🎉</h1>
+
+        @if (orderId.HasValue)
+        {
+            <span class="badge badge-soft-success rounded-pill px-3 py-2 mb-3">
+                Sipariş No: #@orderId
+            </span>
+        }
 
         <p class="text-muted mb-4">
-            Siparişiniz başarıyla oluşturuldu.
-            En kısa sürede hazırlanıp kargoya verilecektir.
+            Siparişin başarıyla oluşturuldu. En kısa sürede hazırlanıp kargoya verilecek.
+            Durumunu hesabından takip edebilirsin.
         </p>
 
-        <a href="/" class="btn btn-dark w-100 mb-2">
-            Ana Sayfaya Dön
-        </a>
+        <div class="d-grid gap-2">
+            <a asp-controller="Account" asp-action="Profile" class="btn btn-brand">
+                <i class="fa-solid fa-box me-2" aria-hidden="true"></i> Siparişlerimi Gör
+            </a>
 
-        <a href="/Account/Profile" class="btn btn-outline-dark w-100">
-            Profilden Siparişlerine Bakabilirsin
-        </a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-soft">
+                Ana Sayfaya Dön
+            </a>
+        </div>
 
     </div>
 

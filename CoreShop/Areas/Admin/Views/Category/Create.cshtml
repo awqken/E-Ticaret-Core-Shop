@@ -1,4 +1,4 @@
-﻿@model CoreShop.Areas.Models.CategoryFormVM
+@model CoreShop.Areas.Models.CategoryFormVM
 
 @{
     ViewData["Title"] = "Kategori Ekle";
@@ -6,122 +6,82 @@
 }
 
 <div class="container-fluid">
-
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm rounded-4 p-4" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div>
-                        <h2 class="fw-bold mb-2">
-                            <i class="fa-solid fa-folder-plus me-2"></i> Yeni Kategori Ekle
-                        </h2>
-                        <p class="mb-0 fs-6 text-light">
-                            CoreShop sistemine yeni kategori eklemek için aşağıdaki alanları doldur.
-                        </p>
-                    </div>
-
-                    <div class="mt-3 mt-md-0">
-                        <a href="/Admin/Category/List" class="btn btn-light rounded-3 px-4 fw-semibold">
-                            <i class="fa-solid fa-arrow-left me-2"></i> Kategori Listesi
-                        </a>
-                    </div>
-                </div>
+    <div class="admin-page-head mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h2 class="h4 mb-1">
+                    <i class="fa-solid fa-folder-plus me-2" aria-hidden="true"></i> Yeni Kategori Ekle
+                </h2>
+                <p>CoreShop kataloğuna yeni bir kategori eklemek için alanları doldur.</p>
             </div>
+
+            <a asp-area="Admin" asp-controller="Category" asp-action="List" class="btn btn-light fw-semibold px-4">
+                <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i> Kategori Listesi
+            </a>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row g-4">
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-header bg-white border-0 px-4 pt-4 pb-2">
-                    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-folder text-warning"></i>
-                        Kategori Bilgileri
-                    </h5>
-                </div>
+            <div class="surface p-4">
+                <h2 class="h5 fw-bold mb-4">
+                    <i class="fa-solid fa-folder-open text-brand me-2" aria-hidden="true"></i> Kategori Bilgileri
+                </h2>
 
-                <div class="card-body px-4 pb-4">
-                    <form asp-area="Admin" asp-controller="Category" asp-action="Create" method="post">
+                <form asp-area="Admin" asp-controller="Category" asp-action="Create" method="post" novalidate>
 
-                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                        <div class="row g-4">
+                    <div class="row g-4">
 
-                            <div class="col-12">
-                                <label asp-for="CategoryName" class="form-label fw-semibold">Kategori Adı</label>
-                                <input asp-for="CategoryName" class="form-control custom-input" placeholder="Örn: Ekran Kartı" />
-                                <span asp-validation-for="CategoryName" class="text-danger small"></span>
-                            </div>
-
-                            <div class="col-12">
-                                <label asp-for="Description" class="form-label fw-semibold">Açıklama</label>
-                                <textarea asp-for="Description" class="form-control custom-input" rows="5" placeholder="Kategori hakkında kısa açıklama giriniz..."></textarea>
-                            </div>
-
-                            <div class="col-12 d-flex gap-3 mt-4">
-                                <button type="submit" class="btn btn-warning text-white rounded-3 px-4 py-2 fw-semibold">
-                                    <i class="fa-solid fa-floppy-disk me-2"></i> Kaydet
-                                </button>
-
-                                <a href="/Admin/Category/List" class="btn btn-outline-secondary rounded-3 px-4 py-2 fw-semibold">
-                                    Vazgeç
-                                </a>
-                            </div>
-
+                        <div class="col-12">
+                            <label asp-for="CategoryName" class="form-label fw-semibold">Kategori Adı</label>
+                            <input asp-for="CategoryName" class="form-control" placeholder="Örn: Ekran Kartı" />
+                            <span asp-validation-for="CategoryName" class="text-danger small"></span>
                         </div>
-                    </form>
-                </div>
+
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label fw-semibold">Açıklama</label>
+                            <textarea asp-for="Description" class="form-control" rows="5" placeholder="Kategori hakkında kısa açıklama giriniz..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12 d-flex gap-3 mt-4">
+                            <button type="submit" class="btn btn-brand px-4">
+                                <i class="fa-solid fa-floppy-disk me-2" aria-hidden="true"></i> Kaydet
+                            </button>
+
+                            <a asp-area="Admin" asp-controller="Category" asp-action="List" class="btn btn-soft px-4">
+                                Vazgeç
+                            </a>
+                        </div>
+
+                    </div>
+                </form>
             </div>
         </div>
 
-        <div class="col-lg-4 mt-4 mt-lg-0">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-white border-0 px-4 pt-4 pb-2">
-                    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-circle-info text-warning"></i>
-                        Bilgilendirme
-                    </h5>
+        <div class="col-lg-4">
+            <div class="surface p-4 h-100">
+                <h2 class="h5 fw-bold mb-3">
+                    <i class="fa-solid fa-circle-info text-brand me-2" aria-hidden="true"></i> Bilgilendirme
+                </h2>
+
+                <div class="info-box mb-3">
+                    <i class="fa-solid fa-check text-success me-2" aria-hidden="true"></i>
+                    Kategori adı kısa ve net olmalı.
                 </div>
 
-                <div class="card-body px-4 pb-4">
-                    <div class="info-box mb-3">
-                        <i class="fa-solid fa-check text-success me-2"></i>
-                        Kategori adı kısa ve net olmalı.
-                    </div>
+                <div class="info-box mb-3">
+                    <i class="fa-solid fa-check text-success me-2" aria-hidden="true"></i>
+                    Örnek kategori isimleri: RAM, SSD, Anakart, İşlemci
+                </div>
 
-                    <div class="info-box mb-3">
-                        <i class="fa-solid fa-check text-success me-2"></i>
-                        Örnek kategori isimleri: RAM, SSD, Anakart, İşlemci
-                    </div>
-
-                    <div class="info-box">
-                        <i class="fa-solid fa-check text-success me-2"></i>
-                        Eklenen kategoriler ürün ekleme ekranında otomatik görünür.
-                    </div>
+                <div class="info-box">
+                    <i class="fa-solid fa-check text-success me-2" aria-hidden="true"></i>
+                    Eklenen kategoriler ürün ekleme ekranında otomatik görünür.
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .custom-input {
-        border-radius: 14px;
-        padding: 12px 14px;
-        border: 1px solid #dbe2ea;
-        transition: 0.2s ease;
-    }
-
-        .custom-input:focus {
-            box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.15);
-            border-color: #f59e0b;
-        }
-
-    .info-box {
-        background-color: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 14px 16px;
-        color: #334155;
-    }
-</style>

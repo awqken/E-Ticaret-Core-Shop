@@ -1,111 +1,8 @@
-﻿@model CoreShop.Models.RegisterVM
+@model CoreShop.Models.RegisterVM
 
 @{
     ViewData["Title"] = "Kayıt Ol";
 }
-
-<style>
-    .auth-wrapper {
-        min-height: 80vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .auth-card {
-        border: none;
-        border-radius: 28px;
-        box-shadow: 0 14px 40px rgba(0,0,0,0.08);
-        overflow: hidden;
-    }
-
-    .auth-left {
-        background: linear-gradient(135deg, #ff6000, #ff8a00);
-        color: white;
-        padding: 50px 40px;
-        height: 100%;
-    }
-
-        .auth-left h2 {
-            font-weight: 800;
-            margin-bottom: 18px;
-        }
-
-        .auth-left p {
-            color: rgba(255,255,255,0.88);
-            font-size: 15px;
-            line-height: 1.7;
-        }
-
-    .auth-right {
-        background: white;
-        padding: 50px 40px;
-    }
-
-    .auth-title {
-        font-size: 30px;
-        font-weight: 800;
-        color: #111827;
-        margin-bottom: 8px;
-    }
-
-    .auth-subtitle {
-        color: #6b7280;
-        margin-bottom: 30px;
-    }
-
-    .form-control-custom {
-        height: 52px;
-        border-radius: 14px;
-        border: 1px solid #e5e7eb;
-        padding-left: 16px;
-        font-size: 15px;
-    }
-
-        .form-control-custom:focus {
-            border-color: #ff6000;
-            box-shadow: none;
-        }
-
-    .auth-btn {
-        height: 52px;
-        border-radius: 14px;
-        font-weight: 700;
-        font-size: 15px;
-    }
-
-    .auth-link {
-        color: #ff6000;
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-        .auth-link:hover {
-            color: #e65300;
-        }
-
-    .auth-icon-box {
-        width: 60px;
-        height: 60px;
-        border-radius: 18px;
-        background: rgba(255,255,255,0.14);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 24px;
-        font-size: 24px;
-    }
-
-    @@media (max-width: 991px) {
-        .auth-left {
-            padding: 35px 28px;
-        }
-
-        .auth-right {
-            padding: 35px 28px;
-        }
-    }
-</style>
 
 <div class="container auth-wrapper">
     <div class="row justify-content-center w-100">
@@ -114,12 +11,12 @@
                 <div class="row g-0">
 
                     <div class="col-lg-5 d-none d-lg-block">
-                        <div class="auth-left">
-                            <div class="auth-icon-box">
-                                <i class="fa-solid fa-user-plus"></i>
+                        <div class="auth-side auth-side-brand">
+                            <div class="auth-side-icon">
+                                <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
                             </div>
 
-                            <h2>CoreShop Üyesi Ol</h2>
+                            <h2 class="text-white">CoreShop Üyesi Ol</h2>
                             <p>
                                 Teknoloji ürünlerini takip etmek, sepetini yönetmek ve alışverişini
                                 daha kolay tamamlamak için ücretsiz hesap oluştur.
@@ -128,7 +25,7 @@
                     </div>
 
                     <div class="col-lg-7">
-                        <div class="auth-right">
+                        <div class="auth-body">
                             <h1 class="auth-title">Kayıt Ol</h1>
                             <p class="auth-subtitle">Yeni bir hesap oluşturarak başla.</p>
 
@@ -136,26 +33,26 @@
 
                             <form asp-controller="Account" asp-action="Register" method="post" novalidate>
                                 <div class="mb-3">
-                                    <label asp-for="FullName" class="form-label fw-semibold">Ad Soyad</label>
-                                    <input asp-for="FullName" class="form-control form-control-custom" placeholder="Ad Soyad" autocomplete="name" />
+                                    <label asp-for="FullName" class="form-label">Ad Soyad</label>
+                                    <input asp-for="FullName" class="form-control auth-input" placeholder="Ad Soyad" autocomplete="name" />
                                     <span asp-validation-for="FullName" class="text-danger small"></span>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label asp-for="Email" class="form-label fw-semibold">E-Posta</label>
-                                    <input asp-for="Email" class="form-control form-control-custom" placeholder="ornek@mail.com" autocomplete="email" />
+                                    <label asp-for="Email" class="form-label">E-Posta</label>
+                                    <input asp-for="Email" class="form-control auth-input" placeholder="ornek@mail.com" autocomplete="email" />
                                     <span asp-validation-for="Email" class="text-danger small"></span>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label asp-for="Password" class="form-label fw-semibold">Şifre</label>
-                                    <input asp-for="Password" class="form-control form-control-custom" placeholder="••••••••" autocomplete="new-password" />
+                                    <label asp-for="Password" class="form-label">Şifre</label>
+                                    <input asp-for="Password" class="form-control auth-input" placeholder="••••••••" autocomplete="new-password" />
                                     <span asp-validation-for="Password" class="text-danger small"></span>
                                 </div>
 
                                 <div class="d-grid mb-3">
-                                    <button type="submit" class="btn btn-warning auth-btn">
-                                        <i class="fa-solid fa-user-plus me-2"></i> Kayıt Ol
+                                    <button type="submit" class="btn btn-brand auth-btn">
+                                        <i class="fa-solid fa-user-plus me-2" aria-hidden="true"></i> Kayıt Ol
                                     </button>
                                 </div>
                             </form>

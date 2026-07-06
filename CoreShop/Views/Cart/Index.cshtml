@@ -1,134 +1,106 @@
-﻿@model IReadOnlyList<CoreShop.Models.CartItem>
+@model IReadOnlyList<CoreShop.Models.CartItem>
 
 @{
     ViewData["Title"] = "Sepetim";
+    var totalQuantity = Model.Sum(x => x.Quantity);
+    var totalPrice = Model.Sum(x => x.ProductPrice * x.Quantity);
 }
 
-<style>
-    .cart-card {
-        border: none;
-        border-radius: 20px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-    }
-
-    .cart-img {
-        width: 90px;
-        height: 90px;
-        object-fit: cover;
-        border-radius: 12px;
-    }
-
-    .qty-btn {
-        width: 35px;
-        height: 35px;
-        border-radius: 10px;
-        border: none;
-        font-weight: bold;
-    }
-
-    .qty-box {
-        min-width: 40px;
-        text-align: center;
-        font-weight: 700;
-    }
-
-    .remove-btn {
-        min-width: 80px;
-    }
-</style>
-
-<div class="mb-4">
-    <h1 class="fw-bold">Sepetim</h1>
-    <p class="text-muted">Sepetindeki ürünleri buradan yönetebilirsin.</p>
+<div class="section-head">
+    <h1 class="h3 mb-1">Sepetim</h1>
+    <p>Sepetindeki ürünleri buradan yönetebilirsin.</p>
 </div>
-@if (TempData["CartWarning"] != null)
+
+@if (Model.Any())
 {
-    <div class="alert alert-danger rounded-4 shadow-sm">
-        @TempData["CartWarning"]
-    </div>
-}
-@if (Model != null && Model.Count > 0)
-{
-    <div class="card cart-card p-4">
-        <div class="table-responsive">
-            <table class="table align-middle text-center">
-                <thead>
-                    <tr>
-                        <th>Ürün</th>
-                        <th>Ad</th>
-                        <th>Fiyat</th>
-                        <th>Adet</th>
-                        <th>Toplam</th>
-                        <th>Sil</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                <img src="~/images/@item.ProductImage" class="cart-img" />
-                            </td>
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="surface p-4">
+                @foreach (var item in Model)
+                {
+                    <div class="cart-item">
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId"
+                           class="cart-thumb" aria-label="@item.ProductName detayına git">
+                            <img src="~/images/@item.ProductImage"
+                                 alt="@item.ProductName"
+                                 loading="lazy"
+                                 width="84" height="84"
+                                 onerror="this.src='/images/products/default.svg'" />
+                        </a>
 
-                            <td class="fw-semibold">@item.ProductName</td>
+                        <div class="flex-grow-1" style="min-width: 160px;">
+                            <div class="fw-semibold">@item.ProductName</div>
+                            <small class="text-muted">Birim fiyat: @item.ProductPrice.ToTryPrice()</small>
+                        </div>
 
-                            <td>@item.ProductPrice ₺</td>
+                        <div class="qty-stepper" aria-label="@item.ProductName adedi">
+                            <form asp-controller="Cart" asp-action="Decrease" asp-route-id="@item.ProductId" method="post" class="d-inline">
+                                <button type="submit" class="qty-btn" aria-label="Adedi azalt">−</button>
+                            </form>
 
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center gap-2">
-                                    <form asp-controller="Cart" asp-action="Decrease" asp-route-id="@item.ProductId" method="post" class="d-inline">
-                                        <button type="submit" class="btn btn-outline-dark qty-btn">-</button>
-                                    </form>
+                            <span class="qty-value">@item.Quantity</span>
 
-                                    <span class="qty-box">@item.Quantity</span>
+                            <form asp-controller="Cart" asp-action="Increase" asp-route-id="@item.ProductId" method="post" class="d-inline">
+                                <button type="submit" class="qty-btn" aria-label="Adedi artır">+</button>
+                            </form>
+                        </div>
 
-                                    <form asp-controller="Cart" asp-action="Increase" asp-route-id="@item.ProductId" method="post" class="d-inline">
-                                        <button type="submit" class="btn btn-dark qty-btn">+</button>
-                                    </form>
-                                </div>
-                            </td>
+                        <div class="fw-bold text-end" style="min-width: 110px;">
+                            @((item.ProductPrice * item.Quantity).ToTryPrice())
+                        </div>
 
-                            <td class="fw-bold">
-                                @(item.ProductPrice* item.Quantity) ₺
-                            </td>
-
-                            <td>
-                                <form asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.ProductId" method="post" class="d-inline">
-                                    <button type="submit" class="btn btn-danger rounded-3 remove-btn">
-                                        Sil
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                        <form asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.ProductId" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-soft btn-sm text-danger" aria-label="@item.ProductName ürününü sepetten çıkar">
+                                <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
         </div>
 
-        @if (Model.Count() > 0)
-        {
-            <div class="d-flex justify-content-end mt-4">
-                <a asp-controller="Cart" asp-action="Checkout" class="btn btn-dark">
-                    Ödemeye Geç
-                </a>
+        <div class="col-lg-4">
+            <div class="surface p-4 position-sticky" style="top: 96px;">
+                <h2 class="h5 fw-bold mb-3">Sipariş Özeti</h2>
+
+                <div class="summary-row">
+                    <span>Ürünler (@totalQuantity adet)</span>
+                    <span>@totalPrice.ToTryPrice()</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Kargo</span>
+                    <span class="text-success fw-semibold">Ücretsiz</span>
+                </div>
+
+                <div class="summary-total">
+                    <span>Toplam</span>
+                    <span>@totalPrice.ToTryPrice()</span>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <a asp-controller="Cart" asp-action="Checkout" class="btn btn-brand btn-lg">
+                        Ödemeye Geç <i class="fa-solid fa-arrow-right ms-2" aria-hidden="true"></i>
+                    </a>
+
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-soft">
+                        Alışverişe Devam Et
+                    </a>
+                </div>
             </div>
-        }
-
-        <div class="text-end mt-4">
-            <h6 class="text-muted mb-2">
-                Toplam Ürün Adedi: @Model.Sum(x => x.Quantity)
-            </h6>
-
-            <h4 class="fw-bold">
-                Toplam Tutar:
-                @Model.Sum(x => x.ProductPrice * x.Quantity) ₺
-            </h4>
         </div>
     </div>
 }
 else
 {
-    <div class="alert alert-warning rounded-4 shadow-sm">
-        Sepetiniz şu an boş.
+    <div class="empty-state">
+        <div class="empty-state-icon">
+            <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+        </div>
+        <h4>Sepetin şu an boş</h4>
+        <p>Beğendiğin ürünleri sepete ekleyerek alışverişe başlayabilirsin.</p>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-brand">
+            <i class="fa-solid fa-store me-2" aria-hidden="true"></i> Ürünlere Göz At
+        </a>
     </div>
 }

@@ -1,111 +1,8 @@
-﻿@model CoreShop.Models.LoginVM
+@model CoreShop.Models.LoginVM
 
 @{
     ViewData["Title"] = "Giriş Yap";
 }
-
-<style>
-    .auth-wrapper {
-        min-height: 80vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .auth-card {
-        border: none;
-        border-radius: 28px;
-        box-shadow: 0 14px 40px rgba(0,0,0,0.08);
-        overflow: hidden;
-    }
-
-    .auth-left {
-        background: linear-gradient(135deg, #111827, #1f2937);
-        color: white;
-        padding: 50px 40px;
-        height: 100%;
-    }
-
-        .auth-left h2 {
-            font-weight: 800;
-            margin-bottom: 18px;
-        }
-
-        .auth-left p {
-            color: #d1d5db;
-            font-size: 15px;
-            line-height: 1.7;
-        }
-
-    .auth-right {
-        background: white;
-        padding: 50px 40px;
-    }
-
-    .auth-title {
-        font-size: 30px;
-        font-weight: 800;
-        color: #111827;
-        margin-bottom: 8px;
-    }
-
-    .auth-subtitle {
-        color: #6b7280;
-        margin-bottom: 30px;
-    }
-
-    .form-control-custom {
-        height: 52px;
-        border-radius: 14px;
-        border: 1px solid #e5e7eb;
-        padding-left: 16px;
-        font-size: 15px;
-    }
-
-        .form-control-custom:focus {
-            border-color: #ff6000;
-            box-shadow: none;
-        }
-
-    .auth-btn {
-        height: 52px;
-        border-radius: 14px;
-        font-weight: 700;
-        font-size: 15px;
-    }
-
-    .auth-link {
-        color: #ff6000;
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-        .auth-link:hover {
-            color: #e65300;
-        }
-
-    .auth-icon-box {
-        width: 60px;
-        height: 60px;
-        border-radius: 18px;
-        background: rgba(255,255,255,0.12);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 24px;
-        font-size: 24px;
-    }
-
-    @@media (max-width: 991px) {
-        .auth-left {
-            padding: 35px 28px;
-        }
-
-        .auth-right {
-            padding: 35px 28px;
-        }
-    }
-</style>
 
 <div class="container auth-wrapper">
     <div class="row justify-content-center w-100">
@@ -114,12 +11,12 @@
                 <div class="row g-0">
 
                     <div class="col-lg-5 d-none d-lg-block">
-                        <div class="auth-left">
-                            <div class="auth-icon-box">
-                                <i class="fa-solid fa-user-lock"></i>
+                        <div class="auth-side auth-side-dark">
+                            <div class="auth-side-icon">
+                                <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
                             </div>
 
-                            <h2>CoreShop’a Hoş Geldin</h2>
+                            <h2 class="text-white">CoreShop’a Hoş Geldin</h2>
                             <p>
                                 Bilgisayar parçaları ve teknoloji ürünlerini daha hızlı incelemek,
                                 sepetini yönetmek ve alışverişine devam etmek için hesabına giriş yap.
@@ -128,35 +25,28 @@
                     </div>
 
                     <div class="col-lg-7">
-                        <div class="auth-right">
+                        <div class="auth-body">
                             <h1 class="auth-title">Giriş Yap</h1>
                             <p class="auth-subtitle">Hesabına giriş yaparak devam et.</p>
-
-                            @if (TempData["Success"] != null)
-                            {
-                                <div class="alert alert-success rounded-4" role="alert">
-                                    <i class="fa-solid fa-circle-check me-2"></i> @TempData["Success"]
-                                </div>
-                            }
 
                             <div asp-validation-summary="ModelOnly" class="text-danger fw-semibold mb-3"></div>
 
                             <form asp-controller="Account" asp-action="Login" method="post" novalidate>
                                 <div class="mb-3">
-                                    <label asp-for="Email" class="form-label fw-semibold">E-Posta</label>
-                                    <input asp-for="Email" class="form-control form-control-custom" placeholder="ornek@mail.com" autocomplete="email" />
+                                    <label asp-for="Email" class="form-label">E-Posta</label>
+                                    <input asp-for="Email" class="form-control auth-input" placeholder="ornek@mail.com" autocomplete="email" />
                                     <span asp-validation-for="Email" class="text-danger small"></span>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label asp-for="Password" class="form-label fw-semibold">Şifre</label>
-                                    <input asp-for="Password" class="form-control form-control-custom" placeholder="••••••••" autocomplete="current-password" />
+                                    <label asp-for="Password" class="form-label">Şifre</label>
+                                    <input asp-for="Password" class="form-control auth-input" placeholder="••••••••" autocomplete="current-password" />
                                     <span asp-validation-for="Password" class="text-danger small"></span>
                                 </div>
 
                                 <div class="d-grid mb-3">
-                                    <button type="submit" class="btn btn-dark auth-btn">
-                                        <i class="fa-solid fa-right-to-bracket me-2"></i> Giriş Yap
+                                    <button type="submit" class="btn btn-brand auth-btn">
+                                        <i class="fa-solid fa-right-to-bracket me-2" aria-hidden="true"></i> Giriş Yap
                                     </button>
                                 </div>
                             </form>

@@ -5,10 +5,10 @@
 }
 
 <div class="container py-5 text-center">
-    <div class="card border-0 shadow-sm rounded-4 p-5 mx-auto" style="max-width:520px;">
+    <div class="surface p-5 mx-auto" style="max-width:520px;">
 
         <div class="error-icon mx-auto mb-4">
-            <i class="@Model.IconCssClass"></i>
+            <i class="@Model.IconCssClass" aria-hidden="true"></i>
         </div>
 
         <p class="text-muted fw-semibold mb-1">Hata @Model.StatusCode</p>
@@ -16,27 +16,13 @@
 
         <p class="text-muted mb-4">@Model.Message</p>
 
-        <a asp-controller="Home" asp-action="Index" class="btn btn-dark w-100 mb-2">
-            <i class="fa-solid fa-house me-2"></i> Ana Sayfaya Dön
+        <a asp-controller="Home" asp-action="Index" class="btn btn-brand w-100 mb-2">
+            <i class="fa-solid fa-house me-2" aria-hidden="true"></i> Ana Sayfaya Dön
         </a>
 
-        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-dark w-100">
-            <i class="fa-solid fa-store me-2"></i> Ürünlere Göz At
+        <a asp-controller="Product" asp-action="Index" class="btn btn-soft w-100">
+            <i class="fa-solid fa-store me-2" aria-hidden="true"></i> Ürünlere Göz At
         </a>
 
     </div>
 </div>
-
-<style>
-    .error-icon {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #fff1e8, #ffe0cc);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 36px;
-        color: #ff6000;
-    }
-</style>

@@ -1,4 +1,4 @@
-﻿@model CoreShop.Areas.Models.ProductFormVM
+@model CoreShop.Areas.Models.ProductFormVM
 
 @{
     ViewData["Title"] = "Ürün Güncelle";
@@ -6,181 +6,136 @@
 }
 
 <div class="container-fluid">
-
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm rounded-4 p-4" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white;">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div>
-                        <h2 class="fw-bold mb-2">
-                            <i class="fa-solid fa-box-open me-2"></i> Ürün Güncelle
-                        </h2>
-                        <p class="mb-0 fs-6 text-light">
-                            Mevcut ürün bilgilerini güncelleyerek mağaza içeriğini düzenleyebilirsin.
-                        </p>
-                    </div>
-
-                    <div class="mt-3 mt-md-0">
-                        <a href="/Admin/Product/List" class="btn btn-light rounded-3 px-4 fw-semibold">
-                            <i class="fa-solid fa-arrow-left me-2"></i> Ürün Listesi
-                        </a>
-                    </div>
-                </div>
+    <div class="admin-page-head mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h2 class="h4 mb-1">
+                    <i class="fa-solid fa-pen-to-square me-2" aria-hidden="true"></i> Ürün Güncelle
+                </h2>
+                <p>Mevcut ürün bilgilerini güncelleyerek mağaza içeriğini düzenleyebilirsin.</p>
             </div>
+
+            <a asp-area="Admin" asp-controller="Product" asp-action="List" class="btn btn-light fw-semibold px-4">
+                <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i> Ürün Listesi
+            </a>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row g-4">
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-header bg-white border-0 px-4 pt-4 pb-2">
-                    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-pen text-primary"></i>
-                        Ürün Bilgileri
-                    </h5>
-                </div>
+            <div class="surface p-4">
+                <h2 class="h5 fw-bold mb-4">
+                    <i class="fa-solid fa-box-open text-brand me-2" aria-hidden="true"></i> Ürün Bilgileri
+                </h2>
 
-                <div class="card-body px-4 pb-4">
-                    <form asp-area="Admin" asp-controller="Product" asp-action="Update" method="post" enctype="multipart/form-data">
+                <form asp-area="Admin" asp-controller="Product" asp-action="Update" method="post" enctype="multipart/form-data" novalidate>
 
-                        <input asp-for="ID" type="hidden" />
-                        <input asp-for="ProductImage" type="hidden" />
+                    <input asp-for="ID" type="hidden" />
+                    <input asp-for="ProductImage" type="hidden" />
 
-                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                        <div class="row g-4">
+                    <div class="row g-4">
 
-                            <div class="col-md-6">
-                                <label asp-for="ProductName" class="form-label fw-semibold">Ürün Adı</label>
-                                <input asp-for="ProductName" class="form-control custom-input" placeholder="Örn: RTX 4060" />
-                                <span asp-validation-for="ProductName" class="text-danger small"></span>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label asp-for="ProductBrand" class="form-label fw-semibold">Marka</label>
-                                <input asp-for="ProductBrand" class="form-control custom-input" placeholder="Örn: ASUS" />
-                                <span asp-validation-for="ProductBrand" class="text-danger small"></span>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label asp-for="CategoryId" class="form-label fw-semibold">Kategori</label>
-                                <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select custom-input">
-                                    <option value="">Kategori Seçiniz</option>
-                                </select>
-                                <span asp-validation-for="CategoryId" class="text-danger small"></span>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label asp-for="ProductPrice" class="form-label fw-semibold">Fiyat</label>
-                                <input asp-for="ProductPrice" class="form-control custom-input" placeholder="Örn: 15999" />
-                                <span asp-validation-for="ProductPrice" class="text-danger small"></span>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label asp-for="ProductStock" class="form-label fw-semibold">Stok</label>
-                                <input asp-for="ProductStock" class="form-control custom-input" placeholder="Örn: 25" />
-                                <span asp-validation-for="ProductStock" class="text-danger small"></span>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label asp-for="ImageFile" class="form-label fw-semibold">Yeni Görsel</label>
-                                <input asp-for="ImageFile" type="file" class="form-control custom-input" accept=".jpg,.jpeg,.png,.webp" />
-                                <span asp-validation-for="ImageFile" class="text-danger small"></span>
-                            </div>
-
-                            <div class="col-12">
-                                <label asp-for="Description" class="form-label fw-semibold">Açıklama</label>
-                                <textarea asp-for="Description" class="form-control custom-input" rows="5" placeholder="Ürün hakkında kısa bilgi giriniz..."></textarea>
-                                <span asp-validation-for="Description" class="text-danger small"></span>
-                            </div>
-
-                            @if (!string.IsNullOrEmpty(Model.ProductImage))
-                            {
-                                <div class="col-12">
-                                    <label class="form-label fw-semibold">Mevcut Görsel</label>
-                                    <div class="current-image-box mt-2">
-                                        <img src="~/images/@Model.ProductImage" alt="Ürün Görseli" class="img-fluid rounded-4 shadow-sm" style="max-height: 220px; object-fit: cover;" />
-                                    </div>
-                                </div>
-                            }
-
-                            <div class="col-12 d-flex gap-3 mt-4">
-                                <button type="submit" class="btn btn-primary rounded-3 px-4 py-2 fw-semibold">
-                                    <i class="fa-solid fa-floppy-disk me-2"></i> Güncelle
-                                </button>
-
-                                <a href="/Admin/Product/List" class="btn btn-outline-secondary rounded-3 px-4 py-2 fw-semibold">
-                                    Vazgeç
-                                </a>
-                            </div>
-
+                        <div class="col-md-6">
+                            <label asp-for="ProductName" class="form-label fw-semibold">Ürün Adı</label>
+                            <input asp-for="ProductName" class="form-control" placeholder="Örn: RTX 4060" />
+                            <span asp-validation-for="ProductName" class="text-danger small"></span>
                         </div>
-                    </form>
-                </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="ProductBrand" class="form-label fw-semibold">Marka</label>
+                            <input asp-for="ProductBrand" class="form-control" placeholder="Örn: ASUS" />
+                            <span asp-validation-for="ProductBrand" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="ProductPrice" class="form-label fw-semibold">Fiyat (₺)</label>
+                            <input asp-for="ProductPrice" class="form-control" placeholder="Örn: 15999" inputmode="decimal" />
+                            <span asp-validation-for="ProductPrice" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="ProductStock" class="form-label fw-semibold">Stok</label>
+                            <input asp-for="ProductStock" class="form-control" placeholder="Örn: 25" inputmode="numeric" />
+                            <span asp-validation-for="ProductStock" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="CategoryId" class="form-label fw-semibold">Kategori</label>
+                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+                                <option value="">Kategori Seçiniz</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="ImageFile" class="form-label fw-semibold">Yeni Görsel</label>
+                            <input asp-for="ImageFile" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp" />
+                            <div class="form-text">Yeni görsel seçmezsen mevcut görsel korunur.</div>
+                            <span asp-validation-for="ImageFile" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label fw-semibold">Açıklama</label>
+                            <textarea asp-for="Description" class="form-control" rows="5" placeholder="Ürün hakkında kısa bilgi giriniz..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.ProductImage))
+                        {
+                            <div class="col-12">
+                                <span class="form-label fw-semibold d-block">Mevcut Görsel</span>
+                                <div class="current-image-box mt-2">
+                                    <img src="~/images/@Model.ProductImage"
+                                         alt="@Model.ProductName mevcut görseli"
+                                         class="img-fluid rounded-3"
+                                         style="max-height: 220px; object-fit: contain;" />
+                                </div>
+                            </div>
+                        }
+
+                        <div class="col-12 d-flex gap-3 mt-4">
+                            <button type="submit" class="btn btn-brand px-4">
+                                <i class="fa-solid fa-floppy-disk me-2" aria-hidden="true"></i> Güncelle
+                            </button>
+
+                            <a asp-area="Admin" asp-controller="Product" asp-action="List" class="btn btn-soft px-4">
+                                Vazgeç
+                            </a>
+                        </div>
+
+                    </div>
+                </form>
             </div>
         </div>
 
-        <div class="col-lg-4 mt-4 mt-lg-0">
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-                <div class="card-header bg-white border-0 px-4 pt-4 pb-2">
-                    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-circle-info text-primary"></i>
-                        Bilgilendirme
-                    </h5>
+        <div class="col-lg-4">
+            <div class="surface p-4 h-100">
+                <h2 class="h5 fw-bold mb-3">
+                    <i class="fa-solid fa-circle-info text-brand me-2" aria-hidden="true"></i> Bilgilendirme
+                </h2>
+
+                <div class="info-box mb-3">
+                    <i class="fa-solid fa-check text-success me-2" aria-hidden="true"></i>
+                    Ürün adı ve marka bilgisi düzenli görünüm sağlar.
                 </div>
 
-                <div class="card-body px-4 pb-4">
-                    <div class="info-box mb-3">
-                        <i class="fa-solid fa-check text-success me-2"></i>
-                        Ürün adı ve marka bilgisi düzenli görünüm sağlar.
-                    </div>
+                <div class="info-box mb-3">
+                    <i class="fa-solid fa-check text-success me-2" aria-hidden="true"></i>
+                    Yeni görsel seçmezsen mevcut görsel korunur.
+                </div>
 
-                    <div class="info-box mb-3">
-                        <i class="fa-solid fa-check text-success me-2"></i>
-                        Yeni görsel seçmezsen mevcut görsel korunur.
-                    </div>
+                <div class="info-box mb-3">
+                    <i class="fa-solid fa-check text-success me-2" aria-hidden="true"></i>
+                    Kategori seçimi ürünün doğru alanda görünmesini sağlar.
+                </div>
 
-                    <div class="info-box mb-3">
-                        <i class="fa-solid fa-check text-success me-2"></i>
-                        Kategori seçimi ürünün doğru alanda görünmesini sağlar.
-                    </div>
-
-                    <div class="info-box">
-                        <i class="fa-solid fa-check text-success me-2"></i>
-                        Fiyat ve stok bilgileri müşteri tarafında doğrudan kullanılacaktır.
-                    </div>
+                <div class="info-box">
+                    <i class="fa-solid fa-check text-success me-2" aria-hidden="true"></i>
+                    Fiyat ve stok bilgileri mağazada anında güncellenir.
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .custom-input {
-        border-radius: 14px;
-        padding: 12px 14px;
-        border: 1px solid #dbe2ea;
-        transition: 0.2s ease;
-    }
-
-        .custom-input:focus {
-            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
-            border-color: #2563eb;
-        }
-
-    .info-box {
-        background-color: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 14px 16px;
-        color: #334155;
-    }
-
-    .current-image-box {
-        background: #f8fafc;
-        border: 1px dashed #cbd5e1;
-        border-radius: 18px;
-        padding: 16px;
-        display: inline-block;
-    }
-</style>
