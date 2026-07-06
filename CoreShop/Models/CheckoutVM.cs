@@ -46,5 +46,8 @@ namespace CoreShop.Models
         public string CVV { get; set; } = string.Empty;
 
         public decimal TotalPrice { get; set; }
+
+        /// <summary>Display-only: the cart lines shown in the order summary panel.</summary>
+        public IReadOnlyList<CartItem> Items { get; set; } = Array.Empty<CartItem>();
     }
 }

@@ -1,0 +1,40 @@
+@*
+    TempData-driven toast notifications, rendered once per page from the layout.
+    "Success" → dark toast with a green check; "CartWarning" → amber warning.
+*@
+@{
+    var successMessage = TempData["Success"] as string;
+    var warningMessage = TempData["CartWarning"] as string;
+}
+
+@if (successMessage != null || warningMessage != null)
+{
+    <div class="toast-stack" aria-live="polite" aria-atomic="true">
+        @if (successMessage != null)
+        {
+            <div class="app-toast toast-success" role="status">
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                <span>@successMessage</span>
+                <button type="button" class="btn-close" onclick="this.closest('.app-toast').remove()" aria-label="Bildirimi kapat"></button>
+            </div>
+        }
+        @if (warningMessage != null)
+        {
+            <div class="app-toast toast-warning" role="status">
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <span>@warningMessage</span>
+                <button type="button" class="btn-close" onclick="this.closest('.app-toast').remove()" aria-label="Bildirimi kapat"></button>
+            </div>
+        }
+    </div>
+
+    <script>
+        setTimeout(function () {
+            document.querySelectorAll('.app-toast').forEach(function (toast) {
+                toast.style.transition = 'opacity .4s ease';
+                toast.style.opacity = '0';
+                setTimeout(function () { toast.remove(); }, 400);
+            });
+        }, 4000);
+    </script>
+}

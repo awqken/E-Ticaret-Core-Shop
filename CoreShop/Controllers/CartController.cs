@@ -37,7 +37,11 @@ namespace CoreShop.Controllers
             if (result == CartOperationResult.ProductNotFound)
                 return NotFound();
 
-            SetCartWarning(result);
+            if (result == CartOperationResult.Success)
+                TempData["Success"] = "Ürün sepete eklendi.";
+            else
+                SetCartWarning(result);
+
             return RedirectToLocal(returnUrl);
         }
 
@@ -82,7 +86,7 @@ namespace CoreShop.Controllers
                 model.FullAddress = user.FullAddress ?? string.Empty;
             }
 
-            model.TotalPrice = _cartService.GetTotalPrice();
+            PopulateSummary(model);
 
             return View(model);
         }
@@ -96,7 +100,7 @@ namespace CoreShop.Controllers
 
             if (!ModelState.IsValid)
             {
-                model.TotalPrice = _cartService.GetTotalPrice();
+                PopulateSummary(model);
                 return View(model);
             }
 
@@ -119,15 +123,18 @@ namespace CoreShop.Controllers
                     _ => "Sipariş oluşturulamadı. Lütfen tekrar deneyin."
                 };
 
-                model.TotalPrice = _cartService.GetTotalPrice();
+                PopulateSummary(model);
                 return View(model);
             }
+
+            TempData["OrderId"] = result.Order!.ID;
 
             return RedirectToAction("Success");
         }
 
         public IActionResult Success()
         {
+            ViewBag.OrderId = TempData["OrderId"];
             return View();
         }
 
@@ -135,6 +142,12 @@ namespace CoreShop.Controllers
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
             return _userService.GetAll().FirstOrDefault(x => x.Email == email);
+        }
+
+        private void PopulateSummary(CheckoutVM model)
+        {
+            model.Items = _cartService.GetItems();
+            model.TotalPrice = _cartService.GetTotalPrice();
         }
 
         private void SetCartWarning(CartOperationResult result)
