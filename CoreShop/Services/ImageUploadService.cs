@@ -8,10 +8,12 @@ namespace CoreShop.Services
         private const long MaxFileSizeBytes = 2 * 1024 * 1024;
 
         private readonly IWebHostEnvironment _environment;
+        private readonly ILogger<ImageUploadService> _logger;
 
-        public ImageUploadService(IWebHostEnvironment environment)
+        public ImageUploadService(IWebHostEnvironment environment, ILogger<ImageUploadService> logger)
         {
             _environment = environment;
+            _logger = logger;
         }
 
         public bool TrySaveProductImage(IFormFile file, out string? relativePath, out string? error)
@@ -21,18 +23,22 @@ namespace CoreShop.Services
             var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
             if (!AllowedExtensions.Contains(extension))
             {
+                _logger.LogWarning("Product image rejected: disallowed extension {Extension}", extension);
                 error = "Yalnızca JPG, PNG veya WebP görselleri yükleyebilirsiniz.";
                 return false;
             }
 
             if (file.Length == 0)
             {
+                _logger.LogWarning("Product image rejected: empty file");
                 error = "Yüklenen dosya boş.";
                 return false;
             }
 
             if (file.Length > MaxFileSizeBytes)
             {
+                _logger.LogWarning("Product image rejected: {FileSize} bytes exceeds the {MaxFileSize} byte limit",
+                    file.Length, MaxFileSizeBytes);
                 error = "Görsel boyutu en fazla 2 MB olabilir.";
                 return false;
             }
@@ -50,6 +56,9 @@ namespace CoreShop.Services
 
             relativePath = "products/" + fileName;
             error = null;
+
+            _logger.LogInformation("Product image saved as {RelativePath}", relativePath);
+
             return true;
         }
     }

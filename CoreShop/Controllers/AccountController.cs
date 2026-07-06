@@ -16,17 +16,20 @@ namespace CoreShop.Controllers
         private readonly ICoreService<Order> _orderService;
         private readonly ICoreService<OrderDetail> _orderDetailService;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             ICoreService<User> userService,
             ICoreService<Order> orderService,
             ICoreService<OrderDetail> orderDetailService,
-            IPasswordHasher<User> passwordHasher)
+            IPasswordHasher<User> passwordHasher,
+            ILogger<AccountController> logger)
         {
             _userService = userService;
             _orderService = orderService;
             _orderDetailService = orderDetailService;
             _passwordHasher = passwordHasher;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -77,9 +80,13 @@ namespace CoreShop.Controllers
                         principal
                     );
 
+                    _logger.LogInformation("User {UserId} signed in", user.ID);
+
                     return RedirectToAction("Index", "Home");
                 }
             }
+
+            _logger.LogWarning("Failed login attempt for {Email}", email);
 
             ViewBag.Error = "E-posta veya şifre hatalı.";
             return View();
@@ -114,6 +121,8 @@ namespace CoreShop.Controllers
             user.Role = "User";
 
             _userService.Create(user);
+
+            _logger.LogInformation("New user registered: {UserId}", user.ID);
 
             return RedirectToAction("Login");
         }

@@ -14,17 +14,20 @@ namespace CoreShop.Controllers
         private readonly ICoreService<Order> _orderService;
         private readonly ICoreService<OrderDetail> _orderDetailService;
         private readonly ICoreService<User> _userService;
+        private readonly ILogger<CartController> _logger;
 
         public CartController(
         ICoreService<Product> productService,
         ICoreService<Order> orderService,
         ICoreService<OrderDetail> orderDetailService,
-        ICoreService<User> userService)
+        ICoreService<User> userService,
+        ILogger<CartController> logger)
         {
             _productService = productService;
             _orderService = orderService;
             _orderDetailService = orderDetailService;
             _userService = userService;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -233,6 +236,8 @@ namespace CoreShop.Controllers
             var cleanCard = model.CardNumber.Replace(" ", "").Replace("-", "");
             if (cleanCard.Length != 16 || !cleanCard.All(char.IsDigit))
             {
+                _logger.LogWarning("Checkout payment validation failed for user {UserId}", user.ID);
+
                 ViewBag.Error = "Ödeme başarısız. Geçerli bir 16 haneli kart numarası girin.";
                 model.TotalPrice = totalPrice;
                 return View(model);
@@ -292,6 +297,10 @@ namespace CoreShop.Controllers
             }
 
             HttpContext.Session.Remove("Cart");
+
+            _logger.LogInformation(
+                "Order {OrderId} created for user {UserId}: {ItemCount} items, total {TotalPrice}",
+                orderId, user.ID, cart.Sum(x => x.Quantity), totalPrice);
 
             return RedirectToAction("Success");
         }
