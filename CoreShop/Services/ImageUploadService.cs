@@ -61,5 +61,27 @@ namespace CoreShop.Services
 
             return true;
         }
+
+        public void DeleteProductImage(string? relativePath)
+        {
+            if (string.IsNullOrEmpty(relativePath))
+                return;
+
+            var fileName = Path.GetFileName(relativePath);
+
+            // Only GUID-named files were uploaded through this service. Seed images
+            // have friendly names and live in the repository; the in-memory data that
+            // references them comes back on every restart, so they must survive.
+            if (!Guid.TryParse(Path.GetFileNameWithoutExtension(fileName), out _))
+                return;
+
+            var fullPath = Path.Combine(_environment.WebRootPath, "images", "products", fileName);
+
+            if (!File.Exists(fullPath))
+                return;
+
+            File.Delete(fullPath);
+            _logger.LogInformation("Orphan product image deleted: {FileName}", fileName);
+        }
     }
 }

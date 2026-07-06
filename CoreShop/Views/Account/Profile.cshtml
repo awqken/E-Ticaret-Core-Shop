@@ -1,5 +1,11 @@
 ﻿@model CoreShop.Models.ProfileVM
 
+@{
+    ViewData["Title"] = "Hesabım";
+    // After a failed address submit (or a successful save) land the user on the address tab.
+    var activeSection = Model.ShowAddressForm || TempData.Peek("Success") != null ? "address" : "profile";
+}
+
 <style>
     body {
         background: #f8fafc;
@@ -249,8 +255,8 @@
             </div>
 
             <div class="menu">
-                <a href="#" onclick="showSection(event,'profile')" class="active">Profil</a>
-                <a href="#" onclick="showSection(event,'address')">Adres</a>
+                <a href="#" onclick="showSection(event,'profile')" class="@(activeSection == "profile" ? "active" : null)">Profil</a>
+                <a href="#" onclick="showSection(event,'address')" class="@(activeSection == "address" ? "active" : null)">Adres</a>
                 <a href="#" onclick="showSection(event,'orders')">Siparişler</a>
                 <form asp-action="Logout" method="post" class="m-0">
                     <button type="submit" class="logout-btn">Çıkış</button>
@@ -263,7 +269,14 @@
 
             <div class="title">Hesabım</div>
 
-            <div id="profileSection" class="section active">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success rounded-4" role="alert">
+                    <i class="fa-solid fa-circle-check me-2"></i> @TempData["Success"]
+                </div>
+            }
+
+            <div id="profileSection" class="section @(activeSection == "profile" ? "active" : null)">
 
                 <div class="box">
                     <div class="label">Ad Soyad</div>
@@ -282,7 +295,7 @@
 
             </div>
 
-            <div id="addressSection" class="section">
+            <div id="addressSection" class="section @(activeSection == "address" ? "active" : null)">
 
                 <div class="box mb-3">
 
@@ -310,37 +323,43 @@
 
                 </div>
 
-                <div id="editForm" class="box" style="display:none;">
+                <div id="editForm" class="box" style="display:@(Model.ShowAddressForm ? "block" : "none");">
 
-                    <form asp-action="UpdateProfile" method="post">
+                    <form asp-action="UpdateProfile" method="post" novalidate>
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger fw-semibold mb-3"></div>
 
                         <div class="row">
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
-                                    <input asp-for="User.City" class="form-control" placeholder="Şehir" />
-                                    <label>Şehir</label>
+                                    <input asp-for="AddressForm.City" class="form-control" placeholder="Şehir" />
+                                    <label asp-for="AddressForm.City">Şehir</label>
                                 </div>
+                                <span asp-validation-for="AddressForm.City" class="text-danger small"></span>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
-                                    <input asp-for="User.District" class="form-control" placeholder="İlçe" />
-                                    <label>İlçe</label>
+                                    <input asp-for="AddressForm.District" class="form-control" placeholder="İlçe" />
+                                    <label asp-for="AddressForm.District">İlçe</label>
                                 </div>
+                                <span asp-validation-for="AddressForm.District" class="text-danger small"></span>
                             </div>
 
                         </div>
 
-                        <div class="form-floating mb-3">
-                            <textarea asp-for="User.FullAddress" class="form-control" placeholder="Adres" style="height:100px;"></textarea>
-                            <label>Açık Adres</label>
+                        <div class="form-floating mb-1">
+                            <textarea asp-for="AddressForm.FullAddress" class="form-control" placeholder="Adres" style="height:100px;"></textarea>
+                            <label asp-for="AddressForm.FullAddress">Açık Adres</label>
                         </div>
+                        <span asp-validation-for="AddressForm.FullAddress" class="text-danger small d-block mb-3"></span>
 
-                        <div class="form-floating mb-3">
-                            <input asp-for="User.PhoneNumber" class="form-control" placeholder="Telefon" />
-                            <label>Telefon</label>
+                        <div class="form-floating mb-1">
+                            <input asp-for="AddressForm.PhoneNumber" class="form-control" placeholder="Telefon" />
+                            <label asp-for="AddressForm.PhoneNumber">Telefon</label>
                         </div>
+                        <span asp-validation-for="AddressForm.PhoneNumber" class="text-danger small d-block mb-3"></span>
 
                         <button class="btn-save">
                             <i class="fa-solid fa-floppy-disk me-2"></i>
@@ -354,10 +373,11 @@
             </div>
 
             <div id="ordersSection" class="section">
-                @if (Model.Orders != null && Model.Orders.Any())
+                @if (Model.Orders.Any())
                 {
-                    foreach (var order in Model.Orders.OrderByDescending(x => x.ID))
+                    foreach (var entry in Model.Orders)
                     {
+                        var order = entry.Order;
                         <div class="order-card mb-4">
 
                             <div class="order-top">
@@ -394,7 +414,7 @@
 
                                 <h5 class="section-title">Sipariş Ürünleri</h5>
 
-                                @foreach (var item in Model.OrderDetails.Where(x => x.OrderId == order.ID))
+                                @foreach (var item in entry.Details)
                                 {
                                     <div class="product-row">
 
@@ -450,6 +470,14 @@
                         </div>
                     }
                 }
+                else
+                {
+                    <div class="empty">
+                        <i class="fa-solid fa-box-open fa-2x mb-3 d-block"></i>
+                        <div class="fw-bold mb-1">Henüz siparişin yok</div>
+                        <div>Alışverişe başladığında siparişlerin burada listelenir.</div>
+                    </div>
+                }
             </div>
 
         </div>
@@ -494,3 +522,7 @@
     }
 
 </script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

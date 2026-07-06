@@ -1,10 +1,11 @@
-﻿using CoreShop.CORE.Service;
+using CoreShop.Areas.Models;
+using CoreShop.CORE.Service;
 using CoreShop.MODEL.Constants;
 using CoreShop.MODEL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoreShop.Areas.Admin.Controllers 
+namespace CoreShop.Areas.Admin.Controllers
 {
     [Authorize(Roles = UserRoles.Admin)]
     [Area("Admin")]
@@ -26,22 +27,27 @@ namespace CoreShop.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new CategoryFormVM());
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public IActionResult Create(CategoryFormVM model)
         {
-            category.Products = null;
-
             if (!ModelState.IsValid)
             {
-                return View(category);
+                return View(model);
             }
 
-            _categoryService.Create(category);
+            _categoryService.Create(new Category
+            {
+                CategoryName = model.CategoryName.Trim(),
+                Description = model.Description?.Trim()
+            });
+
+            TempData["Success"] = "Kategori eklendi.";
             return RedirectToAction("List");
         }
+
         [HttpPost]
         public IActionResult Delete(int id)
         {
@@ -50,6 +56,7 @@ namespace CoreShop.Areas.Admin.Controllers
             if (category != null)
             {
                 _categoryService.Delete(category);
+                TempData["Success"] = "Kategori silindi.";
             }
 
             return RedirectToAction("List");
@@ -65,20 +72,35 @@ namespace CoreShop.Areas.Admin.Controllers
                 return RedirectToAction("List");
             }
 
-            return View(category);
+            return View(new CategoryFormVM
+            {
+                ID = category.ID,
+                CategoryName = category.CategoryName,
+                Description = category.Description
+            });
         }
 
         [HttpPost]
-        public IActionResult Update(Category category)
+        public IActionResult Update(CategoryFormVM model)
         {
-            category.Products = null;
-
             if (!ModelState.IsValid)
             {
-                return View(category);
+                return View(model);
             }
 
-            _categoryService.Update(category);
+            var existingCategory = _categoryService.GetById(model.ID);
+
+            if (existingCategory == null)
+            {
+                return RedirectToAction("List");
+            }
+
+            existingCategory.CategoryName = model.CategoryName.Trim();
+            existingCategory.Description = model.Description?.Trim();
+
+            _categoryService.Update(existingCategory);
+
+            TempData["Success"] = "Kategori güncellendi.";
             return RedirectToAction("List");
         }
     }

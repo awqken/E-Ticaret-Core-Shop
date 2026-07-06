@@ -74,7 +74,7 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input asp-for="CardNumber" class="form-control" maxlength="16" placeholder="Kart Numarası" />
+                        <input asp-for="CardNumber" class="form-control" maxlength="19" inputmode="numeric" placeholder="Kart Numarası" />
                         <label>Kart Numarası</label>
                         <span asp-validation-for="CardNumber" class="text-danger"></span>
                     </div>
@@ -126,7 +126,8 @@
 <script>
     
     document.querySelector('[name="CardNumber"]').addEventListener("input", function () {
-        this.value = this.value.replace(/\D/g, '').slice(0,16);
+        const digits = this.value.replace(/\D/g, '').slice(0, 16);
+        this.value = digits.replace(/(\d{4})(?=\d)/g, '$1 ');
     });
 
     document.querySelector('[name="CVV"]').addEventListener("input", function () {

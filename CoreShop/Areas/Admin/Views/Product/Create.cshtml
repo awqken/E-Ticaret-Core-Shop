@@ -1,4 +1,4 @@
-﻿@model CoreShop.MODEL.Entities.Product
+﻿@model CoreShop.Areas.Models.ProductFormVM
 
 @{
     ViewData["Title"] = "Ürün Ekle";
@@ -46,40 +46,47 @@
                         <div class="row g-4">
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Ürün Adı</label>
+                                <label asp-for="ProductName" class="form-label fw-semibold">Ürün Adı</label>
                                 <input asp-for="ProductName" class="form-control custom-input" placeholder="Örn: RTX 4060 Ekran Kartı" />
+                                <span asp-validation-for="ProductName" class="text-danger small"></span>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Marka</label>
+                                <label asp-for="ProductBrand" class="form-label fw-semibold">Marka</label>
                                 <input asp-for="ProductBrand" class="form-control custom-input" placeholder="Örn: ASUS" />
+                                <span asp-validation-for="ProductBrand" class="text-danger small"></span>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Fiyat</label>
+                                <label asp-for="ProductPrice" class="form-label fw-semibold">Fiyat</label>
                                 <input asp-for="ProductPrice" class="form-control custom-input" placeholder="Örn: 12499" />
+                                <span asp-validation-for="ProductPrice" class="text-danger small"></span>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Stok</label>
+                                <label asp-for="ProductStock" class="form-label fw-semibold">Stok</label>
                                 <input asp-for="ProductStock" class="form-control custom-input" placeholder="Örn: 15" />
+                                <span asp-validation-for="ProductStock" class="text-danger small"></span>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Kategori</label>
+                                <label asp-for="CategoryId" class="form-label fw-semibold">Kategori</label>
                                 <select asp-for="CategoryId" class="form-select custom-input" asp-items="ViewBag.Categories">
                                     <option value="">Kategori Seçiniz</option>
                                 </select>
+                                <span asp-validation-for="CategoryId" class="text-danger small"></span>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Ürün Görseli</label>
-                                <input type="file" name="ImageFile" class="form-control custom-input" />
+                                <label asp-for="ImageFile" class="form-label fw-semibold">Ürün Görseli</label>
+                                <input asp-for="ImageFile" type="file" class="form-control custom-input" accept=".jpg,.jpeg,.png,.webp" />
+                                <span asp-validation-for="ImageFile" class="text-danger small"></span>
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Açıklama</label>
+                                <label asp-for="Description" class="form-label fw-semibold">Açıklama</label>
                                 <textarea asp-for="Description" class="form-control custom-input" rows="4" placeholder="Ürün hakkında kısa açıklama giriniz..."></textarea>
+                                <span asp-validation-for="Description" class="text-danger small"></span>
                             </div>
 
                             <div class="col-12 d-flex gap-3 mt-4">

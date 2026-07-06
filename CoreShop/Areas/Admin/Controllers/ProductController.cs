@@ -1,3 +1,4 @@
+using CoreShop.Areas.Models;
 using CoreShop.CORE.Service;
 using CoreShop.MODEL.Constants;
 using CoreShop.MODEL.Entities;
@@ -88,6 +89,7 @@ namespace CoreShop.Areas.Admin.Controllers
             }
 
             ViewBag.Sort = sort;
+            ViewBag.Search = search;
             ViewBag.Categories = _categoryService.GetAll();
             return View(products);
         }
@@ -96,40 +98,36 @@ namespace CoreShop.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewBag.Categories = GetCategoryOptions();
-            return View();
+            return View(new ProductFormVM());
         }
 
         [HttpPost]
-        public IActionResult Create(Product product, IFormFile? ImageFile)
+        public IActionResult Create(ProductFormVM model)
         {
-            if (ImageFile != null && ImageFile.Length > 0)
+            if (!ModelState.IsValid)
             {
-                if (_imageUploadService.TrySaveProductImage(ImageFile, out var imagePath, out var uploadError))
-                {
-                    product.ProductImage = imagePath;
-                }
-                else
-                {
-                    ModelState.AddModelError("ImageFile", uploadError ?? "Görsel yüklenemedi.");
-                    ViewBag.Categories = GetCategoryOptions();
-                    return View(product);
-                }
+                ViewBag.Categories = GetCategoryOptions();
+                return View(model);
             }
 
-            _productService.Create(product);
-            return RedirectToAction("List");
-        }
-
-        [HttpPost]
-        public IActionResult Delete(int id)
-        {
-            var product = _productService.GetById(id);
-
-            if (product != null)
+            if (!TryApplyUploadedImage(model))
             {
-                _productService.Delete(product);
+                ViewBag.Categories = GetCategoryOptions();
+                return View(model);
             }
 
+            _productService.Create(new Product
+            {
+                ProductName = model.ProductName.Trim(),
+                ProductBrand = model.ProductBrand.Trim(),
+                ProductPrice = model.ProductPrice,
+                ProductStock = model.ProductStock,
+                CategoryId = model.CategoryId,
+                Description = model.Description?.Trim(),
+                ProductImage = model.ProductImage
+            });
+
+            TempData["Success"] = "Ürün eklendi.";
             return RedirectToAction("List");
         }
 
@@ -144,51 +142,94 @@ namespace CoreShop.Areas.Admin.Controllers
             }
 
             ViewBag.Categories = GetCategoryOptions();
-            return View(product);
+
+            return View(new ProductFormVM
+            {
+                ID = product.ID,
+                ProductName = product.ProductName,
+                ProductBrand = product.ProductBrand,
+                ProductPrice = product.ProductPrice,
+                ProductStock = product.ProductStock,
+                CategoryId = product.CategoryId,
+                Description = product.Description,
+                ProductImage = product.ProductImage
+            });
         }
 
         [HttpPost]
-        public IActionResult Update(Product product, IFormFile? ImageFile)
+        public IActionResult Update(ProductFormVM model)
         {
-            ViewBag.Categories = GetCategoryOptions();
-
-            ModelState.Remove("Category");
-            ModelState.Remove("ImageFile");
-
             if (!ModelState.IsValid)
             {
-                return View(product);
+                ViewBag.Categories = GetCategoryOptions();
+                return View(model);
             }
 
-            var existingProduct = _productService.GetById(product.ID);
+            var existingProduct = _productService.GetById(model.ID);
 
             if (existingProduct == null)
             {
                 return RedirectToAction("List");
             }
 
-            if (ImageFile != null && ImageFile.Length > 0)
+            var previousImage = existingProduct.ProductImage;
+
+            if (!TryApplyUploadedImage(model))
             {
-                if (_imageUploadService.TrySaveProductImage(ImageFile, out var imagePath, out var uploadError))
-                {
-                    existingProduct.ProductImage = imagePath;
-                }
-                else
-                {
-                    ModelState.AddModelError("ImageFile", uploadError ?? "Görsel yüklenemedi.");
-                    return View(product);
-                }
+                ViewBag.Categories = GetCategoryOptions();
+                return View(model);
             }
 
-            existingProduct.ProductName = product.ProductName;
-            existingProduct.ProductBrand = product.ProductBrand;
-            existingProduct.ProductPrice = product.ProductPrice;
-            existingProduct.ProductStock = product.ProductStock;
-            existingProduct.Description = product.Description;
-            existingProduct.CategoryId = product.CategoryId;
+            existingProduct.ProductName = model.ProductName.Trim();
+            existingProduct.ProductBrand = model.ProductBrand.Trim();
+            existingProduct.ProductPrice = model.ProductPrice;
+            existingProduct.ProductStock = model.ProductStock;
+            existingProduct.CategoryId = model.CategoryId;
+            existingProduct.Description = model.Description?.Trim();
+            existingProduct.ProductImage = model.ProductImage;
 
             _productService.Update(existingProduct);
+
+            // A newly uploaded file replaced the old one; clean up the orphan.
+            if (previousImage != existingProduct.ProductImage)
+                _imageUploadService.DeleteProductImage(previousImage);
+
+            TempData["Success"] = "Ürün güncellendi.";
             return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var product = _productService.GetById(id);
+
+            if (product != null)
+            {
+                _productService.Delete(product);
+                _imageUploadService.DeleteProductImage(product.ProductImage);
+                TempData["Success"] = "Ürün silindi.";
+            }
+
+            return RedirectToAction("List");
+        }
+
+        /// <summary>
+        /// Stores the uploaded file (when present) and points the form model at it.
+        /// On rejection adds a field-level error and returns false.
+        /// </summary>
+        private bool TryApplyUploadedImage(ProductFormVM model)
+        {
+            if (model.ImageFile == null || model.ImageFile.Length == 0)
+                return true;
+
+            if (_imageUploadService.TrySaveProductImage(model.ImageFile, out var imagePath, out var uploadError))
+            {
+                model.ProductImage = imagePath;
+                return true;
+            }
+
+            ModelState.AddModelError(nameof(model.ImageFile), uploadError ?? "Görsel yüklenemedi.");
+            return false;
         }
 
         private List<SelectListItem> GetCategoryOptions()

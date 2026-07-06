@@ -1,4 +1,4 @@
-﻿@model CoreShop.MODEL.Entities.Product
+﻿@model CoreShop.Areas.Models.ProductFormVM
 
 @{
     ViewData["Title"] = "Ürün Güncelle";
@@ -83,13 +83,15 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Yeni Görsel</label>
-                                <input type="file" name="ImageFile" class="form-control custom-input" />
+                                <label asp-for="ImageFile" class="form-label fw-semibold">Yeni Görsel</label>
+                                <input asp-for="ImageFile" type="file" class="form-control custom-input" accept=".jpg,.jpeg,.png,.webp" />
+                                <span asp-validation-for="ImageFile" class="text-danger small"></span>
                             </div>
 
                             <div class="col-12">
                                 <label asp-for="Description" class="form-label fw-semibold">Açıklama</label>
                                 <textarea asp-for="Description" class="form-control custom-input" rows="5" placeholder="Ürün hakkında kısa bilgi giriniz..."></textarea>
+                                <span asp-validation-for="Description" class="text-danger small"></span>
                             </div>
 
                             @if (!string.IsNullOrEmpty(Model.ProductImage))
