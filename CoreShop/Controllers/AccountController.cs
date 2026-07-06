@@ -1,4 +1,5 @@
 using CoreShop.CORE.Service;
+using CoreShop.MODEL.Constants;
 using CoreShop.MODEL.Entities;
 using CoreShop.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -118,7 +119,7 @@ namespace CoreShop.Controllers
             }
 
             user.Password = _passwordHasher.HashPassword(user, user.Password);
-            user.Role = "User";
+            user.Role = UserRoles.Customer;
 
             _userService.Create(user);
 

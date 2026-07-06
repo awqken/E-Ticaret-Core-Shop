@@ -1,4 +1,4 @@
-﻿using CoreShop.CORE.Service;
+using CoreShop.CORE.Service;
 using CoreShop.MODEL.Entities;
 using CoreShop.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -29,17 +29,7 @@ namespace CoreShop.Controllers
                                              .OrderBy(x => x.CategoryName)
                                              .ToList()
             };
-            var cartJson = HttpContext.Session.GetString("Cart");
 
-            if (!string.IsNullOrEmpty(cartJson))
-            {
-                var cart = System.Text.Json.JsonSerializer.Deserialize<List<CoreShop.Models.CartItem>>(cartJson);
-                ViewBag.CartCount = cart?.Sum(x => x.Quantity) ?? 0;
-            }
-            else
-            {
-                ViewBag.CartCount = 0;
-            }
             return View(model);
         }
     }

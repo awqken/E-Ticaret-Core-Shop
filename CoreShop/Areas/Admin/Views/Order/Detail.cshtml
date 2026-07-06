@@ -69,30 +69,7 @@
                 <div class="mb-3">
                     <small class="text-muted d-block">Durum</small>
 
-                    @if (Model.Order.Status == "Paid")
-                    {
-                        <span class="badge bg-success px-3 py-2">💳 Ödendi</span>
-                    }
-                    else if (Model.Order.Status == "Hazırlanıyor")
-                    {
-                        <span class="badge bg-warning text-dark px-3 py-2">📦 Hazırlanıyor</span>
-                    }
-                    else if (Model.Order.Status == "Kargoda")
-                    {
-                        <span class="badge bg-primary px-3 py-2">🚚 Kargoda</span>
-                    }
-                    else if (Model.Order.Status == "Teslim Edildi")
-                    {
-                        <span class="badge bg-success px-3 py-2">✅ Teslim Edildi</span>
-                    }
-                    else if (Model.Order.Status == "Cancelled")
-                    {
-                        <span class="badge bg-danger px-3 py-2">❌ İptal Edildi</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-dark px-3 py-2">@Model.Order.Status</span>
-                    }
+                    <partial name="_OrderStatusBadge" model="Model.Order.Status" />
                 </div>
 
                 <div class="mb-3">

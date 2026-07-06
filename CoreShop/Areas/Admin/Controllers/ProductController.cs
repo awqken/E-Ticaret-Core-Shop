@@ -1,4 +1,5 @@
 using CoreShop.CORE.Service;
+using CoreShop.MODEL.Constants;
 using CoreShop.MODEL.Entities;
 using CoreShop.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CoreShop.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     [Area("Admin")]
     public class ProductController : Controller
     {

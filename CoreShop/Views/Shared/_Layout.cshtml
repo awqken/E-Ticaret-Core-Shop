@@ -221,12 +221,7 @@
                    asp-action="Index">
                     <i class="fa-solid fa-cart-shopping me-2"></i> Sepet
 
-                    @if (ViewBag.CartCount != null && (int)ViewBag.CartCount > 0)
-                    {
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
-                            @ViewBag.CartCount
-                        </span>
-                    }
+                    @await Component.InvokeAsync("CartBadge")
                 </a>
 
             </div>

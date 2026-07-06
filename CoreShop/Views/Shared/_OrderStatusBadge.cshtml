@@ -1,0 +1,30 @@
+@using CoreShop.MODEL.Enums
+@model OrderStatus
+
+@{
+    var badgeCssClass = Model switch
+    {
+        OrderStatus.Pending => "bg-secondary",
+        OrderStatus.Paid => "bg-success",
+        OrderStatus.Preparing => "bg-warning text-dark",
+        OrderStatus.Shipped => "bg-primary",
+        OrderStatus.Delivered => "bg-success",
+        OrderStatus.Cancelled => "bg-danger",
+        _ => "bg-dark"
+    };
+
+    var icon = Model switch
+    {
+        OrderStatus.Pending => "fa-solid fa-hourglass-half",
+        OrderStatus.Paid => "fa-solid fa-credit-card",
+        OrderStatus.Preparing => "fa-solid fa-box-open",
+        OrderStatus.Shipped => "fa-solid fa-truck-fast",
+        OrderStatus.Delivered => "fa-solid fa-circle-check",
+        OrderStatus.Cancelled => "fa-solid fa-circle-xmark",
+        _ => "fa-solid fa-circle-info"
+    };
+}
+
+<span class="badge rounded-pill @badgeCssClass px-3 py-2">
+    <i class="@icon me-1"></i> @Model.ToDisplayName()
+</span>

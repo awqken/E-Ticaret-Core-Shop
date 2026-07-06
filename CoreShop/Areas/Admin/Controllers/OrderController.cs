@@ -1,13 +1,15 @@
 ﻿using CoreShop.Areas.Models;
 using CoreShop.CORE.Service;
+using CoreShop.MODEL.Constants;
 using CoreShop.MODEL.Entities;
+using CoreShop.MODEL.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     public class OrderController : Controller
     {
         private readonly ICoreService<Order> _orderService;
@@ -54,14 +56,14 @@ namespace CoreShop.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateStatus(int id, string status)
+        public IActionResult UpdateStatus(int id, OrderStatus status)
         {
             var order = _orderService.GetById(id);
 
             if (order == null)
                 return RedirectToAction("List");
 
-            if (order.Status == "Teslim Edildi" || order.Status == "Cancelled")
+            if (!order.Status.CanTransitionTo(status))
                 return RedirectToAction("List");
 
             order.Status = status;

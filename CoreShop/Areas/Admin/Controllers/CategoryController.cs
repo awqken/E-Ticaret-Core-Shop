@@ -1,11 +1,12 @@
 ﻿using CoreShop.CORE.Service;
+using CoreShop.MODEL.Constants;
 using CoreShop.MODEL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreShop.Areas.Admin.Controllers 
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     [Area("Admin")]
     public class CategoryController : Controller
     {

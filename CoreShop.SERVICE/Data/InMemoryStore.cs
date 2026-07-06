@@ -1,5 +1,7 @@
 using CoreShop.CORE.Entity;
 using CoreShop.MODEL.Entities;
+using CoreShop.MODEL.Constants;
+using CoreShop.MODEL.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace CoreShop.SERVICE.Data
@@ -118,7 +120,7 @@ namespace CoreShop.SERVICE.Data
                 ID          = 1,
                 FullName    = "Admin",
                 Email       = "admin@coreshop.com",
-                Role        = "Admin",
+                Role        = UserRoles.Admin,
                 City        = "İstanbul",
                 District    = "Kadıköy",
                 FullAddress = "CoreShop Merkez Ofis",
@@ -133,14 +135,14 @@ namespace CoreShop.SERVICE.Data
         // ── Orders ────────────────────────────────────────────────────────────
         private static List<Order> CreateOrders() => new()
         {
-            new() { ID=1, UserId=1, TotalPrice=21498, Status="Teslim Edildi", OrderDate=DateTime.Now.AddDays(-30), FullName="Ahmet Yılmaz",  PhoneNumber="05321234567", City="İstanbul",  District="Kadıköy",    FullAddress="Moda Cad. No:12", CardName="Ahmet Yılmaz",  CardLast4="4242" },
-            new() { ID=2, UserId=1, TotalPrice=8499,  Status="Teslim Edildi", OrderDate=DateTime.Now.AddDays(-25), FullName="Ayşe Kaya",     PhoneNumber="05339876543", City="Ankara",    District="Çankaya",    FullAddress="Atatürk Blv. No:55", CardName="Ayşe Kaya",   CardLast4="1234" },
-            new() { ID=3, UserId=1, TotalPrice=34999, Status="Kargoda",       OrderDate=DateTime.Now.AddDays(-10), FullName="Mehmet Demir",  PhoneNumber="05441112233", City="İzmir",     District="Konak",      FullAddress="Kemeraltı Cad. No:8", CardName="Mehmet Demir", CardLast4="5678" },
-            new() { ID=4, UserId=1, TotalPrice=6299,  Status="Hazırlanıyor",  OrderDate=DateTime.Now.AddDays(-5),  FullName="Fatma Çelik",   PhoneNumber="05352223344", City="Bursa",     District="Osmangazi",  FullAddress="İnegöl Yolu No:3", CardName="Fatma Çelik",   CardLast4="9012" },
-            new() { ID=5, UserId=1, TotalPrice=12499, Status="Paid",          OrderDate=DateTime.Now.AddDays(-2),  FullName="Ali Şahin",     PhoneNumber="05467778899", City="Antalya",   District="Muratpaşa",  FullAddress="Lara Cad. No:77", CardName="Ali Şahin",      CardLast4="3456" },
-            new() { ID=6, UserId=1, TotalPrice=4999,  Status="Teslim Edildi", OrderDate=DateTime.Now.AddDays(-20), FullName="Zeynep Arslan", PhoneNumber="05321239876", City="İstanbul",  District="Beşiktaş",   FullAddress="Barbaros Blv. No:22", CardName="Zeynep Arslan", CardLast4="7890" },
-            new() { ID=7, UserId=1, TotalPrice=19999, Status="Teslim Edildi", OrderDate=DateTime.Now.AddDays(-15), FullName="Emre Yıldız",   PhoneNumber="05449990011", City="Eskişehir", District="Odunpazarı", FullAddress="Yunus Emre Mah. No:5", CardName="Emre Yıldız",  CardLast4="2345" },
-            new() { ID=8, UserId=1, TotalPrice=24999, Status="Cancelled",     OrderDate=DateTime.Now.AddDays(-8),  FullName="Selin Koç",     PhoneNumber="05363334455", City="Konya",     District="Selçuklu",   FullAddress="Mevlana Cad. No:9", CardName="Selin Koç",     CardLast4="6789" },
+            new() { ID=1, UserId=1, TotalPrice=21498, Status=OrderStatus.Delivered, OrderDate=DateTime.Now.AddDays(-30), FullName="Ahmet Yılmaz",  PhoneNumber="05321234567", City="İstanbul",  District="Kadıköy",    FullAddress="Moda Cad. No:12", CardName="Ahmet Yılmaz",  CardLast4="4242" },
+            new() { ID=2, UserId=1, TotalPrice=8499,  Status=OrderStatus.Delivered, OrderDate=DateTime.Now.AddDays(-25), FullName="Ayşe Kaya",     PhoneNumber="05339876543", City="Ankara",    District="Çankaya",    FullAddress="Atatürk Blv. No:55", CardName="Ayşe Kaya",   CardLast4="1234" },
+            new() { ID=3, UserId=1, TotalPrice=34999, Status=OrderStatus.Shipped,       OrderDate=DateTime.Now.AddDays(-10), FullName="Mehmet Demir",  PhoneNumber="05441112233", City="İzmir",     District="Konak",      FullAddress="Kemeraltı Cad. No:8", CardName="Mehmet Demir", CardLast4="5678" },
+            new() { ID=4, UserId=1, TotalPrice=6299,  Status=OrderStatus.Preparing,  OrderDate=DateTime.Now.AddDays(-5),  FullName="Fatma Çelik",   PhoneNumber="05352223344", City="Bursa",     District="Osmangazi",  FullAddress="İnegöl Yolu No:3", CardName="Fatma Çelik",   CardLast4="9012" },
+            new() { ID=5, UserId=1, TotalPrice=12499, Status=OrderStatus.Paid,          OrderDate=DateTime.Now.AddDays(-2),  FullName="Ali Şahin",     PhoneNumber="05467778899", City="Antalya",   District="Muratpaşa",  FullAddress="Lara Cad. No:77", CardName="Ali Şahin",      CardLast4="3456" },
+            new() { ID=6, UserId=1, TotalPrice=4999,  Status=OrderStatus.Delivered, OrderDate=DateTime.Now.AddDays(-20), FullName="Zeynep Arslan", PhoneNumber="05321239876", City="İstanbul",  District="Beşiktaş",   FullAddress="Barbaros Blv. No:22", CardName="Zeynep Arslan", CardLast4="7890" },
+            new() { ID=7, UserId=1, TotalPrice=19999, Status=OrderStatus.Delivered, OrderDate=DateTime.Now.AddDays(-15), FullName="Emre Yıldız",   PhoneNumber="05449990011", City="Eskişehir", District="Odunpazarı", FullAddress="Yunus Emre Mah. No:5", CardName="Emre Yıldız",  CardLast4="2345" },
+            new() { ID=8, UserId=1, TotalPrice=24999, Status=OrderStatus.Cancelled,     OrderDate=DateTime.Now.AddDays(-8),  FullName="Selin Koç",     PhoneNumber="05363334455", City="Konya",     District="Selçuklu",   FullAddress="Mevlana Cad. No:9", CardName="Selin Koç",     CardLast4="6789" },
         };
 
         // ── Order Details ─────────────────────────────────────────────────────

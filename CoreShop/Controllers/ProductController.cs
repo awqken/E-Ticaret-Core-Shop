@@ -101,18 +101,6 @@ namespace CoreShop.Controllers
                 MaxPrice = maxPrice
             };
 
-            var cartJson = HttpContext.Session.GetString("Cart");
-
-            if (!string.IsNullOrEmpty(cartJson))
-            {
-                var cart = System.Text.Json.JsonSerializer.Deserialize<List<CartItem>>(cartJson);
-                ViewBag.CartCount = cart?.Sum(x => x.Quantity) ?? 0;
-            }
-            else
-            {
-                ViewBag.CartCount = 0;
-            }
-
             return View(model);
         }
         public IActionResult Detail(int id)
@@ -142,23 +130,11 @@ namespace CoreShop.Controllers
                 relatedProducts.AddRange(extraProducts);
             }
 
-            var model = new CoreShop.Models.ProductDetailVM
+            var model = new ProductDetailVM
             {
                 Product = product,
                 RelatedProducts = relatedProducts
             };
-
-            var cartJson = HttpContext.Session.GetString("Cart");
-
-            if (!string.IsNullOrEmpty(cartJson))
-            {
-                var cart = System.Text.Json.JsonSerializer.Deserialize<List<CoreShop.Models.CartItem>>(cartJson);
-                ViewBag.CartCount = cart?.Sum(x => x.Quantity) ?? 0;
-            }
-            else
-            {
-                ViewBag.CartCount = 0;
-            }
 
             return View(model);
         }

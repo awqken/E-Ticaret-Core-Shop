@@ -20,13 +20,13 @@ namespace CoreShop.SERVICE.Queries
             lock (_lock) return Store.FirstOrDefault(x => x.ID == id);
         }
 
-        public bool Create(T entity)
+        public T Create(T entity)
         {
             lock (_lock)
             {
                 entity.ID = Store.Count == 0 ? 1 : Store.Max(x => x.ID) + 1;
                 Store.Add(entity);
-                return true;
+                return entity;
             }
         }
 

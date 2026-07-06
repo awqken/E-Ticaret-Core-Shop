@@ -1,4 +1,5 @@
 using CoreShop.CORE.Entity;
+using CoreShop.MODEL.Enums;
 
 namespace CoreShop.MODEL.Entities
 {
@@ -8,7 +9,7 @@ namespace CoreShop.MODEL.Entities
 
         public decimal TotalPrice { get; set; }
 
-        public string Status { get; set; } = "Pending";
+        public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
 

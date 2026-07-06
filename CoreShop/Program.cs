@@ -16,6 +16,11 @@ builder.Services.AddScoped(typeof(ICoreService<>), typeof(CoreService<>));
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IImageUploadService, ImageUploadService>();
 
+// CartService reaches the session through IHttpContextAccessor.
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICheckoutService, CheckoutService>();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromHours(2);

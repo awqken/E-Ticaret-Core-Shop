@@ -1,12 +1,14 @@
 ﻿using CoreShop.Areas.Models;
 using CoreShop.CORE.Service;
+using CoreShop.MODEL.Constants;
 using CoreShop.MODEL.Entities;
+using CoreShop.MODEL.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreShop.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.Admin)]
     [Area("Admin")]
     public class HomeController : Controller
     {
@@ -15,12 +17,16 @@ namespace CoreShop.Areas.Admin.Controllers
         private readonly ICoreService<Product> _productService;
         private readonly ICoreService<User> _userService;
 
-        public HomeController(ICoreService<Order> odb, ICoreService<Category> cdb, ICoreService<Product> pdb, ICoreService<User> udb)
+        public HomeController(
+            ICoreService<Order> orderService,
+            ICoreService<Category> categoryService,
+            ICoreService<Product> productService,
+            ICoreService<User> userService)
         {
-            _orderService    = odb;
-            _categoryService = cdb;
-            _productService  = pdb;
-            _userService     = udb;
+            _orderService    = orderService;
+            _categoryService = categoryService;
+            _productService  = productService;
+            _userService     = userService;
         }
 
         public IActionResult Index()
@@ -40,7 +46,7 @@ namespace CoreShop.Areas.Admin.Controllers
                 UserCount     = _userService.GetAll().Count(),
                 LowStockProducts = lowStock.Take(6).ToList(),
                 LowStockCount    = lowStock.Count(),
-                TotalRevenue  = orders.Where(x => x.Status != "Cancelled").Sum(x => x.TotalPrice),
+                TotalRevenue  = orders.Where(x => x.Status != OrderStatus.Cancelled).Sum(x => x.TotalPrice),
                 LastProducts  = products.OrderByDescending(x => x.ID).Take(5).ToList()
             };
 

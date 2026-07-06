@@ -66,46 +66,15 @@
                     </div>
 
                     <div class="mb-3">
-
-                        @if (item.Status == "Paid")
-                        {
-                            <span class="badge bg-success px-3 py-2">
-                                💳 Ödendi
-                            </span>
-                        }
-                        else if (item.Status == "Hazırlanıyor")
-                        {
-                            <span class="badge bg-warning text-dark px-3 py-2">
-                                📦 Hazırlanıyor
-                            </span>
-                        }
-                        else if (item.Status == "Kargoda")
-                        {
-                            <span class="badge bg-primary px-3 py-2">
-                                🚚 Kargoda
-                            </span>
-                        }
-                        else if (item.Status == "Teslim Edildi")
-                        {
-                            <span class="badge bg-success px-3 py-2">
-                                ✅ Teslim Edildi
-                            </span>
-                        }
-                        else if (item.Status == "Cancelled")
-                        {
-                            <span class="badge bg-danger px-3 py-2">
-                                ❌ İptal Edildi
-                            </span>
-                        }
-
+                        <partial name="_OrderStatusBadge" model="item.Status" />
                     </div>
 
-                    @if (item.Status == "Teslim Edildi" || item.Status == "Cancelled")
+                    @if (item.Status.IsFinal())
                     {
                         <div class="d-flex gap-2">
 
                             <select class="form-select" disabled>
-                                <option>@item.Status</option>
+                                <option>@item.Status.ToDisplayName()</option>
                             </select>
 
                             <button class="btn btn-secondary" disabled>
@@ -127,75 +96,16 @@
 
                             <div class="d-flex gap-2">
 
-                                <select name="status"
-                                        class="form-select">
+                                <select name="status" class="form-select">
 
-                                    @if (item.Status == "Paid")
+                                    <option selected disabled>
+                                        @item.Status.ToDisplayName()
+                                    </option>
+
+                                    @foreach (var target in item.Status.GetAllowedTransitions())
                                     {
-                                        <option value="Paid" selected disabled>
-                                            Ödendi
-                                        </option>
-
-                                        <option value="Hazırlanıyor">
-                                            Hazırlanıyor
-                                        </option>
-
-                                        <option value="Kargoda" disabled>
-                                            Kargoda
-                                        </option>
-
-                                        <option value="Teslim Edildi" disabled>
-                                            Teslim Edildi
-                                        </option>
-
-                                        <option value="Cancelled">
-                                            İptal Edildi
-                                        </option>
-                                    }
-
-                                    else if (item.Status == "Hazırlanıyor")
-                                    {
-                                        <option value="Paid" disabled>
-                                            Ödendi
-                                        </option>
-
-                                        <option value="Hazırlanıyor" selected disabled>
-                                            Hazırlanıyor
-                                        </option>
-
-                                        <option value="Kargoda">
-                                            Kargoda
-                                        </option>
-
-                                        <option value="Teslim Edildi" disabled>
-                                            Teslim Edildi
-                                        </option>
-
-                                        <option value="Cancelled">
-                                            İptal Edildi
-                                        </option>
-                                    }
-
-                                    else if (item.Status == "Kargoda")
-                                    {
-                                        <option value="Paid" disabled>
-                                            Ödendi
-                                        </option>
-
-                                        <option value="Hazırlanıyor" disabled>
-                                            Hazırlanıyor
-                                        </option>
-
-                                        <option value="Kargoda" selected disabled>
-                                            Kargoda
-                                        </option>
-
-                                        <option value="Teslim Edildi">
-                                            Teslim Edildi
-                                        </option>
-
-                                        <option value="Cancelled" disabled>
-                                            İptal Edildi
+                                        <option value="@target">
+                                            @target.ToDisplayName()
                                         </option>
                                     }
 

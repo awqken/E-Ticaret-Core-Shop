@@ -375,44 +375,7 @@
                                     </div>
 
                                     <div class="mt-2">
-
-                                        @if (order.Status == "Pending")
-                                        {
-                                            <span class="badge rounded-pill bg-secondary px-3 py-2">
-                                                ⏳ Beklemede
-                                            </span>
-                                        }
-                                        else if (order.Status == "Hazırlanıyor")
-                                        {
-                                            <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
-                                                📦 Hazırlanıyor
-                                            </span>
-                                        }
-                                        else if (order.Status == "Kargoda")
-                                        {
-                                            <span class="badge rounded-pill bg-primary px-3 py-2">
-                                                🚚 Kargoda
-                                            </span>
-                                        }
-                                        else if (order.Status == "Teslim Edildi")
-                                        {
-                                            <span class="badge rounded-pill bg-success px-3 py-2">
-                                                ✅ Teslim Edildi
-                                            </span>
-                                        }
-                                        else if (order.Status == "Cancelled")
-                                        {
-                                            <span class="badge rounded-pill bg-danger px-3 py-2">
-                                                ❌ İptal Edildi
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge rounded-pill bg-dark px-3 py-2">
-                                                @order.Status
-                                            </span>
-                                        }
-
+                                        <partial name="_OrderStatusBadge" model="order.Status" />
                                     </div>
                                 </div>
 
