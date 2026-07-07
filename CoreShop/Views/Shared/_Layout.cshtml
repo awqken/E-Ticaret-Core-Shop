@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" />
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
@@ -16,21 +16,17 @@
 <body>
     <a class="skip-link" href="#main-content">İçeriğe atla</a>
 
-    <div class="topbar py-2">
-        <div class="container d-flex justify-content-between align-items-center flex-wrap">
-            <div>
-                <i class="fa-solid fa-shield-halved me-2" aria-hidden="true"></i> Güvenli Alışveriş
-            </div>
-            <div>
-                <i class="fa-solid fa-truck-fast me-2" aria-hidden="true"></i> Hızlı Teslimat
-            </div>
-        </div>
+    <div class="announce-bar">
+        <i class="fa-solid fa-bolt me-1" aria-hidden="true"></i>
+        Sezon fırsatları başladı — seçili donanımda <strong>%19'a varan indirim</strong>.
+        <a asp-controller="Product" asp-action="Index">Fırsatları gör</a>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-shell py-3 sticky-top" aria-label="Ana gezinme">
+    <nav class="navbar navbar-expand-lg navbar-shell py-2 sticky-top" aria-label="Ana gezinme">
         <div class="container">
             <a class="navbar-brand brand-logo" asp-controller="Home" asp-action="Index">
-                Core<span>Shop</span>
+                <span class="brand-bolt"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span>
+                Core<span class="brand-core">Shop</span>
             </a>
 
             <button class="navbar-toggler border-0 shadow-none px-2"
@@ -58,16 +54,17 @@
                       asp-action="Index"
                       method="get"
                       role="search"
-                      class="d-flex navbar-search ms-lg-4 me-lg-4">
+                      data-no-loading="true"
+                      class="d-flex navbar-search ms-lg-4 me-lg-4 my-2 my-lg-0">
                     <div class="input-group">
                         <input type="search"
                                name="search"
                                class="form-control"
-                               placeholder="Ürün, marka veya kategori ara..."
+                               placeholder="İşlemci, ekran kartı, SSD ara..."
                                aria-label="Ürün ara"
                                value="@(Context.Request.Query["search"])" />
 
-                        <button class="btn btn-brand" type="submit" aria-label="Ara">
+                        <button class="btn btn-dark" type="submit" aria-label="Ara">
                             <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -90,24 +87,29 @@
                         <a asp-controller="Account"
                            asp-action="Login"
                            class="btn btn-outline-dark">
-                            <i class="fa-solid fa-right-to-bracket me-2" aria-hidden="true"></i> Giriş Yap
+                            Giriş Yap
+                        </a>
+
+                        <a asp-controller="Account"
+                           asp-action="Register"
+                           class="btn btn-brand d-none d-sm-inline-flex">
+                            Kayıt Ol
                         </a>
                     }
                     else
                     {
                         <a asp-controller="Account"
                            asp-action="Profile"
-                           class="btn btn-dark">
+                           class="btn btn-soft">
                             <i class="fa-solid fa-user me-2" aria-hidden="true"></i> Hesabım
                         </a>
                     }
 
-                    <a class="nav-link cart-btn d-inline-flex align-items-center"
+                    <a class="cart-btn"
                        asp-controller="Cart"
                        asp-action="Index"
                        aria-label="Sepetim">
-                        <i class="fa-solid fa-cart-shopping me-2" aria-hidden="true"></i> Sepet
-
+                        <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                         @await Component.InvokeAsync("CartBadge")
                     </a>
 
@@ -125,10 +127,16 @@
             <div class="row g-4 pb-4">
                 <div class="col-lg-4 col-md-6">
                     <div class="footer-brand mb-3">Core<span>Shop</span></div>
-                    <p class="mb-0 pe-lg-5">
-                        Bilgisayar parçaları ve teknoloji ürünlerinde güvenilir adres.
-                        En güncel donanımı uygun fiyatlarla keşfet.
+                    <p class="mb-4 pe-lg-5">
+                        Yeni nesil PC donanımı ve oyuncu ekipmanında güvenilir adres.
+                        İşlemciden kasaya, sistemini parça parça değil — akıllıca kur.
                     </p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Discord"><i class="fa-brands fa-discord" aria-hidden="true"></i></a>
+                    </div>
                 </div>
 
                 <div class="col-lg-2 col-md-6 col-6">
@@ -177,6 +185,7 @@
     <partial name="_Toasts" />
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

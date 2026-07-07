@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="form-floating mb-4">
-                    <textarea asp-for="FullAddress" class="form-control" style="height:110px;" placeholder="Açık Adres" autocomplete="street-address"></textarea>
+                    <textarea asp-for="FullAddress" class="form-control" rows="4" placeholder="Açık Adres" autocomplete="street-address"></textarea>
                     <label asp-for="FullAddress">Açık Adres</label>
                     <span asp-validation-for="FullAddress" class="text-danger small"></span>
                 </div>
@@ -117,7 +117,7 @@
     </div>
 
     <div class="col-lg-5">
-        <div class="surface p-4 position-sticky" style="top: 96px;">
+        <div class="surface p-4 sticky-panel">
 
             <h2 class="h5 fw-bold mb-3">Sipariş Özeti</h2>
 

@@ -1,7 +1,9 @@
+@using CoreShop.Helpers
 @model CoreShop.Models.ProductDetailVM
 
 @{
     ViewData["Title"] = Model.Product.ProductName;
+    var discount = Model.Product.ProductPrice.DiscountPercentFrom(Model.Product.OldPrice);
 }
 
 <nav aria-label="Sayfa yolu">
@@ -20,18 +22,28 @@
                 <img src="~/images/@Model.Product.ProductImage"
                      alt="@Model.Product.ProductName"
                      width="520" height="380"
+                     fetchpriority="high"
                      onerror="this.src='/images/products/default.svg'" />
             </div>
         </div>
 
         <div class="col-lg-6 d-flex flex-column">
 
-            <div class="product-brand mb-1">@Model.Product.ProductBrand</div>
+            <div class="pcard-brand mb-1">@Model.Product.ProductBrand</div>
 
             <h1 class="h2 mb-3">@Model.Product.ProductName</h1>
 
             <div class="d-flex align-items-center gap-3 flex-wrap mb-3">
-                <div class="detail-price">@Model.Product.ProductPrice.ToTryPrice()</div>
+                <div>
+                    @if (discount > 0)
+                    {
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span class="detail-price-old">@Model.Product.OldPrice!.Value.ToTryPrice()</span>
+                            <span class="flag flag-hot">-%@discount</span>
+                        </div>
+                    }
+                    <div class="detail-price">@Model.Product.ProductPrice.ToTryPrice()</div>
+                </div>
 
                 @if (Model.Product.ProductStock > 5)
                 {
@@ -60,21 +72,31 @@
             }
 
             <div class="mt-auto">
-                @if (Model.Product.ProductStock > 0)
-                {
-                    <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Product.ID" method="post" class="d-grid">
-                        <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
-                        <button type="submit" class="btn btn-brand btn-lg">
-                            <i class="fa-solid fa-cart-plus me-2" aria-hidden="true"></i> Sepete Ekle
+                <div class="d-flex gap-2">
+                    @if (Model.Product.ProductStock > 0)
+                    {
+                        <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Product.ID" method="post" class="flex-grow-1 d-grid">
+                            <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
+                            <button type="submit" class="btn btn-brand btn-lg">
+                                <i class="fa-solid fa-cart-plus me-2" aria-hidden="true"></i> Sepete Ekle
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-soft btn-lg flex-grow-1" disabled>
+                            <i class="fa-solid fa-ban me-2" aria-hidden="true"></i> Stokta Yok
                         </button>
-                    </form>
-                }
-                else
-                {
-                    <button type="button" class="btn btn-soft btn-lg w-100" disabled>
-                        <i class="fa-solid fa-ban me-2" aria-hidden="true"></i> Stokta Yok
+                    }
+
+                    <button type="button"
+                            class="btn btn-outline-dark btn-lg wish-btn"
+                            data-product-id="@Model.Product.ID"
+                            aria-pressed="false"
+                            aria-label="@Model.Product.ProductName ürününü favorilere ekle">
+                        <i class="fa-solid fa-heart" aria-hidden="true"></i>
                     </button>
-                }
+                </div>
             </div>
 
         </div>
@@ -85,8 +107,10 @@
 {
     <section class="mt-5" aria-label="Önerilen ürünler">
         <div class="section-head">
-            <div class="section-eyebrow mb-1">Benzer Ürünler</div>
-            <h2 class="h3 mb-1">Bunlar da ilgini çekebilir</h2>
+            <div>
+                <div class="section-eyebrow mb-1">Benzer Ürünler</div>
+                <h2 class="h3 mb-1">Bunlar da ilgini çekebilir</h2>
+            </div>
         </div>
 
         <div class="row g-4 products-grid">

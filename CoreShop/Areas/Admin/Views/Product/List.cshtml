@@ -31,10 +31,10 @@
             <input type="search"
                    name="search"
                    value="@currentSearch"
-                   class="form-control shadow-sm"
+                   class="form-control field-w-lg"
                    placeholder="Ürün, marka veya kategori ara..."
                    aria-label="Ürün ara"
-                   style="width:320px;" />
+                   />
 
             <button type="submit" class="btn btn-dark px-4">
                 Ara
@@ -48,8 +48,8 @@
         <form method="get" aria-label="Sıralama">
             <input type="hidden" name="search" value="@currentSearch" />
             <select name="sort"
-                    class="form-select shadow-sm"
-                    style="width:220px;"
+                    class="form-select field-w-md"
+
                     onchange="this.form.submit()"
                     aria-label="Sıralama seç">
 
@@ -205,7 +205,7 @@
                 showCancelButton: true,
                 confirmButtonText: 'Evet, sil',
                 cancelButtonText: 'Vazgeç',
-                confirmButtonColor: '#dc2626',
+                confirmButtonColor: '#d92d20',
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {

@@ -1,83 +1,271 @@
+@using CoreShop.Helpers
 @model CoreShop.Models.HomePageVM
 
 @{
     ViewData["Title"] = "Ana Sayfa";
+
+    static string CategoryIcon(string categoryName) => categoryName.ToLower() switch
+    {
+        var name when name.Contains("işlemci") => "fa-microchip",
+        var name when name.Contains("ekran") => "fa-tv",
+        var name when name.Contains("ram") => "fa-memory",
+        var name when name.Contains("ssd") || name.Contains("hdd") => "fa-hard-drive",
+        var name when name.Contains("anakart") => "fa-server",
+        var name when name.Contains("monitör") || name.Contains("monitor") => "fa-desktop",
+        var name when name.Contains("güç") => "fa-plug",
+        var name when name.Contains("kasa") => "fa-computer",
+        var name when name.Contains("soğutma") => "fa-fan",
+        _ => "fa-box"
+    };
+
+    var brandMarks = new[] { "ASUS", "MSI", "NVIDIA", "AMD", "Intel", "Corsair", "NZXT", "Samsung", "Logitech", "Fractal Design", "G.Skill", "Kingston" };
 }
 
-<section class="hero p-4 p-md-5 mb-4" aria-label="Tanıtım">
-    <div class="row align-items-center">
-        <div class="col-lg-7 py-lg-4">
-            <span class="hero-eyebrow mb-3">
-                <i class="fa-solid fa-bolt" aria-hidden="true"></i> Yeni nesil donanım mağazası
+@* ── Hero ─────────────────────────────────────────────────────────────── *@
+<section class="hero-stage mb-4" aria-label="Tanıtım">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-6 hero-copy">
+            <span class="chip">
+                <span class="chip-dot" aria-hidden="true"></span>
+                Yeni nesil donanım mağazası
             </span>
 
-            <h1 class="display-5 mt-3 mb-3">
-                Hayalindeki sistemi<br />
-                <span class="hero-highlight">CoreShop</span> ile kur.
+            <h1 class="hero-title">
+                Gücünü seç.<br />
+                Sistemini <em>inşa et.</em>
             </h1>
 
-            <p class="lead-text mb-4">
-                İşlemciden ekran kartına, RAM'den monitöre — en güncel bilgisayar
-                bileşenlerini uygun fiyatlarla keşfet.
+            <p class="hero-sub">
+                İşlemciden ekran kartına, soğutmadan kasaya — hayalindeki sistemi
+                oluşturan her parça, tek çatı altında ve stok garantisiyle.
             </p>
 
-            <div class="d-flex flex-wrap gap-3">
+            <div class="d-flex flex-wrap gap-3 mt-4">
                 <a asp-controller="Product" asp-action="Index" class="btn btn-brand btn-lg">
-                    <i class="fa-solid fa-store me-2" aria-hidden="true"></i> Alışverişe Başla
+                    Alışverişe Başla <i class="fa-solid fa-arrow-right ms-2" aria-hidden="true"></i>
                 </a>
 
-                <a href="#categories" class="btn btn-outline-light btn-lg">
-                    Kategorileri İncele
+                <a href="#categories" class="btn btn-outline-dark btn-lg">
+                    Kategorileri Keşfet
                 </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <strong>38+</strong>
+                    <small>Donanım ürünü</small>
+                </div>
+                <div class="hero-stat">
+                    <strong>10</strong>
+                    <small>Kategori</small>
+                </div>
+                <div class="hero-stat">
+                    <strong>24 saat</strong>
+                    <small>İçinde kargoda</small>
+                </div>
             </div>
         </div>
 
-        <div class="col-lg-5 mt-4 mt-lg-0">
-            <div class="row g-3">
-                <div class="col-6">
-                    <div class="hero-panel p-4 text-center h-100">
-                        <i class="fa-solid fa-microchip fa-2x mb-3" aria-hidden="true"></i>
-                        <h6 class="text-white fw-bold mb-1">İşlemci</h6>
-                        <small>Güçlü performans</small>
-                    </div>
-                </div>
+        <div class="col-lg-6">
+            @if (Model.HeroProduct != null)
+            {
+                var heroDiscount = Model.HeroProduct.ProductPrice.DiscountPercentFrom(Model.HeroProduct.OldPrice);
 
-                <div class="col-6">
-                    <div class="hero-panel p-4 text-center h-100">
-                        <i class="fa-solid fa-tv fa-2x mb-3" aria-hidden="true"></i>
-                        <h6 class="text-white fw-bold mb-1">Ekran Kartı</h6>
-                        <small>Yüksek grafik gücü</small>
-                    </div>
-                </div>
+                <div class="hero-visual">
+                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.HeroProduct.ID"
+                       aria-label="@Model.HeroProduct.ProductName detayına git">
+                        <img src="~/images/@Model.HeroProduct.ProductImage"
+                             alt="@Model.HeroProduct.ProductName"
+                             width="520" height="430"
+                             fetchpriority="high"
+                             onerror="this.src='/images/products/default.svg'" />
+                    </a>
 
-                <div class="col-6">
-                    <div class="hero-panel p-4 text-center h-100">
-                        <i class="fa-solid fa-memory fa-2x mb-3" aria-hidden="true"></i>
-                        <h6 class="text-white fw-bold mb-1">RAM</h6>
-                        <small>Akıcı kullanım</small>
-                    </div>
-                </div>
+                    @if (heroDiscount > 0)
+                    {
+                        <div class="hero-chip hero-chip-1">
+                            <i class="fa-solid fa-tag" aria-hidden="true"></i>
+                            <span>
+                                %@heroDiscount indirim
+                                <small>@Model.HeroProduct.ProductName</small>
+                            </span>
+                        </div>
+                    }
 
-                <div class="col-6">
-                    <div class="hero-panel p-4 text-center h-100">
-                        <i class="fa-solid fa-hard-drive fa-2x mb-3" aria-hidden="true"></i>
-                        <h6 class="text-white fw-bold mb-1">SSD</h6>
-                        <small>Hızlı depolama</small>
+                    <div class="hero-chip hero-chip-2">
+                        <i class="fa-solid fa-fan" aria-hidden="true"></i>
+                        <span>
+                            Sessiz &amp; şık
+                            <small>Premium kasa serisi</small>
+                        </span>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </section>
 
-<section class="surface mb-5" aria-label="Neden CoreShop">
+@* ── Brand strip ──────────────────────────────────────────────────────── *@
+<section class="brand-strip mb-5" aria-label="Markalar">
+    <div class="brand-track">
+        @for (var pass = 0; pass < 2; pass++)
+        {
+            foreach (var mark in brandMarks)
+            {
+                <span class="brand-mark" aria-hidden="@(pass == 1 ? "true" : "false")">
+                    <i class="fa-solid fa-circle" aria-hidden="true"></i> @mark
+                </span>
+            }
+        }
+    </div>
+</section>
+
+@* ── Categories ───────────────────────────────────────────────────────── *@
+<section id="categories" class="mb-5 reveal" aria-label="Kategoriler">
+    <div class="section-head">
+        <div>
+            <div class="section-eyebrow mb-1">Keşfet</div>
+            <h2>Kategoriler</h2>
+            <p>İhtiyacın olan parçaya saniyeler içinde ulaş.</p>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        @foreach (var category in Model.Categories.Take(10))
+        {
+            <div class="col-lg col-md-3 col-4">
+                <a asp-controller="Product"
+                   asp-action="Index"
+                   asp-route-categoryIdSingle="@category.ID"
+                   class="text-decoration-none"
+                   aria-label="@category.CategoryName kategorisine git">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fa-solid @CategoryIcon(category.CategoryName)" aria-hidden="true"></i>
+                        </div>
+                        <h6>@category.CategoryName</h6>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</section>
+
+@* ── Promo tiles ──────────────────────────────────────────────────────── *@
+<section class="mb-5 reveal" aria-label="Kampanyalar">
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="2"
+               class="promo-tile promo-dark h-100 text-decoration-none">
+                <div class="promo-eyebrow">RTX 40 Serisi</div>
+                <h3>DLSS 3 ile kare hızını ikiye katla</h3>
+                <p>GeForce RTX 40 serisi ekran kartlarında sezon fırsatları.</p>
+                <span class="btn btn-volt btn-sm align-self-start mt-2">
+                    Ekran Kartlarını Gör <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
+                </span>
+                <img src="~/images/products/rtx-4070-super.jpg" alt="" class="promo-media" loading="lazy" width="380" height="200" />
+            </a>
+        </div>
+
+        <div class="col-lg-5">
+            <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="8"
+               class="promo-tile promo-indigo h-100 text-decoration-none">
+                <div class="promo-eyebrow">Kasa &amp; Soğutma</div>
+                <h3>Sessiz, serin ve şık sistemler</h3>
+                <p>Premium kasalar ve soğutma çözümleri bir arada.</p>
+                <span class="btn btn-light btn-sm align-self-start mt-2 fw-semibold">
+                    Koleksiyonu Keşfet <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
+                </span>
+                <img src="~/images/products/fractal-north.jpg" alt="" class="promo-media" loading="lazy" width="240" height="260" />
+            </a>
+        </div>
+    </div>
+</section>
+
+@* ── Featured / deals ─────────────────────────────────────────────────── *@
+@if (Model.FeaturedProducts.Any())
+{
+    <section class="mb-5 reveal" aria-label="Fırsat ürünleri">
+        <div class="section-head">
+            <div>
+                <div class="section-eyebrow mb-1">Kaçırma</div>
+                <h2>Fırsat Ürünleri</h2>
+                <p>İndirimdeki donanımlar — stoklar sınırlı.</p>
+            </div>
+            <a asp-controller="Product" asp-action="Index" class="section-link">
+                Tümünü Gör <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div class="row g-4 products-grid">
+            @foreach (var item in Model.FeaturedProducts)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <partial name="_ProductCard" model="item" />
+                </div>
+            }
+        </div>
+    </section>
+}
+
+@* ── Best sellers ─────────────────────────────────────────────────────── *@
+@if (Model.BestSellers.Any())
+{
+    <section class="mb-5 reveal" aria-label="Çok satanlar">
+        <div class="section-head">
+            <div>
+                <div class="section-eyebrow mb-1">Topluluk favorisi</div>
+                <h2>Çok Satanlar</h2>
+                <p>Sipariş verilerine göre en çok tercih edilen parçalar.</p>
+            </div>
+        </div>
+
+        <div class="row g-4 products-grid">
+            @foreach (var item in Model.BestSellers)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <partial name="_ProductCard" model="item" />
+                </div>
+            }
+        </div>
+    </section>
+}
+
+@* ── New arrivals ─────────────────────────────────────────────────────── *@
+@if (Model.NewArrivals.Any())
+{
+    <section class="mb-5 reveal" aria-label="Yeni gelenler">
+        <div class="section-head">
+            <div>
+                <div class="section-eyebrow mb-1">Taze stok</div>
+                <h2>Yeni Gelenler</h2>
+                <p>Rafa en son eklenen donanımlar.</p>
+            </div>
+            <a asp-controller="Product" asp-action="Index" asp-route-sort="new" class="section-link">
+                Tümünü Gör <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div class="row g-4 products-grid">
+            @foreach (var item in Model.NewArrivals)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <partial name="_ProductCard" model="item" />
+                </div>
+            }
+        </div>
+    </section>
+}
+
+@* ── Trust ────────────────────────────────────────────────────────────── *@
+<section class="surface mb-5 reveal" aria-label="Neden CoreShop">
     <div class="row g-0">
         <div class="col-lg-3 col-md-6">
             <div class="trust-item">
                 <div class="trust-icon"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i></div>
                 <div>
                     <strong>Hızlı Teslimat</strong>
-                    <small>Siparişin hemen yola çıkar</small>
+                    <small>Siparişin 24 saatte kargoda</small>
                 </div>
             </div>
         </div>
@@ -103,91 +291,34 @@
             <div class="trust-item">
                 <div class="trust-icon"><i class="fa-solid fa-headset" aria-hidden="true"></i></div>
                 <div>
-                    <strong>7/24 Destek</strong>
-                    <small>Her zaman yanındayız</small>
+                    <strong>Uzman Destek</strong>
+                    <small>Donanım seçiminde yanındayız</small>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section id="categories" class="mb-5" aria-label="Kategoriler">
-    <div class="section-head">
-        <div class="section-eyebrow mb-1">Keşfet</div>
-        <h2 class="mb-1">Popüler Kategoriler</h2>
-        <p>İlgini çeken kategoriye hızlıca geç.</p>
-    </div>
-
-    <div class="row g-3">
-        @foreach (var category in Model.Categories.Take(6))
-        {
-            var categoryName = category.CategoryName.ToLower();
-            var icon = categoryName switch
-            {
-                var name when name.Contains("işlemci") => "fa-microchip",
-                var name when name.Contains("ekran") => "fa-tv",
-                var name when name.Contains("ram") => "fa-memory",
-                var name when name.Contains("ssd") || name.Contains("hdd") => "fa-hard-drive",
-                var name when name.Contains("anakart") => "fa-server",
-                var name when name.Contains("monitör") || name.Contains("monitor") => "fa-desktop",
-                var name when name.Contains("güç") => "fa-plug",
-                var name when name.Contains("kasa") => "fa-computer",
-                var name when name.Contains("soğutma") => "fa-fan",
-                _ => "fa-box"
-            };
-
-            <div class="col-md-2 col-4">
-                <a asp-controller="Product"
-                   asp-action="Index"
-                   asp-route-categoryIdSingle="@category.ID"
-                   class="text-decoration-none"
-                   aria-label="@category.CategoryName kategorisine git">
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <i class="fa-solid @icon" aria-hidden="true"></i>
-                        </div>
-                        <h6>@category.CategoryName</h6>
-                    </div>
-                </a>
-            </div>
-        }
-    </div>
-</section>
-
-<section aria-label="Öne çıkan ürünler">
-    <div class="section-head">
-        <div class="section-eyebrow mb-1">Vitrin</div>
-        <h2 class="mb-1">Öne Çıkan Ürünler</h2>
-        <p>Son eklenen teknoloji ürünleri burada.</p>
-    </div>
-
-    <div class="row g-4 products-grid">
-        @if (Model.Products.Any())
-        {
-            @foreach (var item in Model.Products)
-            {
-                <div class="col-lg-3 col-md-6">
-                    <partial name="_ProductCard" model="item" />
-                </div>
-            }
-        }
-        else
-        {
-            <div class="col-12">
-                <div class="empty-state">
-                    <div class="empty-state-icon">
-                        <i class="fa-solid fa-box-open" aria-hidden="true"></i>
-                    </div>
-                    <h4>Henüz ürün yok</h4>
-                    <p>Mağazaya ürün eklendiğinde burada görünecek.</p>
-                </div>
-            </div>
-        }
-    </div>
-
-    <div class="text-center mt-5">
-        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-brand btn-lg px-5">
-            Tüm Ürünleri Gör <i class="fa-solid fa-arrow-right ms-2" aria-hidden="true"></i>
-        </a>
+@* ── Newsletter ───────────────────────────────────────────────────────── *@
+<section class="newsletter reveal" aria-label="Bülten">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+            <h2 class="mb-2">Fırsatları ilk sen yakala</h2>
+            <p class="mb-0">
+                Yeni ürünler, stok bildirimleri ve özel indirimler — ayda iki e-posta, spam yok.
+            </p>
+        </div>
+        <div class="col-lg-6">
+            <form class="newsletter-form d-flex gap-2" data-newsletter-form data-no-loading="true" aria-label="Bülten kaydı">
+                <label class="visually-hidden" for="newsletterEmail">E-posta adresin</label>
+                <input type="email"
+                       id="newsletterEmail"
+                       class="form-control"
+                       placeholder="E-posta adresin"
+                       required />
+                <button type="submit" class="btn btn-volt">Katıl</button>
+            </form>
+            <p class="newsletter-note mt-2 mb-0">Demo mağaza — e-posta adresin kaydedilmez.</p>
+        </div>
     </div>
 </section>

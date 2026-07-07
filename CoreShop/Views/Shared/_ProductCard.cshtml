@@ -1,54 +1,98 @@
 @using CoreShop.Helpers
 @model CoreShop.MODEL.Entities.Product
 
-<article class="product-card">
-    <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID"
-       class="product-media" aria-label="@Model.ProductName detayına git">
+@{
+    var discount = Model.ProductPrice.DiscountPercentFrom(Model.OldPrice);
+}
+
+<article class="pcard">
+    <div class="pcard-media">
         <img src="~/images/@Model.ProductImage"
              alt="@Model.ProductName"
              loading="lazy"
-             width="240" height="160"
+             width="260" height="195"
              onerror="this.src='/images/products/default.svg'" />
+
+        <div class="pcard-flags">
+            @if (discount > 0)
+            {
+                <span class="flag flag-hot">-%@discount</span>
+            }
+            @if (Model.ProductStock == 0)
+            {
+                <span class="flag flag-out">Tükendi</span>
+            }
+            else if (Model.ProductStock <= 5)
+            {
+                <span class="flag flag-low">Son @Model.ProductStock adet</span>
+            }
+        </div>
+
+        <div class="pcard-quick">
+            <button type="button"
+                    class="quick-btn wish-btn"
+                    data-product-id="@Model.ID"
+                    aria-pressed="false"
+                    aria-label="@Model.ProductName ürününü favorilere ekle">
+                <i class="fa-solid fa-heart" aria-hidden="true"></i>
+            </button>
+
+            <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID"
+               class="quick-btn"
+               aria-label="@Model.ProductName detayına git">
+                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="pcard-body">
+        <div class="pcard-brand">@Model.ProductBrand</div>
+
+        <h3 class="pcard-name">
+            <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID">
+                @Model.ProductName
+            </a>
+        </h3>
 
         @if (Model.ProductStock == 0)
         {
-            <span class="product-flag badge badge-soft-danger">Tükendi</span>
+            <span class="pcard-stock stock-out">Stokta yok</span>
         }
         else if (Model.ProductStock <= 5)
         {
-            <span class="product-flag badge badge-soft-warning">Son @Model.ProductStock adet</span>
-        }
-    </a>
-
-    <div class="product-brand">@Model.ProductBrand</div>
-
-    <h3 class="product-name">
-        <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID">
-            @Model.ProductName
-        </a>
-    </h3>
-
-    <div class="product-price">@Model.ProductPrice.ToTryPrice()</div>
-
-    <div class="product-actions">
-        @if (Model.ProductStock > 0)
-        {
-            <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ID" method="post" class="d-grid">
-                <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
-                <button type="submit" class="btn btn-brand">
-                    <i class="fa-solid fa-cart-plus me-2" aria-hidden="true"></i> Sepete Ekle
-                </button>
-            </form>
+            <span class="pcard-stock stock-low">Sınırlı stok</span>
         }
         else
         {
-            <button type="button" class="btn btn-soft" disabled>
-                <i class="fa-solid fa-ban me-2" aria-hidden="true"></i> Stokta Yok
-            </button>
+            <span class="pcard-stock stock-in">Stokta var</span>
         }
 
-        <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID" class="btn btn-soft">
-            İncele
-        </a>
+        <div class="pcard-foot">
+            <div>
+                @if (discount > 0)
+                {
+                    <span class="price-old">@Model.OldPrice!.Value.ToTryPrice()</span>
+                }
+                <span class="price-now">@Model.ProductPrice.ToTryPrice()</span>
+            </div>
+
+            @if (Model.ProductStock > 0)
+            {
+                <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ID" method="post" class="pcard-cart">
+                    <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
+                    <button type="submit" class="btn btn-brand btn-icon"
+                            aria-label="@Model.ProductName ürününü sepete ekle">
+                        <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                    </button>
+                </form>
+            }
+            else
+            {
+                <button type="button" class="btn btn-soft btn-icon pcard-cart" disabled
+                        aria-label="Stokta yok">
+                    <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                </button>
+            }
+        </div>
     </div>
 </article>
