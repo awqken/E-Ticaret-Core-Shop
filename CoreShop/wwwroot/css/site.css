@@ -56,9 +56,6 @@
     --brand-100: #e2e0fc;
     --brand-50: #eeedfd;
 
-    /* Volt — electric lime accent, reserved for the admin shell */
-    --volt: #c9f73a;
-
     /* Deals */
     --hot: #e5325b;
     --hot-bg: #fce9ef;
@@ -172,6 +169,16 @@ img {
     border-radius: 4px;
 }
 
+/* keep the focus ring visible on ink surfaces */
+.announce-bar :focus-visible,
+.navbar-shell :focus-visible,
+.hero-dark :focus-visible,
+.newsletter :focus-visible,
+.footer :focus-visible,
+.admin-sidebar :focus-visible {
+    outline-color: rgba(255, 255, 255, .55);
+}
+
 .validation-summary-valid {
     display: none;
 }
@@ -187,7 +194,7 @@ img {
 
 /* == 04. Buttons ========================================================= */
 .btn {
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     font-weight: 600;
     padding: .55rem 1.1rem;
     transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease),
@@ -201,12 +208,12 @@ img {
 
 .btn-lg {
     padding: .8rem 1.6rem;
-    border-radius: 14px;
+    border-radius: var(--radius-sm);
 }
 
 .btn-sm {
     padding: .35rem .8rem;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
 }
 
 .btn-brand {
@@ -270,6 +277,18 @@ img {
         border-color: var(--ink-950);
     }
 
+/* Ghost button for dark surfaces (navbar, hero, newsletter) */
+.btn-outline-light {
+    border-color: rgba(255, 255, 255, .35);
+    color: #fff;
+}
+
+    .btn-outline-light:hover, .btn-outline-light:focus {
+        background: #fff;
+        border-color: #fff;
+        color: var(--ink-950);
+    }
+
 .btn-icon {
     width: 42px;
     height: 42px;
@@ -277,7 +296,7 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
 }
 
 /* Loading state — applied by site.js while a form submits */
@@ -307,7 +326,7 @@ img {
 /* == 05. Forms =========================================================== */
 .form-control, .form-select {
     border: 1.5px solid var(--line);
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     padding: .6rem .9rem;
     color: var(--ink-900);
     transition: border-color var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
@@ -364,11 +383,11 @@ img {
 }
 
 .surface-hover {
-    transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+    transition: box-shadow var(--speed) var(--ease), border-color var(--speed) var(--ease);
 }
 
     .surface-hover:hover {
-        transform: translateY(-4px);
+        border-color: var(--ink-300);
         box-shadow: var(--shadow);
     }
 
@@ -379,12 +398,15 @@ img {
 .badge-soft-neutral { background: var(--ink-100);    color: var(--ink-700); font-weight: 600; }
 
 /* == 07. Announcement bar & navbar ======================================= */
+/* The header zone (announce bar + navbar) shares the footer's ink canvas so
+   the storefront is bookended by one continuous dark chrome. */
 .announce-bar {
     background: var(--ink-950);
-    color: var(--ink-300);
+    color: var(--ink-400);
     font-size: .8rem;
     text-align: center;
     padding: .5rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, .07);
 }
 
     .announce-bar strong {
@@ -399,36 +421,48 @@ img {
     }
 
 .navbar-shell {
-    background: rgba(255, 255, 255, .85);
+    background: rgba(11, 13, 20, .92);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid rgba(255, 255, 255, .07);
     transition: box-shadow var(--speed) var(--ease);
 }
 
     .navbar-shell.scrolled {
-        box-shadow: var(--shadow-sm);
+        box-shadow: 0 10px 28px -14px rgba(0, 0, 0, .55);
     }
+
+    /* dark-surface variants of the shared button styles */
+    .navbar-shell .btn-soft {
+        background: rgba(255, 255, 255, .08);
+        border-color: transparent;
+        color: #fff;
+    }
+
+        .navbar-shell .btn-soft:hover, .navbar-shell .btn-soft:focus {
+            background: rgba(255, 255, 255, .14);
+            color: #fff;
+        }
 
 .brand-logo {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 1.45rem;
     letter-spacing: -.03em;
-    color: var(--ink-950);
+    color: #fff;
     display: inline-flex;
     align-items: center;
     gap: .5rem;
 }
 
     .brand-logo:hover, .brand-logo:focus {
-        color: var(--ink-950);
+        color: #fff;
     }
 
     .brand-logo .brand-bolt {
         width: 30px;
         height: 30px;
-        border-radius: 9px;
+        border-radius: var(--radius-sm);
         background: var(--brand);
         color: #fff;
         display: inline-flex;
@@ -438,11 +472,11 @@ img {
     }
 
     .brand-logo span.brand-core {
-        color: var(--brand);
+        color: var(--brand-200);
     }
 
 .nav-link-main {
-    color: var(--ink-600);
+    color: var(--ink-300);
     font-weight: 600;
     font-size: .95rem;
     position: relative;
@@ -457,14 +491,14 @@ img {
         bottom: .3rem;
         height: 2px;
         border-radius: 2px;
-        background: var(--brand);
+        background: var(--brand-200);
         transform: scaleX(0);
         transform-origin: left;
         transition: transform var(--speed) var(--ease);
     }
 
     .nav-link-main:hover, .nav-link-main:focus {
-        color: var(--ink-950);
+        color: #fff;
     }
 
         .nav-link-main:hover::after, .nav-link-main:focus::after {
@@ -477,15 +511,21 @@ img {
 }
 
     .navbar-search .form-control {
-        background: var(--ink-50);
+        background: rgba(255, 255, 255, .08);
         border-color: transparent;
         border-radius: 999px 0 0 999px;
         padding-left: 1.1rem;
+        color: #fff;
     }
 
+        .navbar-search .form-control::placeholder {
+            color: var(--ink-500);
+        }
+
         .navbar-search .form-control:focus {
-            background: #fff;
+            background: rgba(255, 255, 255, .12);
             border-color: var(--brand);
+            color: #fff;
         }
 
     .navbar-search .btn {
@@ -501,9 +541,9 @@ img {
     position: relative;
     width: 42px;
     height: 42px;
-    border-radius: 12px;
-    background: var(--ink-100);
-    color: var(--ink-900);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, .08);
+    color: #fff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -511,7 +551,7 @@ img {
 }
 
     .cart-btn:hover, .cart-btn:focus {
-        background: var(--ink-950);
+        background: var(--brand);
         color: #fff;
     }
 
@@ -530,7 +570,7 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #fff;
+    border: 2px solid var(--ink-950);
 }
 
 /* == 08. Footer & newsletter ============================================= */
@@ -622,7 +662,7 @@ img {
     .footer-social a {
         width: 38px;
         height: 38px;
-        border-radius: 11px;
+        border-radius: var(--radius-sm);
         border: 1px solid rgba(255, 255, 255, .12);
         display: inline-flex;
         align-items: center;
@@ -688,10 +728,6 @@ img {
     color: var(--ink-500);
     font-size: .82rem;
     margin: 1.3rem 0 0;
-}
-
-.hero-dark .btn-outline-light {
-    border-color: rgba(255, 255, 255, .35);
 }
 
 .hero-scene {
@@ -868,7 +904,7 @@ img {
     width: 50px;
     height: 50px;
     margin: 0 auto .8rem;
-    border-radius: 14px;
+    border-radius: var(--radius-sm);
     background: var(--ink-50);
     color: var(--ink-700);
     display: flex;
@@ -1054,7 +1090,7 @@ img {
 .quick-btn {
     width: 38px;
     height: 38px;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     background: #fff;
     border: 1px solid var(--line);
     box-shadow: var(--shadow-sm);
@@ -1379,7 +1415,7 @@ img {
     width: 76px;
     height: 76px;
     margin: 0 auto 1.2rem;
-    border-radius: 24px;
+    border-radius: var(--radius);
     background: var(--brand-50);
     color: var(--brand);
     display: flex;
@@ -1402,7 +1438,7 @@ img {
     width: 96px;
     height: 96px;
     margin: 0 auto 1.4rem;
-    border-radius: 28px;
+    border-radius: var(--radius);
     background: var(--danger-bg);
     color: var(--danger);
     display: flex;
@@ -1468,14 +1504,14 @@ img {
 }
 
 .auth-side-brand {
-    background: linear-gradient(150deg, var(--brand) 0%, var(--brand-700) 100%);
+    background: var(--brand-700);
 }
 
 .auth-side-icon {
     position: relative;
     width: 62px;
     height: 62px;
-    border-radius: 18px;
+    border-radius: var(--radius);
     background: rgba(255, 255, 255, .1);
     border: 1px solid rgba(255, 255, 255, .2);
     color: #fff;
@@ -1563,8 +1599,8 @@ img {
 .profile-avatar {
     width: 64px;
     height: 64px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, var(--brand), var(--brand-700));
+    border-radius: var(--radius);
+    background: var(--brand);
     color: #fff;
     font-family: var(--font-display);
     font-size: 1.5rem;
@@ -1572,7 +1608,6 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 20px -8px rgba(79, 70, 229, .55);
 }
 
 .profile-menu {
@@ -1591,7 +1626,7 @@ img {
         border: 0;
         background: transparent;
         padding: .65rem .9rem;
-        border-radius: 12px;
+        border-radius: var(--radius-sm);
         color: var(--ink-600);
         font-weight: 600;
         font-size: .93rem;
@@ -1713,7 +1748,7 @@ img {
     gap: .8rem;
     background: var(--ink-950);
     color: #fff;
-    border-radius: 14px;
+    border-radius: var(--radius);
     padding: .9rem 1.1rem;
     box-shadow: var(--shadow-lg);
     font-size: .92rem;
@@ -1839,9 +1874,9 @@ img {
     .admin-brand i {
         width: 34px;
         height: 34px;
-        border-radius: 10px;
-        background: linear-gradient(135deg, var(--brand), var(--brand-700));
-        color: var(--volt);
+        border-radius: var(--radius-sm);
+        background: var(--brand);
+        color: #fff;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -1866,7 +1901,7 @@ img {
     font-weight: 600;
     font-size: .92rem;
     padding: .6rem .8rem;
-    border-radius: 11px;
+    border-radius: var(--radius-sm);
     position: relative;
     transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease);
 }
@@ -1885,7 +1920,6 @@ img {
     .sidebar-link.active {
         background: var(--brand);
         color: #fff;
-        box-shadow: 0 8px 18px -8px rgba(79, 70, 229, .7);
     }
 
         .sidebar-link.active::before {
@@ -1896,7 +1930,7 @@ img {
             bottom: 22%;
             width: 3px;
             border-radius: 3px;
-            background: var(--volt);
+            background: var(--brand-200);
         }
 
 .admin-main {
@@ -1977,11 +2011,11 @@ img {
     border-radius: var(--radius-lg);
     padding: 1.3rem 1.4rem;
     height: 100%;
-    transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+    transition: box-shadow var(--speed) var(--ease), border-color var(--speed) var(--ease);
 }
 
     .stat-card:hover {
-        transform: translateY(-3px);
+        border-color: var(--ink-300);
         box-shadow: var(--shadow);
     }
 
@@ -1994,7 +2028,7 @@ img {
 .stat-icon {
     width: 44px;
     height: 44px;
-    border-radius: 13px;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2021,12 +2055,10 @@ img {
     padding: 1.05rem 1.2rem;
     color: var(--ink-900);
     background: var(--surface);
-    transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease),
-                border-color var(--speed) var(--ease);
+    transition: box-shadow var(--speed) var(--ease), border-color var(--speed) var(--ease);
 }
 
     .action-card:hover {
-        transform: translateY(-3px);
         border-color: var(--brand-200);
         box-shadow: var(--shadow);
         color: var(--ink-950);
@@ -2035,7 +2067,7 @@ img {
     .action-card i {
         width: 42px;
         height: 42px;
-        border-radius: 12px;
+        border-radius: var(--radius-sm);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -2148,7 +2180,7 @@ img {
 .trust-icon {
     width: 48px;
     height: 48px;
-    border-radius: 14px;
+    border-radius: var(--radius-sm);
     background: var(--brand-50);
     color: var(--brand);
     display: flex;

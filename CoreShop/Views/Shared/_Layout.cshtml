@@ -36,7 +36,7 @@
                     aria-controls="mainNavbar"
                     aria-expanded="false"
                     aria-label="Menüyü aç">
-                <i class="fa-solid fa-bars fa-lg text-dark" aria-hidden="true"></i>
+                <i class="fa-solid fa-bars fa-lg text-white" aria-hidden="true"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="mainNavbar">
@@ -64,7 +64,7 @@
                                aria-label="Ürün ara"
                                value="@(Context.Request.Query["search"])" />
 
-                        <button class="btn btn-dark" type="submit" aria-label="Ara">
+                        <button class="btn btn-brand" type="submit" aria-label="Ara">
                             <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -86,7 +86,7 @@
                     {
                         <a asp-controller="Account"
                            asp-action="Login"
-                           class="btn btn-outline-dark">
+                           class="btn btn-outline-light">
                             Giriş Yap
                         </a>
 
