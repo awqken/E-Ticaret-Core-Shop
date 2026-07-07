@@ -1,12 +1,10 @@
 // ============================================================================
 // CoreShop — storefront interactions (Volt design system)
-// Wishlist (localStorage), button loading states, scroll reveal, navbar state,
+// Wishlist (localStorage), button loading states, navbar state,
 // newsletter demo feedback. No dependencies.
 // ============================================================================
 (function () {
     "use strict";
-
-    document.documentElement.classList.add("js");
 
     /* ── Toast helper (matches _Toasts markup) ─────────────────────────── */
     function showToast(message, kind) {
@@ -118,31 +116,6 @@
         });
     }
 
-    /* ── Scroll reveal ──────────────────────────────────────────────────── */
-    function initReveal() {
-        var items = document.querySelectorAll(".reveal");
-        if (!items.length) {
-            return;
-        }
-
-        if (!("IntersectionObserver" in window) ||
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            items.forEach(function (el) { el.classList.add("in"); });
-            return;
-        }
-
-        var observer = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("in");
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: .12, rootMargin: "0px 0px -40px 0px" });
-
-        items.forEach(function (el) { observer.observe(el); });
-    }
-
     /* ── Navbar elevation on scroll ─────────────────────────────────────── */
     function initNavbarState() {
         var navbar = document.querySelector(".navbar-shell");
@@ -182,7 +155,6 @@
     document.addEventListener("DOMContentLoaded", function () {
         initWishlist();
         initLoadingButtons();
-        initReveal();
         initNavbarState();
         initNewsletter();
     });

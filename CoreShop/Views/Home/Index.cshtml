@@ -1,4 +1,4 @@
-@using CoreShop.Helpers
+﻿@using CoreShop.Helpers
 @model CoreShop.Models.HomePageVM
 
 @{
@@ -23,30 +23,30 @@
 
 @* ── Hero ─────────────────────────────────────────────────────────────── *@
 <section class="hero-stage mb-4" aria-label="Tanıtım">
-    <div class="row align-items-center g-4">
+    <div class="row align-items-center g-4 g-lg-5">
         <div class="col-lg-6 hero-copy">
             <span class="chip">
                 <span class="chip-dot" aria-hidden="true"></span>
-                Yeni nesil donanım mağazası
+                Tüm ürünler stoktan aynı gün kargoda
             </span>
 
             <h1 class="hero-title">
-                Gücünü seç.<br />
-                Sistemini <em>inşa et.</em>
+                Sistemini kuracağın<br />
+                her parça <em>tek adreste</em>
             </h1>
 
             <p class="hero-sub">
-                İşlemciden ekran kartına, soğutmadan kasaya — hayalindeki sistemi
-                oluşturan her parça, tek çatı altında ve stok garantisiyle.
+                İşlemciden ekran kartına, kasadan soğutmaya — ihtiyacın olan
+                donanımı karşılaştır, stok durumunu gör, güvenle sipariş ver.
             </p>
 
             <div class="d-flex flex-wrap gap-3 mt-4">
                 <a asp-controller="Product" asp-action="Index" class="btn btn-brand btn-lg">
-                    Alışverişe Başla <i class="fa-solid fa-arrow-right ms-2" aria-hidden="true"></i>
+                    Alışverişe Başla
                 </a>
 
                 <a href="#categories" class="btn btn-outline-dark btn-lg">
-                    Kategorileri Keşfet
+                    Kategorilere Göz At
                 </a>
             </div>
 
@@ -60,8 +60,8 @@
                     <small>Kategori</small>
                 </div>
                 <div class="hero-stat">
-                    <strong>24 saat</strong>
-                    <small>İçinde kargoda</small>
+                    <strong>14 gün</strong>
+                    <small>Koşulsuz iade</small>
                 </div>
             </div>
         </div>
@@ -71,35 +71,32 @@
             {
                 var heroDiscount = Model.HeroProduct.ProductPrice.DiscountPercentFrom(Model.HeroProduct.OldPrice);
 
-                <div class="hero-visual">
-                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.HeroProduct.ID"
-                       aria-label="@Model.HeroProduct.ProductName detayına git">
+                <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.HeroProduct.ID"
+                   class="hero-product d-block text-decoration-none"
+                   aria-label="@Model.HeroProduct.ProductName detayına git">
+                    <div class="hero-product-media">
                         <img src="~/images/@Model.HeroProduct.ProductImage"
                              alt="@Model.HeroProduct.ProductName"
-                             width="520" height="430"
+                             width="520" height="330"
                              fetchpriority="high"
                              onerror="this.src='/images/products/default.svg'" />
-                    </a>
-
-                    @if (heroDiscount > 0)
-                    {
-                        <div class="hero-chip hero-chip-1">
-                            <i class="fa-solid fa-tag" aria-hidden="true"></i>
-                            <span>
-                                %@heroDiscount indirim
-                                <small>@Model.HeroProduct.ProductName</small>
-                            </span>
-                        </div>
-                    }
-
-                    <div class="hero-chip hero-chip-2">
-                        <i class="fa-solid fa-fan" aria-hidden="true"></i>
-                        <span>
-                            Sessiz &amp; şık
-                            <small>Premium kasa serisi</small>
-                        </span>
                     </div>
-                </div>
+
+                    <div class="hero-product-info">
+                        <div>
+                            <div class="hero-product-brand">@Model.HeroProduct.ProductBrand</div>
+                            <div class="hero-product-name">@Model.HeroProduct.ProductName</div>
+                        </div>
+
+                        <div class="hero-product-price">
+                            @if (heroDiscount > 0)
+                            {
+                                <span class="price-old">@Model.HeroProduct.OldPrice!.Value.ToTryPrice()</span>
+                            }
+                            <span class="price-now">@Model.HeroProduct.ProductPrice.ToTryPrice()</span>
+                        </div>
+                    </div>
+                </a>
             }
         </div>
     </div>
@@ -107,24 +104,19 @@
 
 @* ── Brand strip ──────────────────────────────────────────────────────── *@
 <section class="brand-strip mb-5" aria-label="Markalar">
+    <p class="brand-strip-label">Yetkili satış noktası olduğumuz markalar</p>
     <div class="brand-track">
-        @for (var pass = 0; pass < 2; pass++)
+        @foreach (var mark in brandMarks)
         {
-            foreach (var mark in brandMarks)
-            {
-                <span class="brand-mark" aria-hidden="@(pass == 1 ? "true" : "false")">
-                    <i class="fa-solid fa-circle" aria-hidden="true"></i> @mark
-                </span>
-            }
+            <span class="brand-mark">@mark</span>
         }
     </div>
 </section>
 
 @* ── Categories ───────────────────────────────────────────────────────── *@
-<section id="categories" class="mb-5 reveal" aria-label="Kategoriler">
+<section id="categories" class="mb-5" aria-label="Kategoriler">
     <div class="section-head">
         <div>
-            <div class="section-eyebrow mb-1">Keşfet</div>
             <h2>Kategoriler</h2>
             <p>İhtiyacın olan parçaya saniyeler içinde ulaş.</p>
         </div>
@@ -152,7 +144,7 @@
 </section>
 
 @* ── Promo tiles ──────────────────────────────────────────────────────── *@
-<section class="mb-5 reveal" aria-label="Kampanyalar">
+<section class="mb-5" aria-label="Kampanyalar">
     <div class="row g-4">
         <div class="col-lg-7">
             <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="2"
@@ -160,7 +152,7 @@
                 <div class="promo-eyebrow">RTX 40 Serisi</div>
                 <h3>DLSS 3 ile kare hızını ikiye katla</h3>
                 <p>GeForce RTX 40 serisi ekran kartlarında sezon fırsatları.</p>
-                <span class="btn btn-volt btn-sm align-self-start mt-2">
+                <span class="btn btn-light btn-sm align-self-start mt-2 fw-semibold">
                     Ekran Kartlarını Gör <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
                 </span>
                 <img src="~/images/products/rtx-4070-super.jpg" alt="" class="promo-media" loading="lazy" width="380" height="200" />
@@ -173,7 +165,7 @@
                 <div class="promo-eyebrow">Kasa &amp; Soğutma</div>
                 <h3>Sessiz, serin ve şık sistemler</h3>
                 <p>Premium kasalar ve soğutma çözümleri bir arada.</p>
-                <span class="btn btn-light btn-sm align-self-start mt-2 fw-semibold">
+                <span class="btn btn-dark btn-sm align-self-start mt-2 fw-semibold">
                     Koleksiyonu Keşfet <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
                 </span>
                 <img src="~/images/products/fractal-north.jpg" alt="" class="promo-media" loading="lazy" width="240" height="260" />
@@ -185,10 +177,9 @@
 @* ── Featured / deals ─────────────────────────────────────────────────── *@
 @if (Model.FeaturedProducts.Any())
 {
-    <section class="mb-5 reveal" aria-label="Fırsat ürünleri">
+    <section class="mb-5" aria-label="Fırsat ürünleri">
         <div class="section-head">
             <div>
-                <div class="section-eyebrow mb-1">Kaçırma</div>
                 <h2>Fırsat Ürünleri</h2>
                 <p>İndirimdeki donanımlar — stoklar sınırlı.</p>
             </div>
@@ -211,10 +202,9 @@
 @* ── Best sellers ─────────────────────────────────────────────────────── *@
 @if (Model.BestSellers.Any())
 {
-    <section class="mb-5 reveal" aria-label="Çok satanlar">
+    <section class="mb-5" aria-label="Çok satanlar">
         <div class="section-head">
             <div>
-                <div class="section-eyebrow mb-1">Topluluk favorisi</div>
                 <h2>Çok Satanlar</h2>
                 <p>Sipariş verilerine göre en çok tercih edilen parçalar.</p>
             </div>
@@ -234,10 +224,9 @@
 @* ── New arrivals ─────────────────────────────────────────────────────── *@
 @if (Model.NewArrivals.Any())
 {
-    <section class="mb-5 reveal" aria-label="Yeni gelenler">
+    <section class="mb-5" aria-label="Yeni gelenler">
         <div class="section-head">
             <div>
-                <div class="section-eyebrow mb-1">Taze stok</div>
                 <h2>Yeni Gelenler</h2>
                 <p>Rafa en son eklenen donanımlar.</p>
             </div>
@@ -258,7 +247,7 @@
 }
 
 @* ── Trust ────────────────────────────────────────────────────────────── *@
-<section class="surface mb-5 reveal" aria-label="Neden CoreShop">
+<section class="surface mb-5" aria-label="Neden CoreShop">
     <div class="row g-0">
         <div class="col-lg-3 col-md-6">
             <div class="trust-item">
@@ -300,7 +289,7 @@
 </section>
 
 @* ── Newsletter ───────────────────────────────────────────────────────── *@
-<section class="newsletter reveal" aria-label="Bülten">
+<section class="newsletter" aria-label="Bülten">
     <div class="row align-items-center g-4">
         <div class="col-lg-6">
             <h2 class="mb-2">Fırsatları ilk sen yakala</h2>
@@ -316,7 +305,7 @@
                        class="form-control"
                        placeholder="E-posta adresin"
                        required />
-                <button type="submit" class="btn btn-volt">Katıl</button>
+                <button type="submit" class="btn btn-light fw-semibold">Katıl</button>
             </form>
             <p class="newsletter-note mt-2 mb-0">Demo mağaza — e-posta adresin kaydedilmez.</p>
         </div>

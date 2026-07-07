@@ -11,7 +11,7 @@
    07. Announcement bar & navbar
    08. Footer & newsletter
    09. Hero (landing)
-   10. Brand strip (marquee)
+   10. Brand strip
    11. Section heads
    12. Category cards
    13. Promo tiles
@@ -25,7 +25,7 @@
    21. Toasts
    22. Data tables
    23. Admin shell
-   24. Utilities & reveal animations
+   24. Utilities
    ========================================================================== */
 
 /* == 01. Design tokens =================================================== */
@@ -56,9 +56,8 @@
     --brand-100: #e2e0fc;
     --brand-50: #eeedfd;
 
-    /* Volt — electric lime, used on dark surfaces */
+    /* Volt — electric lime accent, reserved for the admin shell */
     --volt: #c9f73a;
-    --volt-ink: #202b03;
 
     /* Deals */
     --hot: #e5325b;
@@ -82,7 +81,6 @@
     --radius-sm: 10px;
     --radius: 14px;
     --radius-lg: 20px;
-    --radius-xl: 28px;
 
     /* Elevation (indigo-tinted, soft) */
     --shadow-xs: 0 1px 2px rgba(20, 23, 31, .05);
@@ -163,7 +161,7 @@ img {
     .skip-link:focus {
         left: 0;
         top: 0;
-        color: var(--volt);
+        color: #fff;
     }
 
 :focus-visible {
@@ -210,18 +208,15 @@ img {
 }
 
 .btn-brand {
-    background: linear-gradient(180deg, #5a51f0, var(--brand));
-    border: 1px solid var(--brand-600);
+    background: var(--brand);
+    border: 1px solid var(--brand);
     color: #fff;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), 0 1px 2px rgba(67, 56, 202, .3);
 }
 
     .btn-brand:hover, .btn-brand:focus {
-        background: linear-gradient(180deg, var(--brand), var(--brand-600));
-        border-color: var(--brand-700);
+        background: var(--brand-600);
+        border-color: var(--brand-600);
         color: #fff;
-        box-shadow: 0 8px 20px -8px rgba(79, 70, 229, .55);
-        transform: translateY(-1px);
     }
 
     .btn-brand:disabled {
@@ -271,21 +266,6 @@ img {
     .btn-outline-dark:hover {
         background: var(--ink-950);
         border-color: var(--ink-950);
-    }
-
-.btn-volt {
-    background: var(--volt);
-    border: 1px solid var(--volt);
-    color: var(--volt-ink);
-    font-weight: 700;
-}
-
-    .btn-volt:hover {
-        background: #d6fd55;
-        border-color: #d6fd55;
-        color: var(--volt-ink);
-        transform: translateY(-1px);
-        box-shadow: 0 8px 22px -8px rgba(201, 247, 58, .7);
     }
 
 .btn-icon {
@@ -414,8 +394,7 @@ img {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: var(--volt);
-        box-shadow: 0 0 0 3px rgba(201, 247, 58, .35);
+        background: var(--success);
     }
 
 /* == 07. Announcement bar & navbar ======================================= */
@@ -428,7 +407,7 @@ img {
 }
 
     .announce-bar strong {
-        color: var(--volt);
+        color: #fff;
         font-weight: 700;
     }
 
@@ -469,13 +448,12 @@ img {
         width: 30px;
         height: 30px;
         border-radius: 9px;
-        background: linear-gradient(135deg, var(--brand), var(--brand-700));
-        color: var(--volt);
+        background: var(--brand);
+        color: #fff;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         font-size: .85rem;
-        box-shadow: 0 4px 12px -4px rgba(79, 70, 229, .5);
     }
 
     .brand-logo span.brand-core {
@@ -553,7 +531,7 @@ img {
 
     .cart-btn:hover, .cart-btn:focus {
         background: var(--ink-950);
-        color: var(--volt);
+        color: #fff;
     }
 
 .cart-count {
@@ -564,8 +542,8 @@ img {
     height: 20px;
     padding: 0 5px;
     border-radius: 999px;
-    background: var(--volt);
-    color: var(--volt-ink);
+    background: var(--brand);
+    color: #fff;
     font-size: .72rem;
     font-weight: 800;
     display: inline-flex;
@@ -576,13 +554,10 @@ img {
 
 /* == 08. Footer & newsletter ============================================= */
 .newsletter {
-    background:
-        radial-gradient(560px 260px at 12% -20%, rgba(79, 70, 229, .5), transparent 60%),
-        radial-gradient(420px 220px at 95% 120%, rgba(201, 247, 58, .14), transparent 60%),
-        var(--ink-950);
-    border-radius: var(--radius-xl);
+    background: var(--ink-950);
+    border-radius: var(--radius-lg);
     color: #fff;
-    padding: clamp(2rem, 5vw, 3.5rem);
+    padding: clamp(2rem, 5vw, 3.2rem);
 }
 
     .newsletter h2 {
@@ -608,8 +583,8 @@ img {
 
     .newsletter-form .form-control:focus {
         background: rgba(255, 255, 255, .12);
-        border-color: var(--volt);
-        box-shadow: 0 0 0 4px rgba(201, 247, 58, .15);
+        border-color: rgba(255, 255, 255, .5);
+        box-shadow: none;
     }
 
 .newsletter-form .btn {
@@ -643,7 +618,7 @@ img {
     }
 
         .footer a:hover {
-            color: var(--volt);
+            color: #fff;
         }
 
 .footer-brand {
@@ -655,7 +630,7 @@ img {
 }
 
     .footer-brand span {
-        color: var(--volt);
+        color: var(--brand-200);
     }
 
 .footer-social {
@@ -676,9 +651,8 @@ img {
     }
 
         .footer-social a:hover {
-            border-color: var(--volt);
-            color: var(--volt);
-            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, .45);
+            color: #fff;
         }
 
 .footer-bottom {
@@ -689,69 +663,44 @@ img {
 
 /* == 09. Hero (landing) ================================================== */
 .hero-stage {
-    position: relative;
-    overflow: hidden;
+    background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: var(--radius-xl);
-    background:
-        radial-gradient(700px 420px at 82% 10%, rgba(79, 70, 229, .1), transparent 55%),
-        radial-gradient(520px 320px at 8% 100%, rgba(201, 247, 58, .12), transparent 55%),
-        linear-gradient(160deg, #ffffff 0%, #f4f4fc 100%);
-    padding: clamp(2.2rem, 5vw, 4.2rem);
-}
-
-    /* subtle technical grid */
-    .hero-stage::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image:
-            linear-gradient(rgba(20, 23, 31, .035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(20, 23, 31, .035) 1px, transparent 1px);
-        background-size: 44px 44px;
-        mask-image: radial-gradient(700px 480px at 70% 30%, #000 30%, transparent 75%);
-        -webkit-mask-image: radial-gradient(700px 480px at 70% 30%, #000 30%, transparent 75%);
-        pointer-events: none;
-    }
-
-.hero-copy {
-    position: relative;
-    z-index: 1;
+    border-radius: var(--radius-lg);
+    padding: clamp(1.8rem, 4vw, 3.4rem);
 }
 
 .hero-title {
-    font-size: clamp(2.4rem, 5vw, 3.9rem);
-    line-height: 1.05;
-    letter-spacing: -.035em;
-    margin: 1.1rem 0 1rem;
+    font-size: clamp(2.1rem, 4.2vw, 3.1rem);
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    margin: 1rem 0 .9rem;
 }
 
     .hero-title em {
         font-style: normal;
-        background: linear-gradient(100deg, var(--brand) 10%, #8b5cf6 90%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
+        color: var(--brand);
     }
 
 .hero-sub {
     color: var(--ink-600);
-    font-size: 1.08rem;
+    font-size: 1.05rem;
     line-height: 1.7;
-    max-width: 33rem;
+    max-width: 32rem;
 }
 
 .hero-stats {
     display: flex;
     gap: 2.2rem;
-    margin-top: 2.4rem;
+    margin-top: 2.2rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--line);
     flex-wrap: wrap;
 }
 
 .hero-stat strong {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.45rem;
+    font-size: 1.3rem;
     color: var(--ink-950);
     letter-spacing: -.02em;
 }
@@ -761,145 +710,113 @@ img {
     font-size: .82rem;
 }
 
-.hero-visual {
-    position: relative;
-    z-index: 1;
-    text-align: center;
+/* Featured product panel — white body so white-background photos blend in */
+.hero-product {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 
-    .hero-visual img {
-        max-height: 430px;
+.hero-product-media {
+    display: grid;
+    place-items: center;
+    padding: 1.8rem;
+}
+
+    .hero-product-media img {
+        max-height: 330px;
         width: auto;
         max-width: 100%;
-        filter: drop-shadow(0 34px 44px rgba(20, 23, 31, .22));
-        animation: hero-float 7s var(--ease) infinite alternate;
+        object-fit: contain;
+        transition: transform var(--speed-slow) var(--ease);
     }
 
-@keyframes hero-float {
-    from { transform: translateY(0); }
-    to   { transform: translateY(-14px); }
+.hero-product:hover .hero-product-media img {
+    transform: scale(1.02);
 }
 
-.hero-chip {
-    position: absolute;
-    display: inline-flex;
+.hero-product-info {
+    display: flex;
     align-items: center;
-    gap: .55rem;
-    padding: .55rem .95rem;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, .82);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, .9);
-    box-shadow: var(--shadow);
-    font-size: .82rem;
-    font-weight: 700;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .95rem 1.3rem;
+    border-top: 1px solid var(--line);
+    background: var(--ink-50);
+}
+
+.hero-product-brand {
+    font-size: .72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: var(--ink-500);
+}
+
+.hero-product-name {
+    font-weight: 600;
     color: var(--ink-900);
-    animation: hero-float 6s var(--ease) infinite alternate;
+    font-size: .95rem;
 }
 
-    .hero-chip i {
-        width: 28px;
-        height: 28px;
-        border-radius: 9px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: .8rem;
-    }
+.hero-product-price {
+    text-align: right;
+    white-space: nowrap;
+}
 
-    .hero-chip small {
+    .hero-product-price .price-old {
         display: block;
-        font-weight: 500;
-        color: var(--ink-500);
-        font-size: .72rem;
     }
 
-.hero-chip-1 {
-    top: 8%;
-    left: -2%;
-    animation-delay: .8s;
-}
-
-    .hero-chip-1 i {
-        background: var(--hot-bg);
-        color: var(--hot);
-    }
-
-.hero-chip-2 {
-    bottom: 12%;
-    right: -1%;
-    animation-delay: 1.6s;
-}
-
-    .hero-chip-2 i {
-        background: var(--success-bg);
-        color: var(--success);
+    .hero-product-price .price-now {
+        font-size: 1.25rem;
     }
 
 @media (max-width: 991.98px) {
-    .hero-visual img {
-        max-height: 300px;
-        margin-top: 2rem;
+    .hero-product-media img {
+        max-height: 240px;
     }
-
-    .hero-chip-1 { left: 2%; }
-    .hero-chip-2 { right: 2%; }
 }
 
-/* == 10. Brand strip (marquee) =========================================== */
+/* == 10. Brand strip ===================================================== */
 .brand-strip {
-    overflow: hidden;
-    padding: 1.6rem 0;
+    padding: 1.5rem 0;
     border-bottom: 1px solid var(--line);
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.brand-strip-label {
+    text-align: center;
+    font-size: .74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--ink-400);
+    margin-bottom: 1rem;
 }
 
 .brand-track {
     display: flex;
-    gap: 3.6rem;
-    width: max-content;
-    animation: marquee 30s linear infinite;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    column-gap: clamp(1.6rem, 4.5vw, 3.4rem);
+    row-gap: .7rem;
 }
-
-    .brand-track:hover {
-        animation-play-state: paused;
-    }
 
 .brand-mark {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.2rem;
-    letter-spacing: .02em;
-    color: var(--ink-300);
+    font-size: 1.05rem;
+    letter-spacing: .01em;
+    color: var(--ink-400);
     white-space: nowrap;
     transition: color var(--speed) var(--ease);
-    display: inline-flex;
-    align-items: center;
-    gap: .55rem;
 }
 
     .brand-mark:hover {
-        color: var(--ink-900);
+        color: var(--ink-800);
     }
-
-    .brand-mark i {
-        font-size: .5rem;
-        color: var(--brand-200);
-    }
-
-@keyframes marquee {
-    to { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .brand-strip {
-        overflow-x: auto;
-        mask-image: none;
-        -webkit-mask-image: none;
-    }
-}
 
 /* == 11. Section heads =================================================== */
 .section-head {
@@ -919,25 +836,6 @@ img {
     .section-head p {
         color: var(--ink-500);
         margin-bottom: 0;
-    }
-
-.section-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: .45rem;
-    font-size: .78rem;
-    font-weight: 800;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--brand);
-}
-
-    .section-eyebrow::before {
-        content: "";
-        width: 18px;
-        height: 2px;
-        border-radius: 2px;
-        background: var(--brand);
     }
 
 .section-link {
@@ -979,30 +877,27 @@ img {
     }
 
     .category-card:hover {
-        transform: translateY(-5px);
         border-color: var(--brand-200);
-        box-shadow: var(--shadow);
+        box-shadow: var(--shadow-sm);
     }
 
 .category-icon {
-    width: 54px;
-    height: 54px;
+    width: 50px;
+    height: 50px;
     margin: 0 auto .8rem;
-    border-radius: 16px;
-    background: var(--brand-50);
-    color: var(--brand);
+    border-radius: 14px;
+    background: var(--ink-50);
+    color: var(--ink-700);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
-    transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease),
-                transform var(--speed) var(--ease);
+    font-size: 1.15rem;
+    transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease);
 }
 
 .category-card:hover .category-icon {
-    background: var(--brand);
-    color: #fff;
-    transform: scale(1.06) rotate(-4deg);
+    background: var(--brand-50);
+    color: var(--brand);
 }
 
 /* == 13. Promo tiles ===================================================== */
@@ -1010,75 +905,90 @@ img {
     position: relative;
     overflow: hidden;
     border-radius: var(--radius-lg);
-    min-height: 250px;
+    min-height: 230px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 2rem 2.2rem;
-    transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+    transition: box-shadow var(--speed) var(--ease), border-color var(--speed) var(--ease);
 }
 
     .promo-tile:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-lg);
+        box-shadow: var(--shadow);
     }
 
 .promo-dark {
-    background:
-        radial-gradient(430px 260px at 90% 0%, rgba(79, 70, 229, .55), transparent 60%),
-        var(--ink-950);
+    background: var(--ink-950);
     color: #fff;
 }
 
 .promo-indigo {
-    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-700) 100%);
-    color: #fff;
+    background: var(--brand-50);
+    border: 1px solid var(--brand-100);
+    color: var(--ink-700);
 }
+
+    .promo-indigo:hover {
+        border-color: var(--brand-200);
+    }
 
 .promo-eyebrow {
     font-size: .74rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: .12em;
-    color: var(--volt);
+    color: var(--ink-400);
     margin-bottom: .6rem;
 }
 
 .promo-indigo .promo-eyebrow {
-    color: var(--brand-100);
+    color: var(--brand);
 }
 
 .promo-tile h3 {
-    color: #fff;
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     max-width: 17rem;
     letter-spacing: -.02em;
 }
 
+.promo-dark h3 {
+    color: #fff;
+}
+
 .promo-tile p {
-    color: rgba(255, 255, 255, .72);
     font-size: .92rem;
     max-width: 16rem;
 }
 
+.promo-dark p {
+    color: rgba(255, 255, 255, .72);
+}
+
+.promo-indigo p {
+    color: var(--ink-600);
+}
+
+/* Product photos ship with white backgrounds — frame them in a white card
+   so the rectangle reads as intentional on any tile color. */
 .promo-media {
     position: absolute;
-    right: -18px;
-    bottom: -8px;
-    max-height: 78%;
-    max-width: 46%;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    max-height: 62%;
+    max-width: 40%;
     object-fit: contain;
-    filter: drop-shadow(0 18px 26px rgba(0, 0, 0, .4));
-    transition: transform var(--speed-slow) var(--ease);
+    background: #fff;
+    border-radius: var(--radius);
+    padding: .8rem;
 }
 
-.promo-tile:hover .promo-media {
-    transform: scale(1.05) rotate(-2deg);
+.promo-indigo .promo-media {
+    border: 1px solid var(--brand-100);
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
     .promo-media {
-        opacity: .35;
+        display: none;
     }
 }
 
@@ -1090,16 +1000,14 @@ img {
     height: 100%;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 18px;
+    border-radius: var(--radius);
     overflow: hidden;
-    transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease),
-                border-color var(--speed) var(--ease);
+    transition: box-shadow var(--speed) var(--ease), border-color var(--speed) var(--ease);
 }
 
     .pcard:hover, .pcard:focus-within {
-        transform: translateY(-6px);
-        border-color: var(--brand-200);
-        box-shadow: var(--shadow-lg);
+        border-color: var(--ink-300);
+        box-shadow: var(--shadow);
     }
 
 .pcard-media {
@@ -1120,7 +1028,7 @@ img {
     }
 
 .pcard:hover .pcard-media img {
-    transform: scale(1.07);
+    transform: scale(1.04);
 }
 
 .pcard-flags {
@@ -1148,7 +1056,6 @@ img {
 .flag-hot {
     background: var(--hot);
     color: #fff;
-    box-shadow: 0 4px 12px -4px rgba(229, 50, 91, .6);
 }
 
 .flag-low {
@@ -1199,8 +1106,7 @@ img {
     .quick-btn:hover, .quick-btn:focus {
         background: var(--ink-950);
         border-color: var(--ink-950);
-        color: var(--volt);
-        transform: scale(1.06);
+        color: #fff;
     }
 
 .wish-btn[aria-pressed="true"] {
@@ -1556,9 +1462,9 @@ img {
     max-width: 980px;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow);
 }
 
 .auth-side {
@@ -1594,9 +1500,7 @@ img {
     }
 
 .auth-side-dark {
-    background:
-        radial-gradient(460px 320px at 85% -10%, rgba(79, 70, 229, .55), transparent 60%),
-        var(--ink-950);
+    background: var(--ink-950);
 }
 
 .auth-side-brand {
@@ -1610,7 +1514,7 @@ img {
     border-radius: 18px;
     background: rgba(255, 255, 255, .1);
     border: 1px solid rgba(255, 255, 255, .2);
-    color: var(--volt);
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1860,7 +1764,7 @@ img {
     }
 
 .toast-success i {
-    color: var(--volt);
+    color: #4ade80;
 }
 
 .toast-warning i {
@@ -2259,7 +2163,7 @@ img {
     }
 }
 
-/* == 24. Utilities & reveal animations =================================== */
+/* == 24. Utilities ======================================================= */
 .trust-item {
     display: flex;
     align-items: center;
@@ -2322,23 +2226,4 @@ img {
 .error-icon.icon-success {
     background: var(--success-bg);
     color: var(--success);
-}
-
-/* Scroll-reveal — activated by site.js; harmless without it */
-.js .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity .55s var(--ease), transform .55s var(--ease);
-}
-
-    .js .reveal.in {
-        opacity: 1;
-        transform: none;
-    }
-
-@media (prefers-reduced-motion: reduce) {
-    .js .reveal {
-        opacity: 1;
-        transform: none;
-    }
 }
