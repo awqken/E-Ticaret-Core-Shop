@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CoreShop.Areas.Models
 {
-    public class ProductFormVM
+    public class ProductFormVM : IValidatableObject
     {
         public int ID { get; set; }
 
@@ -17,6 +17,9 @@ namespace CoreShop.Areas.Models
         [Range(0.01, 10_000_000, ErrorMessage = "Fiyat 0'dan büyük olmalıdır.")]
         public decimal ProductPrice { get; set; }
 
+        [Range(0.01, 10_000_000, ErrorMessage = "Eski fiyat 0'dan büyük olmalıdır.")]
+        public decimal? OldPrice { get; set; }
+
         [Range(0, 1_000_000, ErrorMessage = "Stok negatif olamaz.")]
         public int ProductStock { get; set; }
 
@@ -30,5 +33,15 @@ namespace CoreShop.Areas.Models
         public string? ProductImage { get; set; }
 
         public IFormFile? ImageFile { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (OldPrice.HasValue && OldPrice.Value <= ProductPrice)
+            {
+                yield return new ValidationResult(
+                    "Eski fiyat, güncel satış fiyatından yüksek olmalıdır.",
+                    new[] { nameof(OldPrice) });
+            }
+        }
     }
 }

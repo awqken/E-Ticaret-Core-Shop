@@ -12,5 +12,14 @@ namespace CoreShop.Helpers
             var format = value == decimal.Truncate(value) ? "N0" : "N2";
             return value.ToString(format, Turkish) + " ₺";
         }
+
+        /// <summary>Rounded discount percentage from <paramref name="oldPrice"/> down to <paramref name="currentPrice"/>; 0 when there is no real discount.</summary>
+        public static int DiscountPercentFrom(this decimal currentPrice, decimal? oldPrice)
+        {
+            if (!oldPrice.HasValue || oldPrice.Value <= currentPrice || oldPrice.Value <= 0)
+                return 0;
+
+            return (int)Math.Round((1 - currentPrice / oldPrice.Value) * 100);
+        }
     }
 }

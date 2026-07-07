@@ -53,6 +53,13 @@
                         </div>
 
                         <div class="col-md-6">
+                            <label asp-for="OldPrice" class="form-label fw-semibold">Eski Fiyat (₺)</label>
+                            <input asp-for="OldPrice" class="form-control" placeholder="Opsiyonel — indirim rozeti için" inputmode="decimal" />
+                            <div class="form-text">Doldurulursa üründe indirim yüzdesi görünür.</div>
+                            <span asp-validation-for="OldPrice" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
                             <label asp-for="ProductStock" class="form-label fw-semibold">Stok</label>
                             <input asp-for="ProductStock" class="form-control" placeholder="Örn: 15" inputmode="numeric" />
                             <span asp-validation-for="ProductStock" class="text-danger small"></span>

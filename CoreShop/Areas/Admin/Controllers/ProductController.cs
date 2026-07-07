@@ -121,6 +121,7 @@ namespace CoreShop.Areas.Admin.Controllers
                 ProductName = model.ProductName.Trim(),
                 ProductBrand = model.ProductBrand.Trim(),
                 ProductPrice = model.ProductPrice,
+                OldPrice = model.OldPrice,
                 ProductStock = model.ProductStock,
                 CategoryId = model.CategoryId,
                 Description = model.Description?.Trim(),
@@ -149,6 +150,7 @@ namespace CoreShop.Areas.Admin.Controllers
                 ProductName = product.ProductName,
                 ProductBrand = product.ProductBrand,
                 ProductPrice = product.ProductPrice,
+                OldPrice = product.OldPrice,
                 ProductStock = product.ProductStock,
                 CategoryId = product.CategoryId,
                 Description = product.Description,
@@ -183,6 +185,7 @@ namespace CoreShop.Areas.Admin.Controllers
             existingProduct.ProductName = model.ProductName.Trim();
             existingProduct.ProductBrand = model.ProductBrand.Trim();
             existingProduct.ProductPrice = model.ProductPrice;
+            existingProduct.OldPrice = model.OldPrice;
             existingProduct.ProductStock = model.ProductStock;
             existingProduct.CategoryId = model.CategoryId;
             existingProduct.Description = model.Description?.Trim();

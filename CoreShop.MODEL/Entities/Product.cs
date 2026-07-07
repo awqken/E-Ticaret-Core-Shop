@@ -11,6 +11,9 @@ namespace CoreShop.MODEL.Entities
         [Required]
         public decimal ProductPrice { get; set; }
 
+        /// <summary>Previous list price; when set and higher than ProductPrice the product is on sale.</summary>
+        public decimal? OldPrice { get; set; }
+
         [Required]
         public int ProductStock { get; set; }
 
