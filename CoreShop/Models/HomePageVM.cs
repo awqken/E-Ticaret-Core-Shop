@@ -15,7 +15,10 @@ namespace CoreShop.Models
 
         public List<Category> Categories { get; set; } = new();
 
-        /// <summary>Hero showcase product (a premium PC case when available).</summary>
+        /// <summary>The marketing campaign the hero renders for this application run.</summary>
+        public required HeroCampaign Campaign { get; set; }
+
+        /// <summary>Product featured by the active campaign (resolved from the catalog).</summary>
         public Product? HeroProduct { get; set; }
     }
 }

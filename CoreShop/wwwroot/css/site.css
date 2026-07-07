@@ -497,11 +497,11 @@ img {
         transition: transform var(--speed) var(--ease);
     }
 
-    .nav-link-main:hover, .nav-link-main:focus {
+    .nav-link-main:hover, .nav-link-main:focus, .nav-link-main.active {
         color: #fff;
     }
 
-        .nav-link-main:hover::after, .nav-link-main:focus::after {
+        .nav-link-main:hover::after, .nav-link-main:focus::after, .nav-link-main.active::after {
             transform: scaleX(1);
         }
 
@@ -689,15 +689,39 @@ img {
     margin-left: calc(50% - 50vw);
 }
 
-.hero-dark {
+/* The hero is data-driven (HeroCampaignProvider): a stage variant (dark/light)
+   plus an accent class chosen per campaign. Accents stay inside the palette. */
+.hero-stage {
     /* pull up over main's py-4 so the hero sits flush under the navbar */
     margin-top: -1.5rem;
     padding: clamp(2.6rem, 6vw, 4.4rem) 0;
+
+    /* accent defaults (indigo) — overridden by hero-accent-* */
+    --hero-accent: #a5b0f5;
+    --hero-accent-strong: var(--brand-600);
+    --hero-glow: 79, 70, 229;
+}
+
+.hero-accent-indigo { --hero-accent: #a5b0f5; --hero-accent-strong: var(--brand-600); --hero-glow: 79, 70, 229; }
+.hero-accent-ember  { --hero-accent: #fbbf24; --hero-accent-strong: var(--warning);   --hero-glow: 214, 98, 38; }
+.hero-accent-cyan   { --hero-accent: #38bdf8; --hero-accent-strong: var(--info);      --hero-glow: 11, 125, 190; }
+.hero-accent-rose   { --hero-accent: #fb7185; --hero-accent-strong: var(--hot);       --hero-glow: 229, 50, 91; }
+.hero-accent-green  { --hero-accent: #4ade80; --hero-accent-strong: var(--success);   --hero-glow: 22, 129, 75; }
+
+.hero-dark {
     background:
-        radial-gradient(760px 420px at 72% 40%, rgba(214, 98, 38, .16), transparent 62%),
-        radial-gradient(900px 520px at 12% 115%, rgba(79, 70, 229, .2), transparent 65%),
+        radial-gradient(760px 420px at 72% 40%, rgba(var(--hero-glow), .17), transparent 62%),
+        radial-gradient(900px 520px at 12% 115%, rgba(var(--hero-glow), .08), transparent 65%),
         var(--ink-950);
     color: var(--ink-300);
+}
+
+/* Pure white on purpose: studio photos have white backgrounds, and any tint
+   behind them would expose the photo rectangle. Accent lives in the type. */
+.hero-light {
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-600);
 }
 
 .hero-kicker {
@@ -705,8 +729,12 @@ img {
     font-weight: 800;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--ink-400);
+    color: var(--hero-accent);
     margin-bottom: 1.1rem;
+}
+
+.hero-light .hero-kicker {
+    color: var(--hero-accent-strong);
 }
 
 .hero-title {
@@ -717,11 +745,19 @@ img {
     margin-bottom: 1rem;
 }
 
+.hero-light .hero-title {
+    color: var(--ink-950);
+}
+
 .hero-sub {
     color: var(--ink-300);
     font-size: 1.05rem;
     line-height: 1.7;
     max-width: 30rem;
+}
+
+.hero-light .hero-sub {
+    color: var(--ink-600);
 }
 
 .hero-note {
@@ -740,10 +776,44 @@ img {
         max-height: 430px;
         width: auto;
         max-width: 100%;
+        object-fit: contain;
         filter: drop-shadow(0 34px 40px rgba(0, 0, 0, .55));
     }
 
-/* Compact commerce caption under the render — name, price, link to detail */
+/* studio photos carry their own white background — no artificial shadow */
+.hero-light .hero-scene img {
+    max-height: 400px;
+    filter: none;
+}
+
+/* Spec panel — typography-led campaigns sell with feature rows, not imagery */
+.hero-spec-panel {
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.hero-spec {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .12);
+    color: #fff;
+    font-weight: 600;
+    font-size: .98rem;
+}
+
+    .hero-spec i {
+        color: var(--hero-accent);
+        font-size: .9rem;
+    }
+
+/* Compact commerce caption — name, price, link to the featured product */
 .hero-scene-caption {
     display: flex;
     align-items: center;
@@ -765,6 +835,18 @@ img {
         color: #fff;
     }
 
+.hero-light .hero-scene-caption {
+    background: var(--ink-50);
+    border-color: var(--line);
+    color: var(--ink-950);
+}
+
+    .hero-light .hero-scene-caption:hover, .hero-light .hero-scene-caption:focus {
+        background: var(--ink-100);
+        border-color: var(--ink-300);
+        color: var(--ink-950);
+    }
+
 .caption-name {
     font-weight: 600;
     font-size: .95rem;
@@ -775,6 +857,10 @@ img {
     color: var(--ink-400);
 }
 
+.hero-light .caption-meta {
+    color: var(--ink-500);
+}
+
 .caption-price {
     font-family: var(--font-display);
     font-weight: 700;
@@ -783,7 +869,8 @@ img {
 }
 
 @media (max-width: 991.98px) {
-    .hero-scene img {
+    .hero-scene img,
+    .hero-light .hero-scene img {
         max-height: 320px;
     }
 }

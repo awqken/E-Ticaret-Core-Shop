@@ -21,6 +21,10 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 
+// Singleton on purpose: the hero campaign is drawn once at startup and stays
+// active for the lifetime of the running application.
+builder.Services.AddSingleton<IHeroCampaignProvider, HeroCampaignProvider>();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromHours(2);

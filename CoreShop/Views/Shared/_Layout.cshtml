@@ -1,3 +1,9 @@
+@{
+    var routeController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var routeArea = ViewContext.RouteData.Values["area"]?.ToString();
+    var isHomeActive = string.IsNullOrEmpty(routeArea) && routeController == "Home";
+    var isProductsActive = string.IsNullOrEmpty(routeArea) && routeController == "Product";
+}
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -43,10 +49,14 @@
 
                 <ul class="navbar-nav ms-lg-3">
                     <li class="nav-item">
-                        <a class="nav-link nav-link-main" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                        <a class="nav-link nav-link-main @(isHomeActive ? "active" : "")"
+                           asp-controller="Home" asp-action="Index"
+                           aria-current="@(isHomeActive ? "page" : null)">Ana Sayfa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-main" asp-controller="Product" asp-action="Index">Ürünler</a>
+                        <a class="nav-link nav-link-main @(isProductsActive ? "active" : "")"
+                           asp-controller="Product" asp-action="Index"
+                           aria-current="@(isProductsActive ? "page" : null)">Ürünler</a>
                     </li>
                 </ul>
 

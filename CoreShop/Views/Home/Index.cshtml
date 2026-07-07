@@ -21,66 +21,8 @@
     var brandMarks = new[] { "ASUS", "MSI", "NVIDIA", "AMD", "Intel", "Corsair", "NZXT", "Samsung", "Logitech", "Fractal Design", "G.Skill", "Kingston" };
 }
 
-@* ── Hero — full-bleed dark stage with the transparent product render ──── *@
-<section class="hero-dark full-bleed" aria-label="Kampanya">
-    <div class="container">
-        <div class="row align-items-center g-4 g-lg-5">
-            <div class="col-lg-6">
-                <p class="hero-kicker">Oyun monitörü kampanyası</p>
-
-                <h1 class="hero-title">
-                    165 Hz akıcılık.<br />
-                    Her karede fark.
-                </h1>
-
-                <p class="hero-sub">
-                    Seçili oyun monitörlerinde sezon fiyatları başladı.
-                    IPS panel, FreeSync Premium ve 1 ms tepki süresi —
-                    rekabete hazır ekranlar stokta.
-                </p>
-
-                <div class="d-flex flex-wrap gap-3 mt-4">
-                    <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="10"
-                       class="btn btn-light btn-lg fw-semibold">
-                        Monitörleri İncele
-                    </a>
-
-                    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-light btn-lg">
-                        Tüm Ürünler
-                    </a>
-                </div>
-
-                <p class="hero-note">Stoktan aynı gün kargo &nbsp;·&nbsp; 14 gün koşulsuz iade</p>
-            </div>
-
-            <div class="col-lg-6">
-                @if (Model.HeroProduct != null)
-                {
-                    <div class="hero-scene">
-                        <img src="~/images/@Model.HeroProduct.ProductImage"
-                             alt="@Model.HeroProduct.ProductName"
-                             width="443" height="450"
-                             fetchpriority="high"
-                             onerror="this.src='/images/products/default.svg'" />
-                    </div>
-
-                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.HeroProduct.ID"
-                       class="hero-scene-caption">
-                        <span>
-                            <span class="caption-name">@Model.HeroProduct.ProductName</span>
-                            <span class="caption-meta d-block">@Model.HeroProduct.ProductBrand · Stokta</span>
-                        </span>
-
-                        <span class="d-inline-flex align-items-center gap-2">
-                            <span class="caption-price">@Model.HeroProduct.ProductPrice.ToTryPrice()</span>
-                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                        </span>
-                    </a>
-                }
-            </div>
-        </div>
-    </div>
-</section>
+@* ── Hero — renders the campaign selected for this application run ─────── *@
+<partial name="_HeroCampaign" model="Model" />
 
 @* ── Trust bar — slim service strip right under the hero ─────────────────── *@
 <section class="trust-bar" aria-label="Hizmet garantileri">
