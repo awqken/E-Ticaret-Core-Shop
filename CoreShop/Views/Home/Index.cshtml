@@ -1,4 +1,4 @@
-﻿@using CoreShop.Helpers
+@using CoreShop.Helpers
 @model CoreShop.Models.HomePageVM
 
 @{
@@ -21,95 +21,106 @@
     var brandMarks = new[] { "ASUS", "MSI", "NVIDIA", "AMD", "Intel", "Corsair", "NZXT", "Samsung", "Logitech", "Fractal Design", "G.Skill", "Kingston" };
 }
 
-@* ── Hero ─────────────────────────────────────────────────────────────── *@
-<section class="hero-stage mb-4" aria-label="Tanıtım">
-    <div class="row align-items-center g-4 g-lg-5">
-        <div class="col-lg-6 hero-copy">
-            <span class="chip">
-                <span class="chip-dot" aria-hidden="true"></span>
-                Tüm ürünler stoktan aynı gün kargoda
-            </span>
+@* ── Hero — full-bleed dark stage with the transparent product render ──── *@
+<section class="hero-dark full-bleed" aria-label="Kampanya">
+    <div class="container">
+        <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-6">
+                <p class="hero-kicker">Oyun monitörü kampanyası</p>
 
-            <h1 class="hero-title">
-                Sistemini kuracağın<br />
-                her parça <em>tek adreste</em>
-            </h1>
+                <h1 class="hero-title">
+                    165 Hz akıcılık.<br />
+                    Her karede fark.
+                </h1>
 
-            <p class="hero-sub">
-                İşlemciden ekran kartına, kasadan soğutmaya — ihtiyacın olan
-                donanımı karşılaştır, stok durumunu gör, güvenle sipariş ver.
-            </p>
+                <p class="hero-sub">
+                    Seçili oyun monitörlerinde sezon fiyatları başladı.
+                    IPS panel, FreeSync Premium ve 1 ms tepki süresi —
+                    rekabete hazır ekranlar stokta.
+                </p>
 
-            <div class="d-flex flex-wrap gap-3 mt-4">
-                <a asp-controller="Product" asp-action="Index" class="btn btn-brand btn-lg">
-                    Alışverişe Başla
-                </a>
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="10"
+                       class="btn btn-light btn-lg fw-semibold">
+                        Monitörleri İncele
+                    </a>
 
-                <a href="#categories" class="btn btn-outline-dark btn-lg">
-                    Kategorilere Göz At
-                </a>
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-light btn-lg">
+                        Tüm Ürünler
+                    </a>
+                </div>
+
+                <p class="hero-note">Stoktan aynı gün kargo &nbsp;·&nbsp; 14 gün koşulsuz iade</p>
             </div>
 
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <strong>38+</strong>
-                    <small>Donanım ürünü</small>
-                </div>
-                <div class="hero-stat">
-                    <strong>10</strong>
-                    <small>Kategori</small>
-                </div>
-                <div class="hero-stat">
-                    <strong>14 gün</strong>
-                    <small>Koşulsuz iade</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            @if (Model.HeroProduct != null)
-            {
-                var heroDiscount = Model.HeroProduct.ProductPrice.DiscountPercentFrom(Model.HeroProduct.OldPrice);
-
-                <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.HeroProduct.ID"
-                   class="hero-product d-block text-decoration-none"
-                   aria-label="@Model.HeroProduct.ProductName detayına git">
-                    <div class="hero-product-media">
+            <div class="col-lg-6">
+                @if (Model.HeroProduct != null)
+                {
+                    <div class="hero-scene">
                         <img src="~/images/@Model.HeroProduct.ProductImage"
                              alt="@Model.HeroProduct.ProductName"
-                             width="520" height="330"
+                             width="443" height="450"
                              fetchpriority="high"
                              onerror="this.src='/images/products/default.svg'" />
                     </div>
 
-                    <div class="hero-product-info">
-                        <div>
-                            <div class="hero-product-brand">@Model.HeroProduct.ProductBrand</div>
-                            <div class="hero-product-name">@Model.HeroProduct.ProductName</div>
-                        </div>
+                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.HeroProduct.ID"
+                       class="hero-scene-caption">
+                        <span>
+                            <span class="caption-name">@Model.HeroProduct.ProductName</span>
+                            <span class="caption-meta d-block">@Model.HeroProduct.ProductBrand · Stokta</span>
+                        </span>
 
-                        <div class="hero-product-price">
-                            @if (heroDiscount > 0)
-                            {
-                                <span class="price-old">@Model.HeroProduct.OldPrice!.Value.ToTryPrice()</span>
-                            }
-                            <span class="price-now">@Model.HeroProduct.ProductPrice.ToTryPrice()</span>
-                        </div>
-                    </div>
-                </a>
-            }
+                        <span class="d-inline-flex align-items-center gap-2">
+                            <span class="caption-price">@Model.HeroProduct.ProductPrice.ToTryPrice()</span>
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                }
+            </div>
         </div>
     </div>
 </section>
 
-@* ── Brand strip ──────────────────────────────────────────────────────── *@
-<section class="brand-strip mb-5" aria-label="Markalar">
-    <p class="brand-strip-label">Yetkili satış noktası olduğumuz markalar</p>
-    <div class="brand-track">
-        @foreach (var mark in brandMarks)
-        {
-            <span class="brand-mark">@mark</span>
-        }
+@* ── Trust bar — slim service strip right under the hero ─────────────────── *@
+<section class="trust-bar" aria-label="Hizmet garantileri">
+    <div class="row g-0">
+        <div class="col-lg-3 col-md-6">
+            <div class="trust-item">
+                <div class="trust-icon"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i></div>
+                <div>
+                    <strong>Hızlı Teslimat</strong>
+                    <small>Siparişin 24 saatte kargoda</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="trust-item">
+                <div class="trust-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+                <div>
+                    <strong>Güvenli Ödeme</strong>
+                    <small>Bilgilerin koruma altında</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="trust-item">
+                <div class="trust-icon"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i></div>
+                <div>
+                    <strong>Kolay İade</strong>
+                    <small>14 gün içinde ücretsiz</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="trust-item">
+                <div class="trust-icon"><i class="fa-solid fa-headset" aria-hidden="true"></i></div>
+                <div>
+                    <strong>Uzman Destek</strong>
+                    <small>Donanım seçiminde yanındayız</small>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -143,37 +154,6 @@
     </div>
 </section>
 
-@* ── Promo tiles ──────────────────────────────────────────────────────── *@
-<section class="mb-5" aria-label="Kampanyalar">
-    <div class="row g-4">
-        <div class="col-lg-7">
-            <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="2"
-               class="promo-tile promo-dark h-100 text-decoration-none">
-                <div class="promo-eyebrow">RTX 40 Serisi</div>
-                <h3>DLSS 3 ile kare hızını ikiye katla</h3>
-                <p>GeForce RTX 40 serisi ekran kartlarında sezon fırsatları.</p>
-                <span class="btn btn-light btn-sm align-self-start mt-2 fw-semibold">
-                    Ekran Kartlarını Gör <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
-                </span>
-                <img src="~/images/products/rtx-4070-super.jpg" alt="" class="promo-media" loading="lazy" width="380" height="200" />
-            </a>
-        </div>
-
-        <div class="col-lg-5">
-            <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="8"
-               class="promo-tile promo-indigo h-100 text-decoration-none">
-                <div class="promo-eyebrow">Kasa &amp; Soğutma</div>
-                <h3>Sessiz, serin ve şık sistemler</h3>
-                <p>Premium kasalar ve soğutma çözümleri bir arada.</p>
-                <span class="btn btn-dark btn-sm align-self-start mt-2 fw-semibold">
-                    Koleksiyonu Keşfet <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
-                </span>
-                <img src="~/images/products/fractal-north.jpg" alt="" class="promo-media" loading="lazy" width="240" height="260" />
-            </a>
-        </div>
-    </div>
-</section>
-
 @* ── Featured / deals ─────────────────────────────────────────────────── *@
 @if (Model.FeaturedProducts.Any())
 {
@@ -198,6 +178,43 @@
         </div>
     </section>
 }
+
+@* ── Editorial showcase — studio photography on matching white tiles ───── *@
+<section class="mb-5" aria-label="Koleksiyonlar">
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="8"
+               class="showcase-tile">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">Kasa &amp; Soğutma</p>
+                    <h3>Sessiz ve şık sistemler</h3>
+                    <span class="showcase-link">
+                        Koleksiyonu keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="showcase-media">
+                    <img src="~/images/products/fractal-north.jpg" alt="" loading="lazy" width="560" height="300" />
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-6">
+            <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="2"
+               class="showcase-tile">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">RTX 40 Serisi</p>
+                    <h3>DLSS 3 ile iki kat kare hızı</h3>
+                    <span class="showcase-link">
+                        Ekran kartlarını gör <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="showcase-media">
+                    <img src="~/images/products/rtx-4070-super.jpg" alt="" loading="lazy" width="560" height="300" />
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
 
 @* ── Best sellers ─────────────────────────────────────────────────────── *@
 @if (Model.BestSellers.Any())
@@ -246,45 +263,14 @@
     </section>
 }
 
-@* ── Trust ────────────────────────────────────────────────────────────── *@
-<section class="surface mb-5" aria-label="Neden CoreShop">
-    <div class="row g-0">
-        <div class="col-lg-3 col-md-6">
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i></div>
-                <div>
-                    <strong>Hızlı Teslimat</strong>
-                    <small>Siparişin 24 saatte kargoda</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
-                <div>
-                    <strong>Güvenli Ödeme</strong>
-                    <small>Bilgilerin koruma altında</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i></div>
-                <div>
-                    <strong>Kolay İade</strong>
-                    <small>14 gün içinde ücretsiz</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fa-solid fa-headset" aria-hidden="true"></i></div>
-                <div>
-                    <strong>Uzman Destek</strong>
-                    <small>Donanım seçiminde yanındayız</small>
-                </div>
-            </div>
-        </div>
+@* ── Brand strip ──────────────────────────────────────────────────────── *@
+<section class="brand-strip mb-5" aria-label="Markalar">
+    <p class="brand-strip-label">Yetkili satış noktası olduğumuz markalar</p>
+    <div class="brand-track">
+        @foreach (var mark in brandMarks)
+        {
+            <span class="brand-mark">@mark</span>
+        }
     </div>
 </section>
 

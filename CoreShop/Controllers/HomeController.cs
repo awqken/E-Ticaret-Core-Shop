@@ -56,8 +56,9 @@ namespace CoreShop.Controllers
                     .OrderBy(x => x.CategoryName)
                     .ToList(),
 
+                // The hero composition needs the catalog's transparent marketing render.
                 HeroProduct = products.FirstOrDefault(x =>
-                    x.ProductName.Contains("Fractal", StringComparison.OrdinalIgnoreCase))
+                    x.ProductName.Contains("AOC", StringComparison.OrdinalIgnoreCase))
                     ?? products.FirstOrDefault()
             };
 
