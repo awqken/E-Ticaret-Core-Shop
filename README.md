@@ -15,6 +15,15 @@ ASP.NET Core 8.0 MVC ile geliştirilmiş, çok katmanlı (N-Tier) mimariye sahip
 - **Veritabanı Kurulumu Yok:** Tüm veriler uygulama çalıştığı anda In-Memory (Bellek İçi) olarak yüklenir. SQL Server vb. kurmanıza gerek yoktur.
 - **Hazır Veriler ve Görseller:** Proje; arka planı temizlenmiş yüksek kaliteli ürün görselleri, hazır kategoriler, test ürünleri ve örnek sipariş verileriyle birlikte gelir. Çalıştırdığınız an mağaza dolu ve teste hazırdır.
 
+## 🔑 Yönetici (Admin) Giriş Bilgileri
+Projeyi indirmeden önce paneldeki özellikleri test etmek isterseniz aşağıdaki hazır hesabı kullanabilirsiniz:
+- **E-posta:** `admin@coreshop.com`
+- **Şifre:** `Admin123`
+
+*(Normal bir kullanıcı deneyimi için ise sitenin sağ üst köşesindeki "Kayıt Ol" butonundan anında yeni bir müşteri hesabı oluşturabilirsiniz.)*
+
+---
+
 ## 🛠️ Neler Kullanıldı?
 - ASP.NET Core 8.0 MVC
 - N-Katmanlı Mimari (Core, Model, Service, Web)
