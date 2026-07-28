@@ -1,103 +1,143 @@
 @using CoreShop.Helpers
 @model CoreShop.Models.HomePageVM
 
-@{
-    var campaign = Model.Campaign;
-    var product = Model.HeroProduct;
+<style>
+    .apple-hero-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        height: calc(100vh - 80px); /* Exactly fits the viewport minus navbar */
+        padding-top: 1.5rem;
+        background-color: transparent;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        box-sizing: border-box;
+    }
+    .apple-hero-text-block {
+        flex: 0 0 auto;
+        z-index: 5;
+    }
+    .apple-hero-kicker {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1d1d1f;
+        margin-bottom: 0;
+    }
+    .apple-hero-headline {
+        font-size: clamp(2.8rem, 6vw, 4.2rem);
+        font-weight: 800;
+        letter-spacing: -2px;
+        color: #1d1d1f;
+        margin-bottom: 0.6rem;
+        line-height: 1.1;
+    }
+    .apple-btn-dark {
+        background-color: #1d1d1f;
+        color: #f5f5f7;
+        border-radius: 980px;
+        padding: 8px 20px;
+        font-size: 0.95rem;
+        font-weight: 400;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+        transition: background-color 0.3s;
+    }
+    .apple-btn-dark:hover {
+        background-color: #424245;
+        color: #f5f5f7;
+    }
+    .apple-hero-subtext {
+        font-size: 0.85rem;
+        color: #1d1d1f;
+        margin-bottom: 0; 
+    }
+    .apple-hero-image-wrapper {
+        flex: 1 1 auto;
+        min-height: 0; /* CRITICAL: Prevents flex child from exceeding container */
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+    }
+    .apple-hero-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 25px 45px rgba(0,0,0,0.15));
+        transform: scale(1.1); /* The user asked for "azcık daha büyült" */
+    }
+    .apple-hero-stats-wrapper {
+        flex: 0 0 auto;
+        width: 100%;
+        z-index: 10;
+        position: relative;
+        padding-bottom: 1.5rem; /* Padding at the very bottom of the screen */
+    }
+</style>
 
-    var isLight = campaign.Layout == HeroLayout.LightStudio;
-    var stageClass = isLight ? "hero-light" : "hero-dark";
-    var accentClass = $"hero-accent-{campaign.Accent.ToString().ToLowerInvariant()}";
+<section class="apple-hero-container">
+    
+    <!-- Top Text Area -->
+    <div class="apple-hero-text-block">
+        <div class="apple-hero-kicker">Yeni Nesil Premium</div>
+        <h1 class="apple-hero-headline">Core Shop.</h1>
+        <a href="#products" class="apple-btn-dark">İnceleyin</a>
+        <div class="apple-hero-subtext">Teknolojinin zirvesi. En iyi fiyat garantisiyle.</div>
+    </div>
+    
+    <!-- Image Area -->
+    <div class="apple-hero-image-wrapper">
+        <img src="~/images/products/rtx_5090_transparent.png" class="apple-hero-image" alt="NVIDIA RTX 5090 Premium" />
+    </div>
 
-    var primaryBtn = isLight ? "btn-brand" : "btn-light fw-semibold";
-    var secondaryBtn = isLight ? "btn-outline-dark" : "btn-outline-light";
-}
-
-<section class="hero-stage @stageClass @accentClass full-bleed" aria-label="Kampanya: @campaign.Kicker">
-    <div class="container">
-        <div class="row align-items-center g-4 g-lg-5">
-            <div class="col-lg-6">
-                <p class="hero-kicker">@campaign.Kicker</p>
-
-                <h1 class="hero-title">
-                    @campaign.HeadlineTop<br />
-                    @campaign.HeadlineBottom
-                </h1>
-
-                <p class="hero-sub">@campaign.Subtitle</p>
-
-                <div class="d-flex flex-wrap gap-3 mt-4">
-                    @if (campaign.CtaCategoryId is int categoryId)
-                    {
-                        <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="@categoryId"
-                           class="btn btn-lg @primaryBtn">
-                            @campaign.CtaText
-                        </a>
-
-                        <a asp-controller="Product" asp-action="Index" class="btn btn-lg @secondaryBtn">
-                            Tüm Ürünler
-                        </a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Product" asp-action="Index" class="btn btn-lg @primaryBtn">
-                            @campaign.CtaText
-                        </a>
-
-                        <a href="#categories" class="btn btn-lg @secondaryBtn">
-                            Kategorilere Göz At
-                        </a>
-                    }
+    <!-- Trust Stats Bar Area -->
+    <div class="apple-hero-stats-wrapper">
+        <div class="container pt-3 border-top" style="border-color: rgba(0,0,0,0.08) !important; max-width: 1000px;">
+            <div class="row text-center g-4">
+                <div class="col-6 col-md-3">
+                    <h4 class="fw-bold text-dark mb-1" style="font-size: 1.4rem; letter-spacing: -0.5px;">5000+</h4>
+                    <span class="text-muted small fw-medium" style="font-size: 0.8rem;">Premium Ürün</span>
                 </div>
-
-                <p class="hero-note">@campaign.Note</p>
-            </div>
-
-            <div class="col-lg-6">
-                @if (campaign.Layout == HeroLayout.DarkTypography)
-                {
-                    @if (campaign.SpecChips.Any())
-                    {
-                        <ul class="hero-spec-panel list-unstyled" aria-label="Öne çıkan özellikler">
-                            @foreach (var spec in campaign.SpecChips)
-                            {
-                                <li class="hero-spec">
-                                    <i class="fa-solid fa-check" aria-hidden="true"></i>
-                                    <span>@spec</span>
-                                </li>
-                            }
-                        </ul>
-                    }
-                }
-                else if (product != null)
-                {
-                    <div class="hero-scene">
-                        <img src="~/images/@product.ProductImage"
-                             alt="@product.ProductName"
-                             width="443" height="450"
-                             fetchpriority="high"
-                             onerror="this.src='/images/products/default.svg'" />
-                    </div>
-                }
-
-                @if (product != null)
-                {
-                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.ID"
-                       class="hero-scene-caption">
-                        <span>
-                            <span class="caption-name">@product.ProductName</span>
-                            <span class="caption-meta d-block">
-                                @product.ProductBrand · @(product.ProductStock > 0 ? "Stokta" : "Stok bekleniyor")
-                            </span>
-                        </span>
-
-                        <span class="d-inline-flex align-items-center gap-2">
-                            <span class="caption-price">@product.ProductPrice.ToTryPrice()</span>
-                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                        </span>
-                    </a>
-                }
+                <div class="col-6 col-md-3">
+                    <h4 class="fw-bold text-dark mb-1" style="font-size: 1.4rem; letter-spacing: -0.5px;">2 Yıl</h4>
+                    <span class="text-muted small fw-medium" style="font-size: 0.8rem;">Türkiye Garantisi</span>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h4 class="fw-bold text-dark mb-1" style="font-size: 1.4rem; letter-spacing: -0.5px;">24s</h4>
+                    <span class="text-muted small fw-medium" style="font-size: 0.8rem;">Hızlı Teslimat</span>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h4 class="fw-bold text-dark mb-1" style="font-size: 1.4rem; letter-spacing: -0.5px;">%100</h4>
+                    <span class="text-muted small fw-medium" style="font-size: 0.8rem;">Müşteri Desteği</span>
+                </div>
             </div>
         </div>
     </div>
+
 </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

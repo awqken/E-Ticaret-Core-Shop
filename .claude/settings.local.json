@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(sed -i '/^using System;$/d; /^using System\\\\.Collections\\\\.Generic;$/d; /^using System\\\\.Linq;$/d; /^using System\\\\.Text;$/d; /^using System\\\\.Threading\\\\.Tasks;$/d; /^using System\\\\.Numerics;$/d' CoreShop.MODEL/Entities/Product.cs CoreShop.MODEL/Entities/Category.cs CoreShop.MODEL/Entities/User.cs CoreShop.MODEL/Entities/Order.cs CoreShop.MODEL/Entities/OrderDetail.cs CoreShop.CORE/Entity/CoreEntity.cs CoreShop.CORE/Service/ICoreService.cs)",
+      "Bash(sed -i '/^using Microsoft\\\\.AspNetCore\\\\.Mvc;$/d' CoreShop/Helpers/PasswordHelper.cs)",
+      "Bash(sed -i '1s/^\\\\xEF\\\\xBB\\\\xBFusing System;$/\\\\xEF\\\\xBB\\\\xBF/' CoreShop.CORE/Entity/CoreEntity.cs)",
+      "Bash(sed -i '/^$/{1d}' CoreShop.CORE/Entity/CoreEntity.cs)"
+    ]
+  }
+}

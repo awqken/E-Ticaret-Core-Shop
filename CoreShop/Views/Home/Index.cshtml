@@ -2,7 +2,7 @@
 @model CoreShop.Models.HomePageVM
 
 @{
-    ViewData["Title"] = "Ana Sayfa";
+    ViewData["Title"] = "CoreShop — Premium Teknoloji & Donanım Mağazası";
 
     static string CategoryIcon(string categoryName) => categoryName.ToLower() switch
     {
@@ -17,162 +17,83 @@
         var name when name.Contains("soğutma") => "fa-fan",
         _ => "fa-box"
     };
-
-    var brandMarks = new[] { "ASUS", "MSI", "NVIDIA", "AMD", "Intel", "Corsair", "NZXT", "Samsung", "Logitech", "Fractal Design", "G.Skill", "Kingston" };
 }
 
-@* ── Hero — renders the campaign selected for this application run ─────── *@
+@* ── Apple Keynote Launch Style Hero Reveal Section ─────── *@
 <partial name="_HeroCampaign" model="Model" />
 
-@* ── Trust bar — slim service strip right under the hero ─────────────────── *@
-<section class="trust-bar" aria-label="Hizmet garantileri">
-    <div class="row g-0">
-        <div class="col-lg-3 col-md-6">
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i></div>
-                <div>
-                    <strong>Hızlı Teslimat</strong>
-                    <small>Siparişin 24 saatte kargoda</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
-                <div>
-                    <strong>Güvenli Ödeme</strong>
-                    <small>Bilgilerin koruma altında</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i></div>
-                <div>
-                    <strong>Kolay İade</strong>
-                    <small>14 gün içinde ücretsiz</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="trust-item">
-                <div class="trust-icon"><i class="fa-solid fa-headset" aria-hidden="true"></i></div>
-                <div>
-                    <strong>Uzman Destek</strong>
-                    <small>Donanım seçiminde yanındayız</small>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-@* ── Categories ───────────────────────────────────────────────────────── *@
-<section id="categories" class="mb-5" aria-label="Kategoriler">
-    <div class="section-head">
-        <div>
-            <h2>Kategoriler</h2>
-            <p>İhtiyacın olan parçaya saniyeler içinde ulaş.</p>
-        </div>
+@* ── Category Ecosystem Pills ──────────────────────────────────── *@
+<section id="categories" class="py-5" aria-label="Donanım Ekosistemi">
+    <div class="text-center mb-4">
+        <span class="text-secondary fw-semibold small text-uppercase tracking-widest d-block mb-1">Kategoriler</span>
+        <h2 class="awwwards-section-title text-black fw-bold m-0">Donanım Ekosistemi.</h2>
     </div>
 
-    <div class="row g-3">
+    <div class="d-flex flex-wrap align-items-center justify-content-center gap-2.5 py-3">
         @foreach (var category in Model.Categories.Take(10))
         {
-            <div class="col-lg col-md-3 col-4">
-                <a asp-controller="Product"
-                   asp-action="Index"
-                   asp-route-categoryIdSingle="@category.ID"
-                   class="text-decoration-none"
-                   aria-label="@category.CategoryName kategorisine git">
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <i class="fa-solid @CategoryIcon(category.CategoryName)" aria-hidden="true"></i>
-                        </div>
-                        <h6>@category.CategoryName</h6>
-                    </div>
-                </a>
-            </div>
+            <a asp-controller="Product"
+               asp-action="Index"
+               asp-route-categoryIdSingle="@category.ID"
+               class="awwwards-cat-pill px-4 py-2.5 rounded-pill bg-subtle-gray text-dark text-decoration-none fw-semibold d-inline-flex align-items-center gap-2">
+                <i class="fa-solid @CategoryIcon(category.CategoryName) text-muted fs-6"></i>
+                <span>@category.CategoryName</span>
+            </a>
         }
     </div>
 </section>
 
-@* ── Featured / deals ─────────────────────────────────────────────────── *@
-@if (Model.FeaturedProducts.Any())
-{
-    <section class="mb-5" aria-label="Fırsat ürünleri">
-        <div class="section-head">
-            <div>
-                <h2>Fırsat Ürünleri</h2>
-                <p>İndirimdeki donanımlar — stoklar sınırlı.</p>
-            </div>
-            <a asp-controller="Product" asp-action="Index" class="section-link">
-                Tümünü Gör <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-            </a>
-        </div>
-
-        <div class="row g-4 products-grid">
-            @foreach (var item in Model.FeaturedProducts)
-            {
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <partial name="_ProductCard" model="item" />
-                </div>
-            }
-        </div>
-    </section>
-}
-
-@* ── Editorial showcase — studio photography on matching white tiles ───── *@
-<section class="mb-5" aria-label="Koleksiyonlar">
+@* ── Borderless Bento Showcase Tiles ──────────────────────────────────── *@
+<section id="collections" class="my-5" aria-label="Koleksiyonlar">
     <div class="row g-4">
         <div class="col-lg-6">
-            <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="8"
-               class="showcase-tile">
-                <div class="showcase-copy">
-                    <p class="showcase-eyebrow">Kasa &amp; Soğutma</p>
-                    <h3>Sessiz ve şık sistemler</h3>
-                    <span class="showcase-link">
-                        Koleksiyonu keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                    </span>
+            <div class="awwwards-bento-card p-5 rounded-5 bg-subtle-gray text-start position-relative overflow-hidden border-0">
+                <span class="text-secondary fw-semibold small text-uppercase mb-2 d-block">Masaüstü Mimarisi</span>
+                <h3 class="fw-bold text-black display-6 mb-2">Sessiz ve Güçlü.</h3>
+                <p class="text-muted mb-4 max-w-sm">Yüksek hava akışlı kasalar ve sıvı soğutma mimarisi.</p>
+                <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="8" class="btn btn-black-pill rounded-pill px-4 py-2 text-white text-decoration-none">
+                    İnceleyin &rsaquo;
+                </a>
+                <div class="mt-4 pt-2 text-end">
+                    <img src="~/images/products/fractal-north.png" alt="Kasa ve Soğutma" class="img-fluid awwwards-bento-img" />
                 </div>
-                <div class="showcase-media">
-                    <img src="~/images/products/fractal-north.jpg" alt="" loading="lazy" width="560" height="300" />
-                </div>
-            </a>
+            </div>
         </div>
 
         <div class="col-lg-6">
-            <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="2"
-               class="showcase-tile">
-                <div class="showcase-copy">
-                    <p class="showcase-eyebrow">RTX 40 Serisi</p>
-                    <h3>DLSS 3 ile iki kat kare hızı</h3>
-                    <span class="showcase-link">
-                        Ekran kartlarını gör <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                    </span>
+            <div class="awwwards-bento-card p-5 rounded-5 bg-subtle-gray text-start position-relative overflow-hidden border-0">
+                <span class="text-secondary fw-semibold small text-uppercase mb-2 d-block">Grafik Mimarisi</span>
+                <h3 class="fw-bold text-black display-6 mb-2">RTX 40 Serisi.</h3>
+                <p class="text-muted mb-4 max-w-sm">DLSS 3 ve Yapay Zeka destekli raytracing kartları.</p>
+                <a asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="2" class="btn btn-gray-pill rounded-pill px-4 py-2 text-dark text-decoration-none">
+                    İnceleyin &rsaquo;
+                </a>
+                <div class="mt-4 pt-2 text-end">
+                    <img src="~/images/products/rtx-4070-super.png" alt="RTX 4070" class="img-fluid awwwards-bento-img" />
                 </div>
-                <div class="showcase-media">
-                    <img src="~/images/products/rtx-4070-super.jpg" alt="" loading="lazy" width="560" height="300" />
-                </div>
-            </a>
+            </div>
         </div>
     </div>
 </section>
 
-@* ── Best sellers ─────────────────────────────────────────────────────── *@
-@if (Model.BestSellers.Any())
+@* ── Featured Products E-Commerce Showcase (3-Column Minimalist Grid) ─────────────── *@
+@if (Model.FeaturedProducts.Any())
 {
-    <section class="mb-5" aria-label="Çok satanlar">
-        <div class="section-head">
+    <section id="products" class="my-6 py-4" aria-label="Seçkin Donanımlar">
+        <div class="d-flex align-items-end justify-content-between mb-4">
             <div>
-                <h2>Çok Satanlar</h2>
-                <p>Sipariş verilerine göre en çok tercih edilen parçalar.</p>
+                <span class="text-secondary fw-semibold small text-uppercase tracking-widest d-block mb-1">Seçkin Donanımlar</span>
+                <h2 class="awwwards-section-title text-black fw-bold m-0">Öne Çıkan Ürünler.</h2>
             </div>
+            <a asp-controller="Product" asp-action="Index" class="text-black text-decoration-none fw-semibold fs-6">
+                Tümünü Gör &rsaquo;
+            </a>
         </div>
 
         <div class="row g-4 products-grid">
-            @foreach (var item in Model.BestSellers)
+            @foreach (var item in Model.FeaturedProducts.Take(6))
             {
-                <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <partial name="_ProductCard" model="item" />
                 </div>
             }
@@ -180,62 +101,41 @@
     </section>
 }
 
-@* ── New arrivals ─────────────────────────────────────────────────────── *@
-@if (Model.NewArrivals.Any())
-{
-    <section class="mb-5" aria-label="Yeni gelenler">
-        <div class="section-head">
-            <div>
-                <h2>Yeni Gelenler</h2>
-                <p>Rafa en son eklenen donanımlar.</p>
-            </div>
-            <a asp-controller="Product" asp-action="Index" asp-route-sort="new" class="section-link">
-                Tümünü Gör <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-            </a>
+@* ── Minimal Service Guarantees ────────────────────────────────────────── *@
+<section id="guarantees" class="my-5 py-5 px-4 rounded-5 bg-subtle-gray text-center border-0" aria-label="Hizmet Garantileri">
+    <div class="row g-4 text-muted small text-center align-items-center">
+        <div class="col-md-3 col-6">
+            <i class="fa-solid fa-bolt text-black fs-4 mb-2 d-block"></i>
+            <strong class="text-black d-block">Stoktan Hızlı Kargo</strong>
+            <span class="text-muted">Aynı gün sevk</span>
         </div>
-
-        <div class="row g-4 products-grid">
-            @foreach (var item in Model.NewArrivals)
-            {
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <partial name="_ProductCard" model="item" />
-                </div>
-            }
+        <div class="col-md-3 col-6">
+            <i class="fa-solid fa-shield-halved text-black fs-4 mb-2 d-block"></i>
+            <strong class="text-black d-block">%100 Orijinal</strong>
+            <span class="text-muted">Distribütör garantili</span>
         </div>
-    </section>
-}
-
-@* ── Brand strip ──────────────────────────────────────────────────────── *@
-<section class="brand-strip mb-5" aria-label="Markalar">
-    <p class="brand-strip-label">Yetkili satış noktası olduğumuz markalar</p>
-    <div class="brand-track">
-        @foreach (var mark in brandMarks)
-        {
-            <span class="brand-mark">@mark</span>
-        }
-    </div>
-</section>
-
-@* ── Newsletter ───────────────────────────────────────────────────────── *@
-<section class="newsletter" aria-label="Bülten">
-    <div class="row align-items-center g-4">
-        <div class="col-lg-6">
-            <h2 class="mb-2">Fırsatları ilk sen yakala</h2>
-            <p class="mb-0">
-                Yeni ürünler, stok bildirimleri ve özel indirimler — ayda iki e-posta, spam yok.
-            </p>
+        <div class="col-md-3 col-6">
+            <i class="fa-solid fa-rotate-left text-black fs-4 mb-2 d-block"></i>
+            <strong class="text-black d-block">14 Gün İade</strong>
+            <span class="text-muted">Şeffaf süreç</span>
         </div>
-        <div class="col-lg-6">
-            <form class="newsletter-form d-flex gap-2" data-newsletter-form data-no-loading="true" aria-label="Bülten kaydı">
-                <label class="visually-hidden" for="newsletterEmail">E-posta adresin</label>
-                <input type="email"
-                       id="newsletterEmail"
-                       class="form-control"
-                       placeholder="E-posta adresin"
-                       required />
-                <button type="submit" class="btn btn-light fw-semibold">Katıl</button>
-            </form>
-            <p class="newsletter-note mt-2 mb-0">Demo mağaza — e-posta adresin kaydedilmez.</p>
+        <div class="col-md-3 col-6">
+            <i class="fa-solid fa-headset text-black fs-4 mb-2 d-block"></i>
+            <strong class="text-black d-block">Canlı Destek</strong>
+            <span class="text-muted">Teknik danışmanlık</span>
         </div>
     </div>
 </section>
+
+
+
+
+
+
+
+
+
+
+
+
+

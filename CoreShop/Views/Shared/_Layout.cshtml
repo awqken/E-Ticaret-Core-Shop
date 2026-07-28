@@ -22,111 +22,85 @@
 <body>
     <a class="skip-link" href="#main-content">İçeriğe atla</a>
 
-    <div class="announce-bar">
-        <i class="fa-solid fa-bolt me-1" aria-hidden="true"></i>
-        Sezon fırsatları başladı — seçili donanımda <strong>%19'a varan indirim</strong>.
-        <a asp-controller="Product" asp-action="Index">Fırsatları gör</a>
-    </div>
-
-    <nav class="navbar navbar-expand-lg navbar-shell py-2 sticky-top" aria-label="Ana gezinme">
+    <nav class="navbar navbar-expand-lg navbar-awwwards-glass py-3 sticky-top border-0" aria-label="Ana Gezinme">
         <div class="container">
-            <a class="navbar-brand brand-logo" asp-controller="Home" asp-action="Index">
-                <span class="brand-bolt"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span>
-                Core<span class="brand-core">Shop</span>
+            <a class="navbar-brand text-black fw-bold d-flex align-items-center gap-2 font-display fs-5" asp-controller="Home" asp-action="Index">
+                <span class="dot-black"></span>
+                <span>CoreShop<span class="text-muted">.</span></span>
             </a>
 
-            <button class="navbar-toggler border-0 shadow-none px-2"
+            <button class="navbar-toggler border-0 shadow-none px-2 text-dark"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#mainNavbar"
                     aria-controls="mainNavbar"
                     aria-expanded="false"
                     aria-label="Menüyü aç">
-                <i class="fa-solid fa-bars fa-lg text-white" aria-hidden="true"></i>
+                <i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="mainNavbar">
 
-                <ul class="navbar-nav ms-lg-3">
+                <ul class="navbar-nav mx-auto align-items-center gap-lg-4">
                     <li class="nav-item">
-                        <a class="nav-link nav-link-main @(isHomeActive ? "active" : "")"
-                           asp-controller="Home" asp-action="Index"
-                           aria-current="@(isHomeActive ? "page" : null)">Ana Sayfa</a>
+                        <a class="nav-link nav-link-awwwards @(isHomeActive ? "active" : "")"
+                           asp-controller="Home" asp-action="Index">Ana Sayfa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-main @(isProductsActive ? "active" : "")"
-                           asp-controller="Product" asp-action="Index"
-                           aria-current="@(isProductsActive ? "page" : null)">Ürünler</a>
+                        <a class="nav-link nav-link-awwwards @(isProductsActive ? "active" : "")"
+                           asp-controller="Product" asp-action="Index">Tüm Ürünler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-awwwards" asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="2">Ekran Kartları</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-awwwards" asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="1">İşlemciler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-awwwards" asp-controller="Product" asp-action="Index" asp-route-categoryIdSingle="5">SSD</a>
                     </li>
                 </ul>
 
-                <form asp-controller="Product"
-                      asp-action="Index"
-                      method="get"
-                      role="search"
-                      data-no-loading="true"
-                      class="d-flex navbar-search ms-lg-4 me-lg-4 my-2 my-lg-0">
-                    <div class="input-group">
-                        <input type="search"
-                               name="search"
-                               class="form-control"
-                               placeholder="İşlemci, ekran kartı, SSD ara..."
-                               aria-label="Ürün ara"
-                               value="@(Context.Request.Query["search"])" />
+                <div class="d-flex align-items-center justify-content-lg-end navbar-actions ms-lg-auto gap-3">
+                    <form asp-controller="Product" asp-action="Index" method="get" class="d-none d-md-block me-1">
+                        <input type="search" name="search" class="form-control form-control-awwwards-search" placeholder="Ara..." aria-label="Ara" />
+                    </form>
 
-                        <button class="btn btn-brand" type="submit" aria-label="Ara">
-                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </form>
-
-                <div class="d-flex align-items-center justify-content-lg-end navbar-actions ms-lg-auto">
+                    <a asp-controller="Cart" asp-action="Index" class="btn-awwwards-icon text-black text-decoration-none position-relative p-2" aria-label="Sepetim">
+                        <i class="fa-solid fa-bag-shopping fs-5"></i>
+                    </a>
 
                     @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <a asp-area="Admin"
-                           asp-controller="Home"
-                           asp-action="Index"
-                           class="btn btn-soft">
-                            <i class="fa-solid fa-screwdriver-wrench me-2" aria-hidden="true"></i> Admin
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                            Admin
                         </a>
                     }
 
                     @if (User.Identity == null || !User.Identity.IsAuthenticated)
                     {
-                        <a asp-controller="Account"
-                           asp-action="Login"
-                           class="btn btn-outline-light">
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-black-pill btn-sm rounded-pill px-4 text-white font-semibold">
                             Giriş Yap
-                        </a>
-
-                        <a asp-controller="Account"
-                           asp-action="Register"
-                           class="btn btn-brand d-none d-sm-inline-flex">
-                            Kayıt Ol
                         </a>
                     }
                     else
                     {
-                        <a asp-controller="Account"
-                           asp-action="Profile"
-                           class="btn btn-soft">
-                            <i class="fa-solid fa-user me-2" aria-hidden="true"></i> Hesabım
+                        <a asp-controller="Account" asp-action="Profile" class="btn btn-gray-pill btn-sm rounded-pill px-3 text-dark">
+                            Hesabım
                         </a>
                     }
-
-                    <a class="cart-btn"
-                       asp-controller="Cart"
-                       asp-action="Index"
-                       aria-label="Sepetim">
-                        <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
-                        @await Component.InvokeAsync("CartBadge")
-                    </a>
-
                 </div>
             </div>
         </div>
     </nav>
+
+
+
+
+
+
+
+
 
     <main id="main-content" class="container py-4 page-wrapper">
         @RenderBody()

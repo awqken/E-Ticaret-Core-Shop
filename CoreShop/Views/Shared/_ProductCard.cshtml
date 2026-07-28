@@ -3,94 +3,72 @@
 
 @{
     var discount = Model.ProductPrice.DiscountPercentFrom(Model.OldPrice);
+    var pngImage = System.IO.Path.ChangeExtension(Model.ProductImage, ".png");
 }
 
-<article class="pcard">
-    <div class="pcard-media">
-        <img src="~/images/@Model.ProductImage"
+<article class="awwwards-product-tile p-4 rounded-5 bg-subtle-gray border-0 position-relative text-center d-flex flex-column h-100 transition-all">
+    <div class="pcard-media position-relative py-3 bg-transparent text-center flex-grow-1">
+        <img src="~/images/@pngImage"
              alt="@Model.ProductName"
              loading="lazy"
-             width="260" height="195"
+             width="240" height="190"
+             class="img-fluid pcard-img mx-auto"
              onerror="this.src='/images/products/default.svg'" />
 
-        <div class="pcard-flags">
-            @if (discount > 0)
-            {
-                <span class="flag flag-hot">-%@discount</span>
-            }
-            @if (Model.ProductStock == 0)
-            {
-                <span class="flag flag-out">Tükendi</span>
-            }
-            else if (Model.ProductStock <= 5)
-            {
-                <span class="flag flag-low">Son @Model.ProductStock adet</span>
-            }
-        </div>
-
-        <div class="pcard-quick">
-            <button type="button"
-                    class="quick-btn wish-btn"
-                    data-product-id="@Model.ID"
-                    aria-pressed="false"
-                    aria-label="@Model.ProductName ürününü favorilere ekle">
-                <i class="fa-solid fa-heart" aria-hidden="true"></i>
-            </button>
-
-            <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID"
-               class="quick-btn"
-               aria-label="@Model.ProductName detayına git">
-                <i class="fa-solid fa-eye" aria-hidden="true"></i>
-            </a>
-        </div>
+        @if (discount > 0)
+        {
+            <span class="badge bg-black text-white fw-bold rounded-pill position-absolute top-0 start-0 px-2.5 py-1" style="font-size: 0.75rem;">
+                -%@discount
+            </span>
+        }
     </div>
 
-    <div class="pcard-body">
-        <div class="pcard-brand">@Model.ProductBrand</div>
+    <div class="pcard-body text-start pt-3">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+            <span class="text-secondary small fw-semibold text-uppercase tracking-wider" style="font-size: 0.75rem;">@Model.ProductBrand</span>
+            @if (Model.ProductStock == 0)
+            {
+                <span class="text-danger small fw-semibold">Tükendi</span>
+            }
+            else
+            {
+                <span class="text-muted small" style="font-size: 0.75rem;"><i class="fa-solid fa-circle text-success me-1" style="font-size: 0.45rem;"></i> Stokta Var</span>
+            }
+        </div>
 
-        <h3 class="pcard-name">
-            <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID">
+        <h3 class="fs-6 fw-bold text-black mb-3 text-truncate">
+            <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID" class="text-black text-decoration-none hover-underline">
                 @Model.ProductName
             </a>
         </h3>
 
-        @if (Model.ProductStock == 0)
-        {
-            <span class="pcard-stock stock-out">Stokta yok</span>
-        }
-        else if (Model.ProductStock <= 5)
-        {
-            <span class="pcard-stock stock-low">Sınırlı stok</span>
-        }
-        else
-        {
-            <span class="pcard-stock stock-in">Stokta var</span>
-        }
-
-        <div class="pcard-foot">
+        <div class="d-flex align-items-center justify-content-between pt-2">
             <div>
                 @if (discount > 0)
                 {
-                    <span class="price-old">@Model.OldPrice!.Value.ToTryPrice()</span>
+                    <span class="text-muted text-decoration-line-through d-block small" style="font-size: 0.78rem;">@Model.OldPrice!.Value.ToTryPrice()</span>
                 }
-                <span class="price-now">@Model.ProductPrice.ToTryPrice()</span>
+                <span class="fw-bold text-black fs-5">@Model.ProductPrice.ToTryPrice()</span>
             </div>
 
             @if (Model.ProductStock > 0)
             {
-                <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ID" method="post" class="pcard-cart">
-                    <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
-                    <button type="submit" class="btn btn-brand btn-icon"
-                            aria-label="@Model.ProductName ürününü sepete ekle">
-                        <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                    </button>
-                </form>
+                <div class="d-flex gap-2">
+                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@Model.ID" class="btn btn-outline-dark btn-sm rounded-pill px-3 py-1.5 fw-semibold" aria-label="İncele">
+                        İncele
+                    </a>
+                    <form asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ID" method="post" class="m-0">
+                        <input type="hidden" name="returnUrl" value="@($"{Context.Request.Path}{Context.Request.QueryString}")" />
+                        <button type="submit" class="btn btn-black-pill btn-sm rounded-pill px-3 py-1.5 fw-semibold text-white" aria-label="Sepete Ekle">
+                            <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
             }
             else
             {
-                <button type="button" class="btn btn-soft btn-icon pcard-cart" disabled
-                        aria-label="Stokta yok">
-                    <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                <button type="button" class="btn btn-gray-pill btn-sm rounded-pill px-3.5 py-1.5 text-muted" disabled aria-label="Tükendi">
+                    Tükendi
                 </button>
             }
         </div>

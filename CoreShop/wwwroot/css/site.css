@@ -30,65 +30,65 @@
 
 /* == 01. Design tokens =================================================== */
 :root {
-    /* Ink scale (cool slate) */
-    --ink-950: #0b0d14;
-    --ink-900: #14171f;
-    --ink-800: #232733;
-    --ink-700: #3a4051;
-    --ink-600: #4f566b;
-    --ink-500: #6a7186;
-    --ink-400: #8f95a8;
-    --ink-300: #c3c7d4;
-    --ink-200: #dcdfe8;
-    --ink-100: #eceef3;
-    --ink-50: #f4f5f9;
+    /* Ink scale (Pure Black & Apple SF Pro scale) */
+    --ink-950: #000000;
+    --ink-900: #1d1d1f;
+    --ink-800: #333336;
+    --ink-700: #515154;
+    --ink-600: #6e6e73;
+    --ink-500: #86868b;
+    --ink-400: #a1a1a6;
+    --ink-300: #d2d2d7;
+    --ink-200: #e8e8ed;
+    --ink-100: #f5f5f7;
+    --ink-50: #fbfbfd;
 
     /* Canvas */
-    --bg: #f5f6f9;
-    --surface: #ffffff;
-    --line: #e7e9f0;
+    --bg: #ffffff;
+    --surface: #fbfbfd;
+    --surface-hover: #f5f5f7;
+    --line: transparent;
 
-    /* Brand — voltage indigo */
-    --brand: #4f46e5;
-    --brand-600: #4338ca;
-    --brand-700: #3730a3;
-    --brand-200: #c9c5f8;
-    --brand-100: #e2e0fc;
-    --brand-50: #eeedfd;
-
-    /* Deals */
-    --hot: #e5325b;
-    --hot-bg: #fce9ef;
+    /* Brand — Pure Black #000000 & Accent Blue #0071e3 */
+    --brand: #000000;
+    --brand-600: #1d1d1f;
+    --brand-700: #000000;
+    --brand-500: #000000;
+    --brand-400: #333336;
+    --brand-200: #e8e8ed;
+    --brand-100: #f5f5f7;
+    --brand-50: #fbfbfd;
 
     /* Semantic */
-    --success: #16814b;
-    --success-bg: #e2f5ea;
-    --warning: #b45309;
-    --warning-bg: #fbf0dd;
-    --danger: #d92d20;
-    --danger-bg: #fcebe9;
-    --info: #0b7dbe;
-    --info-bg: #e5f3fb;
+    --hot: #ff3b30;
+    --hot-bg: #ffe5e5;
+    --success: #34c759;
+    --success-bg: #eafaf1;
+    --warning: #ff9500;
+    --warning-bg: #fff5e5;
+    --danger: #ff3b30;
+    --danger-bg: #ffe5e5;
 
     /* Type */
-    --font-body: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
-    --font-display: "Space Grotesk", "Inter", sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, sans-serif;
+    --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
 
     /* Shape */
     --radius-sm: 10px;
     --radius: 14px;
-    --radius-lg: 20px;
+    --radius-lg: 24px;
+    --radius-pill: 980px;
 
-    /* Elevation (indigo-tinted, soft) */
-    --shadow-xs: 0 1px 2px rgba(20, 23, 31, .05);
-    --shadow-sm: 0 1px 2px rgba(20, 23, 31, .05), 0 4px 14px -6px rgba(20, 23, 31, .08);
-    --shadow: 0 2px 4px rgba(20, 23, 31, .05), 0 14px 34px -14px rgba(53, 48, 163, .18);
-    --shadow-lg: 0 4px 10px rgba(20, 23, 31, .06), 0 26px 60px -20px rgba(53, 48, 163, .26);
+    /* Elevation */
+    --shadow-xs: 0 2px 8px rgba(0, 0, 0, 0.02);
+    --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.04);
+    --shadow: 0 15px 45px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 30px 90px rgba(0, 0, 0, 0.09);
 
     /* Motion */
-    --speed: .2s;
-    --speed-slow: .35s;
-    --ease: cubic-bezier(.33, 1, .68, 1);
+    --speed: .25s;
+    --speed-slow: .5s;
+    --ease: cubic-bezier(.16, 1, .3, 1);
 }
 
 /* == 02. Base & typography =============================================== */
@@ -397,62 +397,121 @@ img {
 .badge-soft-info    { background: var(--info-bg);    color: var(--info);    font-weight: 600; }
 .badge-soft-neutral { background: var(--ink-100);    color: var(--ink-700); font-weight: 600; }
 
-/* == 07. Announcement bar & navbar ======================================= */
-/* The header zone (announce bar + navbar) shares the footer's ink canvas so
-   the storefront is bookended by one continuous dark chrome. */
-.announce-bar {
-    background: var(--ink-950);
-    color: var(--ink-400);
-    font-size: .8rem;
-    text-align: center;
-    padding: .5rem 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, .07);
+/* == 07. Apple Store Navbar & Announcement bar ======================================= */
+.announce-bar-apple {
+    background: #f5f5f7;
+    color: #515154;
+    font-size: .83rem;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid #e8e8ed;
 }
 
-    .announce-bar strong {
-        color: #fff;
-        font-weight: 700;
-    }
-
-    .announce-bar a {
-        color: #fff;
-        text-decoration: underline;
-        text-underline-offset: 3px;
-    }
-
-.navbar-shell {
-    background: rgba(11, 13, 20, .92);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(255, 255, 255, .07);
-    transition: box-shadow var(--speed) var(--ease);
+.navbar-apple {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-    .navbar-shell.scrolled {
-        box-shadow: 0 10px 28px -14px rgba(0, 0, 0, .55);
-    }
+.brand-logo-apple {
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: #1d1d1f !important;
+}
 
-    /* dark-surface variants of the shared button styles */
-    .navbar-shell .btn-soft {
-        background: rgba(255, 255, 255, .08);
-        border-color: transparent;
-        color: #fff;
-    }
+.nav-link-apple {
+    color: #1d1d1f !important;
+    font-size: .88rem;
+    font-weight: 500;
+    opacity: 0.75;
+    transition: opacity var(--speed) var(--ease);
+}
+.nav-link-apple:hover, .nav-link-apple.active {
+    opacity: 1;
+}
 
-        .navbar-shell .btn-soft:hover, .navbar-shell .btn-soft:focus {
-            background: rgba(255, 255, 255, .14);
-            color: #fff;
-        }
+.form-control-apple-search {
+    background: #f5f5f7;
+    border: 1px solid #e8e8ed;
+    border-radius: 980px;
+    font-size: .82rem;
+    padding: .35rem .95rem;
+    color: #1d1d1f;
+    width: 140px;
+    transition: width var(--speed) var(--ease), background var(--speed) var(--ease);
+}
+.form-control-apple-search:focus {
+    width: 200px;
+    background: #ffffff;
+    border-color: #86868b;
+    color: #1d1d1f;
+}
 
-.brand-logo {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.45rem;
-    letter-spacing: -.03em;
-    color: #fff;
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
+.btn-apple-pill {
+    background: #0071e3;
+    color: #ffffff !important;
+    border-radius: 980px;
+    font-size: .95rem;
+    font-weight: 500;
+    border: none;
+    transition: background-color var(--speed) var(--ease), transform var(--speed) var(--ease);
+}
+.btn-apple-pill:hover {
+    background: #0077ed;
+    transform: scale(1.02);
+}
+
+.btn-apple-dark-pill {
+    background: #1d1d1f;
+    color: #ffffff !important;
+    border-radius: 980px;
+    font-size: .95rem;
+    font-weight: 500;
+    border: none;
+    transition: background-color var(--speed) var(--ease), transform var(--speed) var(--ease);
+}
+.btn-apple-dark-pill:hover {
+    background: #333336;
+    transform: scale(1.02);
+}
+
+
+.btn-apple-secondary-pill {
+    background: #f5f5f7;
+    color: #1d1d1f !important;
+    border-radius: 980px;
+    font-size: .95rem;
+    font-weight: 500;
+    border: 1px solid #e8e8ed;
+    transition: background-color var(--speed) var(--ease), transform var(--speed) var(--ease);
+}
+.btn-apple-secondary-pill:hover {
+    background: #e8e8ed;
+    transform: scale(1.02);
+}
+
+.hover-underline:hover {
+    text-decoration: underline !important;
+}
+
+
+
+.nav-link-main:hover, .nav-link-main.active {
+    color: #ffffff;
+}
+
+.navbar-search .form-control {
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    padding-left: 1rem;
+    color: #f4f4f5;
+}
+
+.navbar-search .form-control:focus {
+    background: #18181b;
+    border-color: var(--brand);
+    color: #ffffff;
 }
 
     .brand-logo:hover, .brand-logo:focus {
@@ -1107,12 +1166,17 @@ img {
     border-bottom: 1px solid var(--ink-50);
 }
 
-    .pcard-media img {
-        max-height: 100%;
-        max-width: 100%;
-        object-fit: contain;
-        transition: transform var(--speed-slow) var(--ease);
-    }
+.pcard-media img,
+.products-grid img,
+.pcard img,
+.product-detail img,
+.clean-product-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform var(--speed-slow) var(--ease);
+}
 
 .pcard:hover .pcard-media img {
     transform: scale(1.04);
@@ -2310,3 +2374,754 @@ img {
     background: var(--success-bg);
     color: var(--success);
 }
+
+/* ============================================================================
+   25. CoreShop Cyber Sapphire & Hyper Cyan High-Tech Theme
+   ========================================================================== */
+
+/* Text Utilities & Gradients */
+.text-cyan { color: #06b6d4 !important; }
+.text-amber { color: #f59e0b !important; }
+.text-emerald { color: #10b981 !important; }
+
+.text-gradient-cyan {
+    background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 50%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-gradient-text {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 50%, #00c6ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Buttons */
+.btn-cyber-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    color: #ffffff;
+    border: none;
+    font-weight: 700;
+    transition: all var(--speed) var(--ease);
+}
+.btn-cyber-primary:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #1d4ed8 100%);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(2, 132, 199, 0.4);
+}
+
+.btn-cyber-outline {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    font-weight: 600;
+    transition: all var(--speed) var(--ease);
+}
+.btn-cyber-outline:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #06b6d4;
+    color: #06b6d4;
+    transform: translateY(-2px);
+}
+
+.btn-outline-cyan {
+    border: 1.5px solid rgba(6, 182, 212, 0.4);
+    color: #06b6d4;
+    background: transparent;
+    transition: all var(--speed) var(--ease);
+}
+.btn-outline-cyan:hover {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: #06b6d4;
+    color: #ffffff;
+}
+
+.btn-cyan-glow {
+    background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
+}
+.btn-cyan-glow:hover {
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.55);
+}
+
+.shadow-cyan-glow {
+    box-shadow: 0 8px 30px rgba(2, 132, 199, 0.35);
+}
+
+/* Glassmorphism & Hero Stage */
+.glass-panel {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-stage {
+    background: radial-gradient(circle at 80% 20%, #0369a1 0%, #0f172a 45%, #07090e 100%);
+}
+
+.hero-glow-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    opacity: 0.35;
+}
+.hero-glow-1 {
+    top: -100px;
+    right: -50px;
+    width: 450px;
+    height: 450px;
+    background: #0284c7;
+}
+.hero-glow-2 {
+    bottom: -150px;
+    left: -100px;
+    width: 500px;
+    height: 500px;
+    background: #2563eb;
+}
+
+.hero-grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+
+.hero-badge-pill {
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: #38bdf8;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.pulse-cyan-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #06b6d4;
+    box-shadow: 0 0 10px #06b6d4;
+    animation: cyan-pulse 1.8s infinite;
+}
+
+@keyframes cyan-pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(6, 182, 212, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
+}
+
+.hero-product-card-spotlight {
+    position: relative;
+    background: rgba(17, 24, 39, 0.75);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(2, 132, 199, 0.2);
+}
+
+.hero-spotlight-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fbbf24;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.hero-product-img {
+    max-height: 240px;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5));
+    transition: transform var(--speed) var(--ease);
+}
+.hero-product-card-spotlight:hover .hero-product-img {
+    transform: scale(1.05) translateY(-5px);
+}
+
+/* Category Cyber Cards */
+.category-card-cyber {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all var(--speed) var(--ease);
+}
+.category-card-cyber:hover {
+    background: rgba(2, 132, 199, 0.15);
+    border-color: rgba(6, 182, 212, 0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4), 0 0 15px rgba(6, 182, 212, 0.2);
+}
+.category-icon-cyber {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+    border-radius: 12px;
+    background: rgba(6, 182, 212, 0.12);
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+.category-card-cyber:hover .category-icon-cyber {
+    background: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(2, 132, 199, 0.6);
+}
+
+/* Cyber Product Cards */
+.cyber-pcard {
+    background: rgba(17, 24, 39, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius);
+    transition: all var(--speed) var(--ease);
+}
+.cyber-pcard:hover {
+    border-color: rgba(6, 182, 212, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(2, 132, 199, 0.2);
+}
+
+/* Editorial Showcase Tiles Cyber */
+.showcase-tile-cyber {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-height: 240px;
+    transition: all var(--speed) var(--ease);
+}
+.showcase-tile-cyber:hover {
+    border-color: #06b6d4;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(6, 182, 212, 0.25);
+}
+/* Clean Dark Zinc Utilities & Component Classes */
+.border-zinc { border-color: #27272a !important; }
+.bg-zinc-950 { background-color: #09090b !important; }
+.bg-zinc-900 { background-color: #121215 !important; }
+.bg-zinc-800 { background-color: #18181b !important; }
+.text-zinc-200 { color: #e4e4e7 !important; }
+.text-zinc-300 { color: #d4d4d8 !important; }
+.text-zinc-400 { color: #a1a1aa !important; }
+.text-zinc-500 { color: #71717a !important; }
+
+.hover-white:hover { color: #ffffff !important; }
+.hover-brand:hover { color: var(--brand-400) !important; }
+
+/* Apple Merhaba Neo Studio Stage */
+.hero-apple-stage {
+    background: #fbfbfd;
+    padding-top: 3.5rem;
+    padding-bottom: 2.5rem;
+}
+
+.hero-apple-eyebrow {
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+    color: #6e6e73 !important;
+}
+
+.hero-apple-title {
+    font-size: clamp(3.5rem, 9.5vw, 6.8rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: #1d1d1f !important;
+    line-height: 1.02;
+}
+
+.hero-apple-sub {
+    font-size: 1.05rem;
+    color: #6e6e73 !important;
+}
+
+.hero-apple-product-wrap {
+    max-width: 680px;
+    transition: transform var(--speed-slow) var(--ease);
+}
+.hero-apple-product-wrap:hover {
+    transform: translateY(-8px);
+}
+
+.hero-apple-img {
+    max-height: 420px;
+    width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.12));
+}
+
+
+
+
+
+/* Dark Obsidian ROG Stage & Bento System */
+.bg-dark-card {
+    background-color: #121215 !important;
+}
+
+.hero-dark-stage {
+    background: #08080a;
+    min-height: 440px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #27272a;
+}
+
+.hero-dark-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.32;
+    filter: contrast(120%) brightness(85%);
+    pointer-events: none;
+}
+
+.hero-dark-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+}
+
+.hero-dark-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(8, 8, 10, 0.3) 0%, rgba(8, 8, 10, 0.95) 85%);
+    pointer-events: none;
+}
+
+.hero-dark-title {
+    font-size: clamp(3.8rem, 11vw, 8.5rem);
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    text-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+}
+
+.dark-section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    letter-spacing: -0.03em;
+    color: #ffffff;
+}
+
+/* Apple Studio Showcase System */
+.apple-hero-sub-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.04em;
+    color: #1d1d1f;
+}
+
+.apple-studio-cat-pill {
+    transition: background-color var(--speed) var(--ease), transform var(--speed) var(--ease), color var(--speed) var(--ease);
+}
+.apple-studio-cat-pill:hover {
+    background-color: #e8e8ed !important;
+    transform: translateY(-2px);
+    color: #000000 !important;
+}
+
+.apple-studio-bento {
+    min-height: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform var(--speed-slow) var(--ease), box-shadow var(--speed-slow) var(--ease);
+}
+.apple-studio-bento:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08) !important;
+}
+
+.apple-studio-bento-img {
+    max-height: 240px;
+    object-fit: contain;
+    transition: transform var(--speed-slow) var(--ease);
+}
+
+.apple-studio-bento:hover .apple-studio-bento-img {
+    transform: scale(1.06);
+}
+
+/* ==========================================================================
+   07. Awwwards World-Class Pure White Portfolio Design System (#ffffff)
+   ========================================================================== */
+body {
+    background-color: #ffffff !important;
+    color: #1d1d1f !important;
+    font-family: var(--font-body);
+}
+
+.full-bleed {
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    width: 100vw;
+}
+
+/* Subtle Ice Mesh Glow */
+.mesh-glow {
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.7;
+    pointer-events: none;
+}
+.mesh-ice {
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.09) 0%, rgba(245, 245, 247, 0.5) 60%, transparent 80%);
+}
+
+/* Typography & Gradients */
+.hero-awwwards-title {
+    font-size: clamp(3.8rem, 10vw, 7.5rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1.01;
+    color: #000000 !important;
+    max-width: 1100px;
+}
+
+.hero-awwwards-sub {
+    font-size: 1.2rem;
+    color: #6e6e73 !important;
+    letter-spacing: -0.01em;
+}
+
+.text-gradient-dark {
+    background: linear-gradient(135deg, #000000 0%, #333336 60%, #515154 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.awwwards-section-title {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    letter-spacing: -0.04em;
+    color: #000000;
+}
+
+/* Minimalist Navigation Bar */
+.navbar-awwwards-glass {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.nav-link-awwwards {
+    color: #6e6e73 !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color var(--speed) var(--ease);
+}
+.nav-link-awwwards:hover,
+.nav-link-awwwards.active {
+    color: #000000 !important;
+}
+
+.form-control-awwwards-search {
+    background: #f5f5f7;
+    border: none;
+    color: #000000;
+    border-radius: 980px;
+    padding-left: 1.2rem;
+    font-size: 0.88rem;
+}
+.form-control-awwwards-search:focus {
+    background: #e8e8ed;
+    color: #000000;
+    box-shadow: none;
+}
+
+/* Buttons & Badges */
+.bg-subtle-gray {
+    background: #f5f5f7 !important;
+}
+.dot-black {
+    width: 6px;
+    height: 6px;
+    background: #000000;
+    border-radius: 50%;
+}
+.dot-btn {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.bg-black-10 {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.btn-black-pill {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-radius: 980px;
+    border: none;
+    transition: transform var(--speed) var(--ease), background-color var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+}
+.btn-black-pill:hover {
+    background: #1d1d1f !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.btn-gray-pill {
+    background: #f5f5f7 !important;
+    color: #1d1d1f !important;
+    border-radius: 980px;
+    border: none;
+    transition: background-color var(--speed) var(--ease), transform var(--speed) var(--ease);
+}
+.btn-gray-pill:hover {
+    background: #e8e8ed !important;
+    transform: translateY(-2px);
+}
+
+/* 100vh Hero Stage & Centerpiece Visual */
+.hero-awwwards-stage {
+    min-height: calc(100vh - 80px);
+}
+
+/* ==========================================================================
+   08. Premium 3D Floating Storefront Interface
+   ========================================================================== */
+.hero-coreshop-stage {
+    min-height: calc(100vh - 80px);
+    background: #fcfcfd !important;
+}
+
+.coreshop-hero-composition {
+    max-width: 1040px;
+    perspective: 1600px;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+.giant-bg-text {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 900;
+    font-size: clamp(6rem, 18vw, 15rem); /* Reduced size */
+    line-height: 0.72;
+    letter-spacing: -0.07em;
+    color: #e6e8eb !important;
+    text-transform: uppercase;
+    user-select: none;
+    z-index: 1;
+    transform: scaleX(1.03);
+}
+
+.giant-text-core {
+    margin-bottom: -3rem; /* Adjusted for smaller text */
+}
+
+.giant-text-shop {
+    margin-top: -4rem; /* Adjusted for smaller text */
+    z-index: 4;
+    position: relative;
+    pointer-events: none;
+}
+
+.hero-laptop-render-container {
+    animation: floatMacBookFlagship 8s ease-in-out infinite;
+    transition: transform var(--speed-slow) var(--ease);
+}
+
+.macbook-pro-assembly {
+    width: 100%;
+    max-width: 800px;
+    perspective: 2000px;
+    margin: 0 auto;
+}
+
+.macbook-3d-wrapper {
+    /* THIS IS THE MAGIC SIDEWAYS ROTATION */
+    transform: rotateY(-18deg) rotateX(4deg) rotateZ(-1deg);
+    transform-style: preserve-3d;
+    animation: floatMacBookFlagship 8s ease-in-out infinite;
+    transition: transform var(--speed-slow) var(--ease);
+}
+.macbook-3d-wrapper:hover {
+    transform: rotateY(-14deg) rotateX(2deg) rotateZ(0deg) translateY(-8px);
+}
+
+.macbook-display-lid {
+    width: 100%;
+    height: 480px;
+    border-radius: 12px 12px 0 0;
+    border: 8px solid #0a0a0a;
+    border-bottom: 22px solid #0a0a0a;
+    background: #000;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 35px 90px rgba(0, 0, 0, 0.2);
+    transform-origin: bottom center;
+}
+
+.macbook-camera-notch {
+    width: 80px;
+    height: 8px;
+    background: #0a0a0a;
+    border-radius: 0 0 6px 6px;
+    z-index: 10;
+}
+
+.macbook-base-chassis {
+    width: 100.4%;
+    margin-left: -0.2%;
+    height: 280px;
+    background: #2a2a2c;
+    border-radius: 4px 4px 16px 16px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 -2px 10px rgba(0,0,0,0.5);
+    transform-origin: top center;
+    transform: rotateX(74deg) translateY(-2px);
+    position: relative;
+    z-index: 3;
+}
+
+.speaker-grill-strip {
+    width: 30px;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, #111 0px, #111 2px, transparent 2px, transparent 4px);
+    opacity: 0.15;
+}
+
+.macbook-keyboard-well {
+    background: #111112;
+    border: 1px solid rgba(0,0,0,0.5);
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.9);
+}
+
+.mb-key-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 3px;
+    height: 15%;
+}
+
+.mb-key-row.fn-row {
+    height: 9%;
+}
+
+.mb-key {
+    background: #1c1c1e;
+    border-radius: 3px;
+    flex: 1;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.08);
+    position: relative;
+}
+
+.mb-key.w-12 { flex: 1.2; }
+.mb-key.w-15 { flex: 1.5; }
+.mb-key.w-18 { flex: 1.8; }
+.mb-key.w-20 { flex: 2; }
+.mb-key.w-25 { flex: 2.5; }
+.mb-key.spacebar { flex: 6.5; }
+
+.macbook-glass-trackpad {
+    width: 280px;
+    height: 90px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,0,0,0.3);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.macbook-base-front-lip {
+    width: 140px;
+    height: 5px;
+    background: #0a0a0c;
+    border-radius: 0 0 4px 4px;
+    position: absolute;
+    bottom: 2px;
+}
+
+.shadow-coreshop {
+    box-shadow: 0 45px 100px rgba(0, 0, 0, 0.2), 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+}
+
+.coreshop-floor-shadow {
+    width: 85%;
+    height: 40px;
+    bottom: 0px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.2) 0%, transparent 75%);
+    filter: blur(15px);
+    pointer-events: none;
+}
+
+@keyframes floatMacBookFlagship {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.hover-lift {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    background-color: #ffffff !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.awwwards-cat-pill {
+    transition: all var(--speed) var(--ease);
+}
+.awwwards-cat-pill:hover {
+    background: #e8e8ed !important;
+    transform: translateY(-2px);
+    color: #000000 !important;
+}
+
+.awwwards-bento-card {
+    transition: transform var(--speed-slow) var(--ease), box-shadow var(--speed-slow) var(--ease);
+}
+.awwwards-bento-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.05) !important;
+}
+
+.awwwards-bento-img {
+    max-height: 220px;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.06));
+}
+
+.awwwards-product-tile {
+    transition: transform var(--speed-slow) var(--ease), box-shadow var(--speed-slow) var(--ease);
+}
+.awwwards-product-tile:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.06) !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
