@@ -1,104 +1,81 @@
-# CoreShop — Bilgisayar Bileşenleri E-Ticaret Uygulaması
+<div align="center">
+  # CoreShop 
+  **Premium Bilgisayar Bileşenleri E-Ticaret Deneyimi**
+  
+  [![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-8.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+  [![Architecture](https://img.shields.io/badge/Mimari-Katmanl%C4%B1%20(N--Tier)-blue)](#-mimari)
+  [![UI](https://img.shields.io/badge/Aray%C3%BCz-Soft%20Premium-black)](#-uiux-tasar%C4%B1m%C4%B1)
+  [![License](https://img.shields.io/badge/Lisans-MIT-green)](LICENSE)
+</div>
 
-ASP.NET Core 8.0 MVC ile geliştirilmiş, katmanlı mimariye sahip bir e-ticaret portfolyo projesidir.
+<br/>
 
-Uygulama **veritabanı gerektirmeden** çalışır: tüm örnek veri, uygulama içindeki in-memory veri deposundan gelir. Depoyu klonlayıp tek komutla ayağa kaldırabilirsiniz — bağlantı dizesi, migration veya SQL Server kurulumu gerekmez.
+**CoreShop**, bilgisayar bileşenleri satışı için geliştirilmiş, **ASP.NET Core 8.0 MVC** tabanlı yüksek performanslı bir e-ticaret web uygulamasıdır. 
 
-> 📌 Bu proje aktif olarak geliştirilmektedir. Sürüm planı ve mühendislik standartları için: [ROADMAP.md](ROADMAP.md) · [AGENTS.md](AGENTS.md)
+Sıradan temaların ötesine geçerek **"Soft Premium"** (Apple sadeliğinde) özel bir arayüz tasarımı sunar. Minimalizm, devasa tipografiler ve yüksek kaliteli ürün sergilemeye odaklanır.
 
----
-
-## Özellikler
-
-- **Kullanıcı Sistemi** — Kayıt, giriş ve profil yönetimi (cookie tabanlı kimlik doğrulama)
-- **Rol Tabanlı Yetkilendirme** — Kullanıcı / Admin rolleri
-- **Ürün Kataloğu** — Kategori, marka, fiyat aralığı ve arama filtreleriyle listeleme; sıralama seçenekleri
-- **Ürün Detayı** — Açıklama, stok durumu ve önerilen ürünler
-- **Alışveriş Sepeti** — Session tabanlı sepet; adet artırma/azaltma, stok sınırı kontrolü
-- **Sipariş Akışı** — Teslimat + kart formu, **simüle edilmiş ödeme adımı**, sipariş geçmişi ve durum takibi
-- **Admin Paneli** — Dashboard istatistikleri, ürün/kategori/sipariş yönetimi, görsel yükleme, kritik stok uyarıları (≤ 5 adet)
-- **Hazır Demo Verisi** — 10 kategori, 38 ürün (gerçek görsellerle), örnek siparişler ve admin hesabı
+Bu proje bir portfolyo çalışması olarak **"Sıfır Kurulum"** prensibiyle tasarlanmıştır. Veritabanı veya SQL Server kurulumuna gerek kalmadan, uygulama çalıştırıldığı anda tüm veriler in-memory (bellek içi) olarak yüklenir ve hemen test edilebilir.
 
 ---
 
-## Kullanılan Teknolojiler
+## ✨ Öne Çıkan Özellikler
 
-| Teknoloji | Açıklama |
-|---|---|
-| ASP.NET Core 8.0 MVC | Web uygulama çerçevesi |
-| Katmanlı Mimari | CORE / MODEL / SERVICE / Web olmak üzere 4 proje |
-| In-Memory Veri Deposu | Thread-safe, generic servis arkasında statik veri (bilinçli tasarım tercihi, aşağıya bakın) |
-| Cookie Authentication | Rol tabanlı oturum yönetimi |
-| Session | Sepet verisinin JSON olarak saklanması |
-| Bootstrap 5 + Font Awesome | Responsive arayüz |
-| LINQ | Filtreleme, arama ve sıralama |
+- 🎨 **"Soft Premium" Arayüz:** Apple tarzı minimalist ürün sergileme, devasa fontlar, cam efekti (glassmorphism) ve kusursuz gölgelendirmeler.
+- 🛒 **Tam Kapsamlı E-Ticaret:** Kategori filtreleme, detaylı ürün sayfaları, stok takibi ve Session (oturum) tabanlı çalışan gelişmiş alışveriş sepeti.
+- 🔐 **Rol Tabanlı Yetkilendirme:** Cookie tabanlı güvenli giriş sistemi (Kullanıcı ve Admin rolleri).
+- 📦 **Sipariş Yönetimi:** Teslimat ekranları, simüle edilmiş ödeme adımı ve anlık sipariş durumu takibi.
+- 🎛️ **Admin Paneli:** Ürün, kategori ve siparişleri yönetebileceğiniz; stok seviyesi 5'in altına düşen ürünleri bildiren akıllı kontrol paneli.
+- 🚀 **Anında Çalışan Altyapı:** 10 Kategori, arka planı temizlenmiş (transparent PNG) 38 gerçek ürün ve örnek siparişlerle birlikte gelir.
 
----
+## 🚀 Hızlı Başlangıç
 
-## Mimari
-
-```
-CoreShop.CORE      ← Temel soyutlamalar: CoreEntity, ICoreService<T>
-CoreShop.MODEL     ← Entity'ler: Product, Category, Order, OrderDetail, User
-CoreShop.SERVICE   ← ICoreService<T> implementasyonu + in-memory veri deposu
-CoreShop (Web)     ← MVC katmanı: Controller, View, ViewModel, Admin area
-```
-
-Veri erişimi `ICoreService<T>` soyutlaması üzerinden yapılır; web katmanı veri deposunun in-memory olduğunu bilmez. Bu sayede v2.0'da gerçek veritabanına (EF Core) geçiş, controller'lara dokunmadan yapılabilecektir.
-
----
-
-## Kurulum
-
-### Gereksinimler
-
-- .NET 8.0 SDK — hepsi bu. Veritabanı gerekmez.
-
-### Çalıştırma
+CoreShop'u bilgisayarınızda çalıştırmak sadece saniyeler sürer. **Hiçbir veritabanı ayarı yapmanıza gerek yoktur.**
 
 ```bash
-git clone <repo-url>
+# Projeyi klonlayın
+git clone https://github.com/awqken/E-Ticaret-Core-Shop.git
+
+# Proje dizinine girin
 cd CoreShop
+
+# Uygulamayı çalıştırın
 dotnet run --project CoreShop
 ```
+Uygulama başladığında `http://localhost:xxxx` adresini tarayıcınızda açın. Tüm veriler yüklenmiş olarak sizi bekliyor olacak!
 
-Uygulama açıldığında tüm demo verisi hazırdır.
+### 🔑 Demo Hesaplar
 
-### Demo Hesabı
+| Rol | E-Posta | Şifre |
+|------|-------|----------|
+| **Yönetici (Admin)** | `admin@coreshop.com` | `Admin123` |
+| **Kullanıcı** | Yeni bir hesap açabilir veya ziyaretçi olarak takılabilirsiniz | - |
 
-| | |
-|---|---|
-| **E-posta** | `admin@coreshop.com` |
-| **Şifre** | `Admin123` |
+## 🏗️ Mimari
 
-Admin paneline giriş yaptıktan sonra navbar'daki **Admin** butonundan ulaşabilirsiniz. Normal kullanıcı deneyimi için kayıt olup yeni hesap açabilirsiniz.
+CoreShop, kodun yönetilebilirliğini ve sürdürülebilirliğini sağlamak için temiz bir **Katmanlı Mimari (N-Tier)** kullanır:
 
----
+```mermaid
+graph TD
+    A[CoreShop Web / MVC] -->|Bağımlıdır| B(CoreShop.SERVICE)
+    B -->|Uygular| C(CoreShop.MODEL)
+    B -->|Miras alır| D{CoreShop.CORE}
+    C -->|Miras alır| D
+```
 
-## Bilinçli Tasarım Tercihleri
+- **CoreShop (Web):** Controller'ları, View'ları (Razor) ve ViewModel'leri içeren sunum katmanı.
+- **CoreShop.SERVICE:** İş kurallarının uygulandığı ve in-memory veri deposunun bulunduğu katman.
+- **CoreShop.MODEL:** Veritabanı tablolarına karşılık gelen varlıklar (Product, Category, Order vb.).
+- **CoreShop.CORE:** Soyutlamalar, temel sınıflar ve `ICoreService<T>` gibi jenerik interfaceler.
 
-Bu proje bir portfolyo çalışmasıdır; bazı kararlar bilinçli olarak sadelik ve "sıfır kurulum" deneyimi için verilmiştir:
+*(Not: Web katmanı verilerin nereden geldiğini bilmez. Gelecekte gerçek bir veritabanına (SQL Server) geçiş yapılmak istendiğinde Controller dosyalarına tek bir satır kod yazmaya gerek kalmayacaktır.)*
 
-- **In-memory veri deposu** — Projeyi inceleyen birinin SQL Server kurmadan, tek komutla çalışan bir uygulama görmesi hedeflenmiştir. Veriler uygulama yeniden başlatıldığında sıfırlanır. Gerçek veritabanı entegrasyonu (EF Core, config ile in-memory ↔ DB anahtarı) [ROADMAP.md](ROADMAP.md) v2.0 kapsamındadır.
-- **Simüle edilmiş ödeme** — Gerçek bir ödeme sağlayıcısı entegre edilmemiştir; kart formu yalnızca format doğrulaması yapar ve kartın yalnızca son 4 hanesi saklanır.
-- **Kademeli sertleştirme** — Güvenlik (modern parola hashleme, CSRF koruması), test kapsamı ve CI süreci roadmap'te ayrı milestone'lar olarak planlanmıştır ve sırayla uygulanmaktadır.
+## 🎨 UI/UX Tasarımı (v1.2 ile Yenilendi)
 
-## Seed Verisi
+CoreShop'un en son sürümü, standart bootstrap temalarını çöpe atarak devasa bir **"Soft Premium"** tasarım diline geçmiştir:
+- **Hero (Karşılama) Ekranı:** Tamamen şeffaf arka plan üzerine oturtulmuş, derin gölgelendirmelere sahip devasa bir RTX 5090 görseli.
+- **Duyarlı Düzen:** Ziyaretçiyi karşılayan o ilk ekranın (scroll yapmaya gerek kalmadan) cihazın ekranına milimetrik sığmasını sağlayan kusursuz Flexbox (100vh) mimarisi.
+- **Güven Bandı (Stats):** Tasarımın en altına sabitlenmiş, Apple kalitesinde minimal istatistikler ve güven mesajları (Örn: 5000+ Premium Ürün, %100 Müşteri Desteği).
 
-| Kategori | Ürün | | Kategori | Ürün |
-|---|---|---|---|---|
-| İşlemci | 4 | | HDD | 3 |
-| Ekran Kartı | 4 | | Güç Kaynağı | 4 |
-| Anakart | 4 | | Kasa | 3 |
-| RAM | 4 | | Soğutma | 4 |
-| SSD | 4 | | Monitör | 4 |
+## 📄 Lisans
 
-Ek olarak: farklı durumlarda (Hazırlanıyor, Kargoda, Teslim Edildi, İptal) 8 örnek sipariş.
-
----
-
-## Yol Haritası
-
-Proje v1.0'dan v2.0'a doğru milestone'lar halinde geliştirilmektedir — sıra ve kapsam için [ROADMAP.md](ROADMAP.md).
-
-**Mevcut sürüm: v1.1** (repo hijyeni ve adlandırma standartları)
+Bu proje tamamen açık kaynaktır ve MIT Lisansı ile lisanslanmıştır. İnceleyebilir, geliştirebilir veya kendi portfolyonuz için ilham alabilirsiniz.
