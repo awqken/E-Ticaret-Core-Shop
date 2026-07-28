@@ -47,3 +47,10 @@ Sadece .NET 8 SDK yüklü olması yeterlidir.
 1. Projeyi indirin:
 ```bash
 git clone https://github.com/awqken/E-Ticaret-Core-Shop.git
+```
+2. Klasöre girip projeyi çalıştırın:
+```bash
+cd CoreShop/CoreShop
+dotnet run
+```
+3. Tarayıcıda `http://localhost:5000` adresine gidin.
